@@ -6,26 +6,37 @@
 - **Phase 0 (완료)**: `crossfit_programming_knowledge_base.xlsx`(13개 시트)를 정규화된
   PostgreSQL 스키마로 옮기고 데이터 자체의 빈틈을 측정.
 - **Phase 1 (완료)**: 회원가입, 5단계 온보딩(기본정보·1RM·기술체크·가용자원/목표), 레벨 자동 판정.
-- Phase 2(프로그램 생성 엔진)는 아직 시작하지 않았다.
+- **Phase 2 (완료, 범위 축소된 v1)**: 4주 프로그램 생성 엔진 — 안전 게이트 → 세션 스켈레톤 선택 →
+  일별 슬롯 배치 → 1RM 기반 처방 → 볼륨 장부 계산/조정 → 저장 → 조회.
+- Phase 3(캘린더 UI·완료 로그)는 아직 시작하지 않았다.
 
 ## 구조
 
 ```
 app/                       # Next.js App Router — 페이지 + API 라우트
-  page.tsx, signup/, login/, onboarding/, dashboard/
-  api/auth/{signup,login,logout}, api/onboarding/{profile,one-rm,capability,resources-goals,complete}
-components/                # OnboardingWizard, AuthForm, LogoutButton (client components)
+  page.tsx, signup/, login/, onboarding/, dashboard/, program/[id]/
+  api/auth/{signup,login,logout}
+  api/onboarding/{profile,one-rm,capability,resources-goals,complete}
+  api/program/generate
+components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton
 lib/                       # Next 런타임에서 쓰는 서버 로직
   db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts
   levelAssessment.ts        # 레벨 스코어링 순수 함수
   validation.ts, constants.ts
+  engine/                   # Phase 2 생성 엔진 (모두 순수 함수 + generateProgram.ts만 DB I/O)
+    constants.ts             # 슬롯/장비 어휘 정규화 매핑, %1RM 테이블, 기술 게이트 규칙
+    exercisePool.ts          # 슬롯 정규화, 장비 충족 여부, 기술 게이트
+    prescribe.ts             # 1RM 기반 %부하 계산 + 기본 처방
+    ledger.ts                # 주간 볼륨 장부 계산 + V01 초과 시 조정
+    generateProgram.ts       # 파이프라인 오케스트레이터 (안전 게이트 → ... → DB 저장)
+    format.ts                 # 조회 페이지용 표시 포맷터
 data/
   crossfit_programming_knowledge_base.xlsx   # 원본 지식베이스
   crossfit_programming_knowledge_base.md     # 원본 설계 문서
   knowledge_base.json                        # xlsx → JSON 1회 변환 결과 (아래 "왜 JSON인가" 참고)
   seed-report.json                           # 마지막 db:seed 실행이 남긴 미해결 항목 리포트
 prisma/
-  schema.prisma           # 지식베이스 10개 테이블(Phase 0) + 사용자 도메인 6개 테이블(Phase 1)
+  schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2) 테이블
 scripts/
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
   lib/                    # knowledge_base.json 로더, 파싱 유틸, prisma 클라이언트 (CLI 스크립트 전용)
@@ -83,9 +94,64 @@ npm run dev             # http://localhost:3000
 남기므로 나중에 알고리즘을 바꿔도 과거 판정 근거가 사라지지 않는다.
 
 **안전 게이트**: 건강 체크 7항목 중 급성통증/흉통/실신감/신경증상(blocking=true,
-`lib/constants.ts`)에 체크하면 대시보드에 경고 배너가 뜬다. Phase 1에는 아직 프로그램 생성이
-없어 MD 문서의 "생성 중단(BLOCK)"까지는 구현하지 않았고, 계정 생성 자체를 막지도 않는다 —
-Phase 2에서 생성 파이프라인에 실제 BLOCK 게이트로 연결해야 한다.
+`lib/constants.ts`)에 체크하면 대시보드에 경고 배너가 뜬다. Phase 1 시점에는 계정 생성 자체를
+막지 않는 안내 배너였지만, Phase 2에서 이 4개 플래그가 활성화되어 있으면
+`generateProgram()`이 `GenerationBlockedError`를 던져 프로그램 생성 자체를 막도록 연결했다
+(MD Generator_Rules 1행 그대로 구현).
+
+## Phase 2 — 프로그램 생성 엔진 v1
+
+MD 9장 12단계 파이프라인을 규칙 기반으로 구현했다(`lib/engine/generateProgram.ts`). 순서:
+안전 게이트(BLOCK) → 세션 스켈레톤 선택(4일/5일) → 4주×N일 날짜 배정 → 슬롯별 후보 필터링
+(레벨/장비/기술 게이트) → 순환 선택으로 운동 배정 → 1RM 기반 처방 → 볼륨 장부 계산 →
+V01 초과 시 조정 → DB 저장. 대시보드에서 "4주 프로그램 생성" 버튼 → `/program/[id]`에서 확인.
+
+**어휘 정규화가 다시 문제였다**(Phase 0의 회귀/진행 발견과 같은 패턴). `exercise.recommended_slots`·
+`exercise.equipment`는 xlsx 원문을 '/'로만 쪼갠 자유 텍스트라, `session_template.slot_sequence_parsed`
+(Phase 0에서 만든 영문 코드)나 온보딩의 8개 장비 카테고리와 어휘가 달랐다. 실제 DB에 나온 값을
+전수 조사해(`SELECT ... GROUP BY`) `lib/engine/constants.ts`에 수작업 매핑표를 만들었다:
+
+- 슬롯 13개 토큰(기술/파워/학습/근력/주근력/보조/보조근력/메트콘/컨디셔닝/워밍업/회복 + 오탈자로
+  보이는 "주"·"회귀" 2개) → 7개 슬롯 코드.
+- 장비는 39가지 조합, 개별 토큰 기준 매트/바닥/벽처럼 "어디에나 있다고 가정"하는 것과, 온보딩
+  8개 카테고리로 매핑되는 것, 그리고 **샌드백·슬레드·로프·메디신볼·케이블·스텝처럼 대응 카테고리가
+  아예 없는 것**으로 나눴다 — 마지막 그룹은 온보딩에 옵션을 추가하기 전까지 항상 후보에서 제외된다.
+
+**5대 리프트 중 %1RM을 쓰는 건 3개뿐이다.** `family`가 41가지로 매우 세분화되어 있는데,
+스쿼트(`스쿼트`)·데드리프트(`힌지`)·숄더프레스(`수직 밀기`) 3개 계열만 %1RM으로 처방하고,
+클린·스내치는 MD 원칙 7("반복 수보다 성공률·속도 우선")을 그대로 따라 %1RM을 아예 쓰지 않고
+Exercise_DB의 기본 처방(품질회 등)을 그대로 쓴다 — Phase 1 README에 "미정"으로 남겼던 항목을
+이번에 "적용 안 함"으로 확정했다.
+
+**Phase 0의 `default_dose_sets_min` 파싱 버그를 발견해 고쳤다.** 처음엔 `dose_unit==='세트×회'`
+일 때만 세트×회를 파싱했는데, `품질회` 단위도 `'4~6×2~5'`처럼 같은 패턴을 쓰는 경우가 많았다.
+단위와 무관하게 항상 파싱을 시도하도록 `scripts/seed/seedExercise.ts`를 고치고 재시딩하니
+`품질회` 20건 모두 파싱됐다(전에는 0건) — 이 값이 없으면 V02(역도 품질반복) 장부를 계산할 수 없었다.
+
+**실제로 생성해서 확인한 볼륨 장부 결과** (Level 3, 주 4일 사용자 예시): V01 근력 하드세트
+15.0/8~16(정상), V03 고강도 메트콘 42.5분/35~60(정상)은 범위 안에 들어왔지만, **V02 역도
+품질반복 30.0/80~150, V04 Zone2 27.5/40~90은 범위 미달로 나왔다** — 슬롯당 운동을 1개만 배치하는
+이번 v1의 단순화 때문일 가능성이 크다(아래 "축소된 범위" 참고). 이 미달은 버그가 아니라 정직하게
+계산된 결과이고, `program/[id]` 페이지에 "범위 밖"으로 그대로 표시된다.
+
+세 가지 프로필(장비·기술 다양·풍부한 Level 3 사용자 / 안전 플래그로 차단되는 사용자 / 맨몸+Level 1
++기술 전부 미통과인 최소 사용자)로 실제 생성해 날짜 계산(월요일 기준 요일 오프셋), %1RM 처방,
+안전 게이트, 장비/기술 필터가 모두 의도대로 동작하는 걸 확인했다.
+
+### Phase 2 — 의도적으로 축소한 범위
+
+- **메트콘은 슬롯당 운동 1개**다. MD 원칙 5("2~3개 동작의 보완적 조합")를 구현하지 않았다 —
+  동작 간 관절/패턴 충돌을 피해 조합을 짜는 로직은 다음 반복 과제.
+- **볼륨 장부 조정은 "보조 제거" 1단계만** 구현했다(MD 9장 10단계는 보조 제거→세트 감소→
+  운동 회귀→저강도 전환 4단계). V01이 넘칠 때만 동작하고, 세트 감소·회귀·저강도 전환은 없다.
+- **동일 관절/그립/후면사슬 연속 부하 충돌 검사(9단계)가 없다.** 연속 큰 날 배치를 막는 로직도
+  없다 — 세션 템플릿의 Big/Little 순서(예: T5의 Big-Little-Big-Little-Big)에 이미 어느 정도
+  반영되어 있다는 가정에 기대고 있을 뿐, 코드로 재검증하지는 않는다.
+- **V05(체조 기술연습 분)는 계산하지 않는다.** 세션 템플릿에 슬롯별 시간이 아니라 컨디셔닝
+  총 시간만 있어서, 지어내지 않고 그냥 뺐다.
+- **재시딩(`db:seed`)은 프로그램이 있으면 실패할 수 있다.** `program_block.exercise_id`가
+  `exercise`를 참조하는데 `db:seed`는 `exercise` 테이블을 통째로 비우고 다시 채운다 — 지금은
+  실제 프로그램이 쌓이기 전이라 문제없지만, Phase 3 이후에는 시딩 전략을 다시 봐야 한다.
 
 ## 실행 결과 (2026-08-18 기준)
 
@@ -125,17 +191,17 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 단어 때문에 `skill_power`로 오분류되기 쉬움). 시트가 갱신되어 새 세그먼트가 추가되면
 `db:validate`가 `UNMAPPED_SEGMENT`로 표시한다.
 
-## 아직 남은 미확정 사항 (Phase 2 생성 엔진 착수 전 결정 필요)
+## 아직 남은 미확정 사항 (Phase 3 착수 전 결정하면 좋은 것들)
 
-- **주차별 %1RM 테이블**: 지난 엔진 설계 문서의 `LOAD_TABLE_BY_FAMILY`는 여전히 제품 잠정값이며
-  아직 코드로 옮기지 않았다.
+- **주차별 %1RM 테이블**(`lib/engine/constants.ts`의 `LOAD_TABLE_BY_FAMILY`): 스쿼트/힌지/
+  수직밀기 3계열에 코드로 구현은 했지만 여전히 ACSM/StrongLifts 원칙을 참고한 제품 잠정값이고
+  코치 검수를 받은 적은 없다.
 - **레벨 스코어링 가중치·임계값**: Phase 1에서 `lib/levelAssessment.ts`로 구현은 했지만
   (기술 40%·상대1RM 30%·빈도 20%·목표 10%, 상대1RM 구간·레벨 컷오프 전부 임시값) 실사용자
   데이터로 검증된 적은 없다. 온보딩 마지막 화면에서 사용자가 직접 조정할 수 있게 해둔 것도
   이 불확실성 때문이다.
-- **clean/snatch 처방 로직**: %1RM이 아니라 성공률/속도 기준이라는 원칙(MD 4장)을 엔진에서
-  어떻게 구현할지는 아직 미정. 1RM은 입력받아 저장하지만(레벨 판정의 상대 1RM 계산에는
-  스쿼트만 사용) Phase 2 처방 로직에서 클린/스내치를 어떻게 쓸지는 열려 있다.
+- **메트콘 다중 동작 조합·볼륨 장부 조정 4단계·연속 부하 충돌 검사**: "Phase 2 — 의도적으로
+  축소한 범위"에 정리한 3가지가 다음으로 붙일 만한 반복 작업이다.
 - **서버 측 세션 무효화**: 현재 세션은 쿠키 서명만으로 검증되어 로그아웃은 클라이언트 쿠키
   삭제로 처리된다. "다른 기기에서 로그아웃" 같은 기능이 필요해지면 세션 테이블이 필요하다.
 

@@ -62,7 +62,9 @@ export async function seedExercises(prisma: PrismaClient): Promise<SeedExerciseR
     const nameEn = asRequiredString(row[COL.nameEn], `${exerciseId}.English`);
     const doseUnit = asRequiredString(row[COL.doseUnit], `${exerciseId}.처방단위`);
     const defaultDoseRaw = asRequiredString(row[COL.defaultDoseRaw], `${exerciseId}.기본용량`);
-    const parsedDose = doseUnit === "세트×회" ? parseSetsReps(defaultDoseRaw) : parseSetsReps(null);
+    // 단위와 무관하게 항상 시도한다 — '품질회'(예: '4~6×2~5')도 세트×회 패턴을 쓰는 경우가 많고,
+    // parseSetsReps 자체가 패턴이 없으면 null을 반환하므로 '20~100m' 같은 값은 자연히 걸러진다.
+    const parsedDose = parseSetsReps(defaultDoseRaw);
 
     await prisma.exercise.create({
       data: {

@@ -54,6 +54,7 @@ model Exercise {
   scalingAsOriginal    ScalingMap[]            @relation("scaling_original")
   scalingAsRegression1 ScalingMap[]            @relation("scaling_regression1")
   scalingAsRegression2 ScalingMap[]            @relation("scaling_regression2")
+  programBlocks        ProgramBlock[]
 
   @@index([family])
   @@index([minLevel])
@@ -137,6 +138,8 @@ model SessionTemplate {
   conditioning                     String?
   recommendedWeekday                 String?  @map("recommended_weekday")
   conflictNote                          String?  @map("conflict_note")
+
+  programDays ProgramDay[]
 
   @@map("session_template")
 }
@@ -266,6 +269,7 @@ model AppUser {
   capabilities     UserCapability[]
   healthFlags      UserHealthFlag[]
   levelAssessments UserLevelAssessment[]
+  programs         Program[]
 
   @@map("app_user")
 }
@@ -348,4 +352,81 @@ model UserLevelAssessment {
   assessedAt     DateTime @default(now()) @map("assessed_at")
 
   @@map("user_level_assessment")
+}
+
+// =============================================================================
+// Phase 2 — 프로그램 생성 엔진 (4주 블록)
+// =============================================================================
+
+model Program {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  user          AppUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level         Int // 생성 시점의 finalLevel 스냅샷 (이후 레벨이 바뀌어도 이 프로그램은 유지)
+  frequency     Int // 4 | 5
+  startDate     DateTime @map("start_date") @db.Date
+  priorityGoals String[] @map("priority_goals")
+  status        String   @default("active") // active | completed | archived
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  weeks ProgramWeek[]
+
+  @@map("program")
+}
+
+model ProgramWeek {
+  id             Int      @id @default(autoincrement())
+  programId      String   @map("program_id")
+  program        Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  weekIndex      Int      @map("week_index") // 1~4
+  isDeload       Boolean  @default(false) @map("is_deload") // 기본적으로 4주차
+  loadMultiplier Decimal  @default(1.0) @map("load_multiplier")
+
+  days    ProgramDay[]
+  ledgers WeeklyLedger[]
+
+  @@unique([programId, weekIndex])
+  @@map("program_week")
+}
+
+model ProgramDay {
+  id            Int              @id @default(autoincrement())
+  programWeekId Int              @map("program_week_id")
+  programWeek   ProgramWeek      @relation(fields: [programWeekId], references: [id], onDelete: Cascade)
+  date          DateTime         @db.Date
+  dayType       String           @map("day_type") // big | small | mixed (session_template.day_type에서 파생)
+  templateId    String?          @map("template_id")
+  template      SessionTemplate? @relation(fields: [templateId], references: [templateId])
+
+  blocks ProgramBlock[]
+
+  @@map("program_day")
+}
+
+model ProgramBlock {
+  id           Int        @id @default(autoincrement())
+  programDayId Int        @map("program_day_id")
+  programDay   ProgramDay @relation(fields: [programDayId], references: [id], onDelete: Cascade)
+  slot         String // warmup | skill_power | main_strength | accessory | metcon | conditioning | cooldown
+  orderIndex   Int        @map("order_index")
+  exerciseId   String     @map("exercise_id")
+  exercise     Exercise   @relation(fields: [exerciseId], references: [exerciseId])
+  prescription Json // {doseRaw, setsMin?, setsMax?, repsMin?, repsMax?, loadKg?, percent1RM?}
+
+  @@map("program_block")
+}
+
+// V01~V06 중 세션 템플릿·처방 데이터로 실제 계산 가능한 장부만 기록한다(엔진 코드 주석 참고).
+model WeeklyLedger {
+  id            Int         @id @default(autoincrement())
+  programWeekId Int         @map("program_week_id")
+  programWeek   ProgramWeek @relation(fields: [programWeekId], references: [id], onDelete: Cascade)
+  ledgerId      String      @map("ledger_id") // 'V01'..'V06'
+  plannedValue  Decimal     @map("planned_value")
+  minValue      Decimal     @map("min_value")
+  maxValue      Decimal     @map("max_value")
+  withinRange   Boolean     @map("within_range")
+
+  @@unique([programWeekId, ledgerId])
+  @@map("weekly_ledger")
 }

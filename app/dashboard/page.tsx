@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isOnboardingComplete } from "@/lib/onboardingStatus";
 import LogoutButton from "@/components/LogoutButton";
+import ProgramGenerateButton from "@/components/ProgramGenerateButton";
 import {
   GOAL_LABELS,
   HEALTH_FLAG_LABELS,
@@ -33,6 +34,12 @@ export default async function DashboardPage() {
     prisma.userHealthFlag.findMany({ where: { userId: user.id } }),
     prisma.userLevelAssessment.findFirst({ where: { userId: user.id }, orderBy: { assessedAt: "desc" } }),
   ]);
+
+  const programs = await prisma.program.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+    take: 5,
+  });
 
   const latestOneRmByLift = new Map<string, (typeof oneRms)[number]>();
   for (const rm of oneRms) {
@@ -118,6 +125,39 @@ export default async function DashboardPage() {
               })}
             </tbody>
           </table>
+        </div>
+
+        <div className="card" style={{ marginBottom: "1.5rem" }}>
+          <h2>월간 프로그램</h2>
+          {programs.length === 0 ? (
+            <p className="lede" style={{ marginBottom: "1rem" }}>
+              아직 생성된 프로그램이 없습니다. 아래 버튼으로 4주 프로그램을 생성해보세요.
+            </p>
+          ) : (
+            <table className="mini" style={{ marginBottom: "1rem" }}>
+              <thead>
+                <tr>
+                  <th>생성일</th>
+                  <th>레벨</th>
+                  <th>주간 빈도</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {programs.map((p) => (
+                  <tr key={p.id}>
+                    <td>{p.createdAt.toISOString().slice(0, 10)}</td>
+                    <td>Level {p.level}</td>
+                    <td>{p.frequency}일</td>
+                    <td>
+                      <Link href={`/program/${p.id}`}>보기</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          <ProgramGenerateButton />
         </div>
 
         <div className="card">
