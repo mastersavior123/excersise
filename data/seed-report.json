@@ -1,0 +1,1543 @@
+{
+  "seededAt": "2026-08-18T03:14:24.629Z",
+  "counts": {
+    "exercise": 115,
+    "exerciseAlias": 230,
+    "levelProfile": 4,
+    "volumeLedgerRule": 24,
+    "sessionTemplate": 9,
+    "generatorRule": 30,
+    "enumLookup": 21,
+    "openWorkout": 39,
+    "openWorkoutMovement": 44,
+    "officialMedia": 19
+  },
+  "issues": {
+    "unresolvedExerciseRelations": [
+      {
+        "exerciseId": "EX001",
+        "relationType": "regression",
+        "unresolvedText": "박스 스쿼트"
+      },
+      {
+        "exerciseId": "EX002",
+        "relationType": "regression",
+        "unresolvedText": "박스 고블릿 스쿼트"
+      },
+      {
+        "exerciseId": "EX003",
+        "relationType": "progression",
+        "unresolvedText": "템포"
+      },
+      {
+        "exerciseId": "EX003",
+        "relationType": "progression",
+        "unresolvedText": "포즈 프론트 스쿼트"
+      },
+      {
+        "exerciseId": "EX004",
+        "relationType": "regression",
+        "unresolvedText": "박스 스쿼트"
+      },
+      {
+        "exerciseId": "EX004",
+        "relationType": "progression",
+        "unresolvedText": "포즈 백 스쿼트"
+      },
+      {
+        "exerciseId": "EX005",
+        "relationType": "regression",
+        "unresolvedText": "PVC OHS"
+      },
+      {
+        "exerciseId": "EX006",
+        "relationType": "regression",
+        "unresolvedText": "스플릿 스쿼트"
+      },
+      {
+        "exerciseId": "EX006",
+        "relationType": "progression",
+        "unresolvedText": "프론트랙 BSS"
+      },
+      {
+        "exerciseId": "EX007",
+        "relationType": "regression",
+        "unresolvedText": "지지 런지"
+      },
+      {
+        "exerciseId": "EX007",
+        "relationType": "progression",
+        "unresolvedText": "프론트랙 런지"
+      },
+      {
+        "exerciseId": "EX008",
+        "relationType": "regression",
+        "unresolvedText": "제자리 런지"
+      },
+      {
+        "exerciseId": "EX008",
+        "relationType": "progression",
+        "unresolvedText": "오버헤드 런지"
+      },
+      {
+        "exerciseId": "EX009",
+        "relationType": "regression",
+        "unresolvedText": "낮은 박스"
+      },
+      {
+        "exerciseId": "EX009",
+        "relationType": "progression",
+        "unresolvedText": "덤벨 스텝업"
+      },
+      {
+        "exerciseId": "EX010",
+        "relationType": "regression",
+        "unresolvedText": "박스 피스톨"
+      },
+      {
+        "exerciseId": "EX010",
+        "relationType": "progression",
+        "unresolvedText": "가중 피스톨"
+      },
+      {
+        "exerciseId": "EX011",
+        "relationType": "regression",
+        "unresolvedText": "상승 데드리프트"
+      },
+      {
+        "exerciseId": "EX011",
+        "relationType": "regression",
+        "unresolvedText": "KB 데드리프트"
+      },
+      {
+        "exerciseId": "EX011",
+        "relationType": "progression",
+        "unresolvedText": "포즈"
+      },
+      {
+        "exerciseId": "EX011",
+        "relationType": "progression",
+        "unresolvedText": "디피싯 데드리프트"
+      },
+      {
+        "exerciseId": "EX012",
+        "relationType": "regression",
+        "unresolvedText": "덤벨 RDL 짧은 ROM"
+      },
+      {
+        "exerciseId": "EX013",
+        "relationType": "regression",
+        "unresolvedText": "상승 KB 데드리프트"
+      },
+      {
+        "exerciseId": "EX013",
+        "relationType": "progression",
+        "unresolvedText": "바벨 데드리프트"
+      },
+      {
+        "exerciseId": "EX014",
+        "relationType": "regression",
+        "unresolvedText": "KB 데드리프트"
+      },
+      {
+        "exerciseId": "EX014",
+        "relationType": "progression",
+        "unresolvedText": "러시안→오버헤드 스윙"
+      },
+      {
+        "exerciseId": "EX015",
+        "relationType": "regression",
+        "unresolvedText": "밴드 굿모닝"
+      },
+      {
+        "exerciseId": "EX015",
+        "relationType": "progression",
+        "unresolvedText": "템포 굿모닝"
+      },
+      {
+        "exerciseId": "EX016",
+        "relationType": "regression",
+        "unresolvedText": "킥스탠드 RDL"
+      },
+      {
+        "exerciseId": "EX016",
+        "relationType": "progression",
+        "unresolvedText": "가중 싱글레그 RDL"
+      },
+      {
+        "exerciseId": "EX017",
+        "relationType": "regression",
+        "unresolvedText": "덤벨"
+      },
+      {
+        "exerciseId": "EX017",
+        "relationType": "progression",
+        "unresolvedText": "포즈 벤치프레스"
+      },
+      {
+        "exerciseId": "EX018",
+        "relationType": "progression",
+        "unresolvedText": "편측 DB 벤치"
+      },
+      {
+        "exerciseId": "EX019",
+        "relationType": "regression",
+        "unresolvedText": "인클라인 푸시업"
+      },
+      {
+        "exerciseId": "EX019",
+        "relationType": "progression",
+        "unresolvedText": "링"
+      },
+      {
+        "exerciseId": "EX019",
+        "relationType": "progression",
+        "unresolvedText": "디피싯 푸시업"
+      },
+      {
+        "exerciseId": "EX020",
+        "relationType": "regression",
+        "unresolvedText": "박스 딥"
+      },
+      {
+        "exerciseId": "EX020",
+        "relationType": "regression",
+        "unresolvedText": "밴드 딥"
+      },
+      {
+        "exerciseId": "EX020",
+        "relationType": "progression",
+        "unresolvedText": "링"
+      },
+      {
+        "exerciseId": "EX020",
+        "relationType": "progression",
+        "unresolvedText": "가중 딥"
+      },
+      {
+        "exerciseId": "EX021",
+        "relationType": "regression",
+        "unresolvedText": "덤벨 프레스"
+      },
+      {
+        "exerciseId": "EX021",
+        "relationType": "progression",
+        "unresolvedText": "포즈"
+      },
+      {
+        "exerciseId": "EX021",
+        "relationType": "progression",
+        "unresolvedText": "템포 프레스"
+      },
+      {
+        "exerciseId": "EX022",
+        "relationType": "progression",
+        "unresolvedText": "헤비 푸시프레스"
+      },
+      {
+        "exerciseId": "EX023",
+        "relationType": "regression",
+        "unresolvedText": "싱글암 가벼운 프레스"
+      },
+      {
+        "exerciseId": "EX023",
+        "relationType": "progression",
+        "unresolvedText": "아놀드"
+      },
+      {
+        "exerciseId": "EX023",
+        "relationType": "progression",
+        "unresolvedText": "편측 프레스"
+      },
+      {
+        "exerciseId": "EX024",
+        "relationType": "progression",
+        "unresolvedText": "펜들레이 로우"
+      },
+      {
+        "exerciseId": "EX025",
+        "relationType": "regression",
+        "unresolvedText": "수직 각도 높임"
+      },
+      {
+        "exerciseId": "EX025",
+        "relationType": "progression",
+        "unresolvedText": "발 상승 링 로우"
+      },
+      {
+        "exerciseId": "EX026",
+        "relationType": "regression",
+        "unresolvedText": "밴드 풀업"
+      },
+      {
+        "exerciseId": "EX026",
+        "relationType": "progression",
+        "unresolvedText": "가중 풀업"
+      },
+      {
+        "exerciseId": "EX027",
+        "relationType": "regression",
+        "unresolvedText": "스트릭트"
+      },
+      {
+        "exerciseId": "EX027",
+        "relationType": "regression",
+        "unresolvedText": "밴드 풀업"
+      },
+      {
+        "exerciseId": "EX027",
+        "relationType": "progression",
+        "unresolvedText": "체스트투바"
+      },
+      {
+        "exerciseId": "EX028",
+        "relationType": "regression",
+        "unresolvedText": "풀업"
+      },
+      {
+        "exerciseId": "EX029",
+        "relationType": "regression",
+        "unresolvedText": "풋록"
+      },
+      {
+        "exerciseId": "EX029",
+        "relationType": "regression",
+        "unresolvedText": "시티드 로프 풀"
+      },
+      {
+        "exerciseId": "EX029",
+        "relationType": "progression",
+        "unresolvedText": "레그리스 클라임"
+      },
+      {
+        "exerciseId": "EX030",
+        "relationType": "regression",
+        "unresolvedText": "PVC"
+      },
+      {
+        "exerciseId": "EX030",
+        "relationType": "progression",
+        "unresolvedText": "블록"
+      },
+      {
+        "exerciseId": "EX030",
+        "relationType": "progression",
+        "unresolvedText": "디피싯"
+      },
+      {
+        "exerciseId": "EX030",
+        "relationType": "progression",
+        "unresolvedText": "복합 스내치"
+      },
+      {
+        "exerciseId": "EX031",
+        "relationType": "regression",
+        "unresolvedText": "행 머슬 스내치"
+      },
+      {
+        "exerciseId": "EX031",
+        "relationType": "progression",
+        "unresolvedText": "풀 스내치"
+      },
+      {
+        "exerciseId": "EX032",
+        "relationType": "progression",
+        "unresolvedText": "파워 스내치 바닥"
+      },
+      {
+        "exerciseId": "EX033",
+        "relationType": "regression",
+        "unresolvedText": "PVC 머슬 스내치"
+      },
+      {
+        "exerciseId": "EX034",
+        "relationType": "regression",
+        "unresolvedText": "드롭 스내치 PVC"
+      },
+      {
+        "exerciseId": "EX034",
+        "relationType": "progression",
+        "unresolvedText": "하이행 스내치"
+      },
+      {
+        "exerciseId": "EX035",
+        "relationType": "regression",
+        "unresolvedText": "드롭 스내치"
+      },
+      {
+        "exerciseId": "EX035",
+        "relationType": "progression",
+        "unresolvedText": "헤비 스내치 밸런스"
+      },
+      {
+        "exerciseId": "EX036",
+        "relationType": "progression",
+        "unresolvedText": "디피싯"
+      },
+      {
+        "exerciseId": "EX036",
+        "relationType": "progression",
+        "unresolvedText": "포즈 스내치 풀"
+      },
+      {
+        "exerciseId": "EX037",
+        "relationType": "regression",
+        "unresolvedText": "블록 스내치 데드리프트"
+      },
+      {
+        "exerciseId": "EX037",
+        "relationType": "progression",
+        "unresolvedText": "포즈"
+      },
+      {
+        "exerciseId": "EX037",
+        "relationType": "progression",
+        "unresolvedText": "슬로우 스내치 DL"
+      },
+      {
+        "exerciseId": "EX038",
+        "relationType": "progression",
+        "unresolvedText": "블록"
+      },
+      {
+        "exerciseId": "EX038",
+        "relationType": "progression",
+        "unresolvedText": "디피싯"
+      },
+      {
+        "exerciseId": "EX038",
+        "relationType": "progression",
+        "unresolvedText": "복합 클린"
+      },
+      {
+        "exerciseId": "EX039",
+        "relationType": "progression",
+        "unresolvedText": "풀 클린"
+      },
+      {
+        "exerciseId": "EX040",
+        "relationType": "regression",
+        "unresolvedText": "덤벨 행 클린"
+      },
+      {
+        "exerciseId": "EX040",
+        "relationType": "progression",
+        "unresolvedText": "파워 클린 바닥"
+      },
+      {
+        "exerciseId": "EX041",
+        "relationType": "regression",
+        "unresolvedText": "클린 턴오버 드릴"
+      },
+      {
+        "exerciseId": "EX041",
+        "relationType": "progression",
+        "unresolvedText": "하이행 클린"
+      },
+      {
+        "exerciseId": "EX042",
+        "relationType": "progression",
+        "unresolvedText": "디피싯"
+      },
+      {
+        "exerciseId": "EX042",
+        "relationType": "progression",
+        "unresolvedText": "포즈 클린 풀"
+      },
+      {
+        "exerciseId": "EX043",
+        "relationType": "regression",
+        "unresolvedText": "블록 클린 DL"
+      },
+      {
+        "exerciseId": "EX043",
+        "relationType": "progression",
+        "unresolvedText": "포즈"
+      },
+      {
+        "exerciseId": "EX043",
+        "relationType": "progression",
+        "unresolvedText": "슬로우 클린 DL"
+      },
+      {
+        "exerciseId": "EX044",
+        "relationType": "regression",
+        "unresolvedText": "행 클린+스쿼트"
+      },
+      {
+        "exerciseId": "EX044",
+        "relationType": "progression",
+        "unresolvedText": "클린+다중 스쿼트"
+      },
+      {
+        "exerciseId": "EX045",
+        "relationType": "progression",
+        "unresolvedText": "블록"
+      },
+      {
+        "exerciseId": "EX045",
+        "relationType": "progression",
+        "unresolvedText": "랙 헤비 저크"
+      },
+      {
+        "exerciseId": "EX048",
+        "relationType": "regression",
+        "unresolvedText": "무부하 딥"
+      },
+      {
+        "exerciseId": "EX049",
+        "relationType": "progression",
+        "unresolvedText": "푸시프레스+저크"
+      },
+      {
+        "exerciseId": "EX050",
+        "relationType": "regression",
+        "unresolvedText": "PVC 프레스 인 스플릿"
+      },
+      {
+        "exerciseId": "EX050",
+        "relationType": "progression",
+        "unresolvedText": "푸시프레스 인 스플릿"
+      },
+      {
+        "exerciseId": "EX051",
+        "relationType": "regression",
+        "unresolvedText": "업다운"
+      },
+      {
+        "exerciseId": "EX051",
+        "relationType": "regression",
+        "unresolvedText": "박스 버피"
+      },
+      {
+        "exerciseId": "EX051",
+        "relationType": "progression",
+        "unresolvedText": "바페이 박스점프오버"
+      },
+      {
+        "exerciseId": "EX052",
+        "relationType": "regression",
+        "unresolvedText": "낮은 박스"
+      },
+      {
+        "exerciseId": "EX052",
+        "relationType": "regression",
+        "unresolvedText": "스텝업"
+      },
+      {
+        "exerciseId": "EX052",
+        "relationType": "progression",
+        "unresolvedText": "높은 박스"
+      },
+      {
+        "exerciseId": "EX052",
+        "relationType": "progression",
+        "unresolvedText": "리바운드"
+      },
+      {
+        "exerciseId": "EX053",
+        "relationType": "regression",
+        "unresolvedText": "스텝오버"
+      },
+      {
+        "exerciseId": "EX053",
+        "relationType": "progression",
+        "unresolvedText": "버피 박스점프오버"
+      },
+      {
+        "exerciseId": "EX054",
+        "relationType": "regression",
+        "unresolvedText": "라인 스텝"
+      },
+      {
+        "exerciseId": "EX055",
+        "relationType": "progression",
+        "unresolvedText": "크로스오버"
+      },
+      {
+        "exerciseId": "EX056",
+        "relationType": "regression",
+        "unresolvedText": "박스 파이크 홀드"
+      },
+      {
+        "exerciseId": "EX056",
+        "relationType": "progression",
+        "unresolvedText": "프리 핸드스탠드"
+      },
+      {
+        "exerciseId": "EX057",
+        "relationType": "regression",
+        "unresolvedText": "부분 월워크"
+      },
+      {
+        "exerciseId": "EX058",
+        "relationType": "regression",
+        "unresolvedText": "박스 파이크 HSPU"
+      },
+      {
+        "exerciseId": "EX058",
+        "relationType": "progression",
+        "unresolvedText": "디피싯"
+      },
+      {
+        "exerciseId": "EX058",
+        "relationType": "progression",
+        "unresolvedText": "프리 HSPU"
+      },
+      {
+        "exerciseId": "EX059",
+        "relationType": "regression",
+        "unresolvedText": "벽 체중이동"
+      },
+      {
+        "exerciseId": "EX059",
+        "relationType": "regression",
+        "unresolvedText": "베어크롤"
+      },
+      {
+        "exerciseId": "EX059",
+        "relationType": "progression",
+        "unresolvedText": "장애물 HSW"
+      },
+      {
+        "exerciseId": "EX060",
+        "relationType": "regression",
+        "unresolvedText": "수파인 니레이즈"
+      },
+      {
+        "exerciseId": "EX061",
+        "relationType": "regression",
+        "unresolvedText": "니레이즈"
+      },
+      {
+        "exerciseId": "EX061",
+        "relationType": "progression",
+        "unresolvedText": "스트릭트 TTB"
+      },
+      {
+        "exerciseId": "EX062",
+        "relationType": "regression",
+        "unresolvedText": "크런치"
+      },
+      {
+        "exerciseId": "EX062",
+        "relationType": "progression",
+        "unresolvedText": "GHD 싯업"
+      },
+      {
+        "exerciseId": "EX063",
+        "relationType": "regression",
+        "unresolvedText": "턱 홀로우"
+      },
+      {
+        "exerciseId": "EX063",
+        "relationType": "progression",
+        "unresolvedText": "홀로우 락"
+      },
+      {
+        "exerciseId": "EX064",
+        "relationType": "progression",
+        "unresolvedText": "아치 락"
+      },
+      {
+        "exerciseId": "EX065",
+        "relationType": "regression",
+        "unresolvedText": "턱싯"
+      },
+      {
+        "exerciseId": "EX065",
+        "relationType": "progression",
+        "unresolvedText": "링 L-sit"
+      },
+      {
+        "exerciseId": "EX066",
+        "relationType": "regression",
+        "unresolvedText": "체스트투바+바 딥"
+      },
+      {
+        "exerciseId": "EX066",
+        "relationType": "progression",
+        "unresolvedText": "스트릭트"
+      },
+      {
+        "exerciseId": "EX066",
+        "relationType": "progression",
+        "unresolvedText": "연속 BMU"
+      },
+      {
+        "exerciseId": "EX067",
+        "relationType": "regression",
+        "unresolvedText": "낮은 링 전환+딥"
+      },
+      {
+        "exerciseId": "EX067",
+        "relationType": "progression",
+        "unresolvedText": "스트릭트"
+      },
+      {
+        "exerciseId": "EX067",
+        "relationType": "progression",
+        "unresolvedText": "연속 RMU"
+      },
+      {
+        "exerciseId": "EX068",
+        "relationType": "regression",
+        "unresolvedText": "걷기"
+      },
+      {
+        "exerciseId": "EX068",
+        "relationType": "progression",
+        "unresolvedText": "인터벌"
+      },
+      {
+        "exerciseId": "EX068",
+        "relationType": "progression",
+        "unresolvedText": "스프린트"
+      },
+      {
+        "exerciseId": "EX069",
+        "relationType": "regression",
+        "unresolvedText": "기술 로우"
+      },
+      {
+        "exerciseId": "EX069",
+        "relationType": "progression",
+        "unresolvedText": "스프린트 인터벌"
+      },
+      {
+        "exerciseId": "EX070",
+        "relationType": "regression",
+        "unresolvedText": "리컴번트"
+      },
+      {
+        "exerciseId": "EX070",
+        "relationType": "regression",
+        "unresolvedText": "쉬운 페달"
+      },
+      {
+        "exerciseId": "EX070",
+        "relationType": "progression",
+        "unresolvedText": "스프린트 인터벌"
+      },
+      {
+        "exerciseId": "EX071",
+        "relationType": "regression",
+        "unresolvedText": "하체만 쉬운 페달"
+      },
+      {
+        "exerciseId": "EX071",
+        "relationType": "progression",
+        "unresolvedText": "고출력 인터벌"
+      },
+      {
+        "exerciseId": "EX072",
+        "relationType": "regression",
+        "unresolvedText": "밴드 풀다운"
+      },
+      {
+        "exerciseId": "EX072",
+        "relationType": "progression",
+        "unresolvedText": "고출력 인터벌"
+      },
+      {
+        "exerciseId": "EX073",
+        "relationType": "regression",
+        "unresolvedText": "아쿠아조깅"
+      },
+      {
+        "exerciseId": "EX073",
+        "relationType": "progression",
+        "unresolvedText": "인터벌"
+      },
+      {
+        "exerciseId": "EX074",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 양손 캐리"
+      },
+      {
+        "exerciseId": "EX075",
+        "relationType": "regression",
+        "unresolvedText": "양손 파머 캐리"
+      },
+      {
+        "exerciseId": "EX076",
+        "relationType": "regression",
+        "unresolvedText": "고블릿 캐리"
+      },
+      {
+        "exerciseId": "EX076",
+        "relationType": "progression",
+        "unresolvedText": "더블KB"
+      },
+      {
+        "exerciseId": "EX076",
+        "relationType": "progression",
+        "unresolvedText": "바벨 캐리"
+      },
+      {
+        "exerciseId": "EX077",
+        "relationType": "progression",
+        "unresolvedText": "싱글암 KB 오버헤드 캐리"
+      },
+      {
+        "exerciseId": "EX078",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 슬레드"
+      },
+      {
+        "exerciseId": "EX078",
+        "relationType": "progression",
+        "unresolvedText": "헤비"
+      },
+      {
+        "exerciseId": "EX078",
+        "relationType": "progression",
+        "unresolvedText": "스프린트 슬레드"
+      },
+      {
+        "exerciseId": "EX079",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 백워드 드래그"
+      },
+      {
+        "exerciseId": "EX079",
+        "relationType": "progression",
+        "unresolvedText": "핸드오버핸드 풀"
+      },
+      {
+        "exerciseId": "EX080",
+        "relationType": "regression",
+        "unresolvedText": "샌드백 데드리프트"
+      },
+      {
+        "exerciseId": "EX080",
+        "relationType": "progression",
+        "unresolvedText": "숄더링"
+      },
+      {
+        "exerciseId": "EX081",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 베어허그 캐리"
+      },
+      {
+        "exerciseId": "EX081",
+        "relationType": "progression",
+        "unresolvedText": "숄더 캐리"
+      },
+      {
+        "exerciseId": "EX082",
+        "relationType": "regression",
+        "unresolvedText": "낮은 타깃"
+      },
+      {
+        "exerciseId": "EX082",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 볼"
+      },
+      {
+        "exerciseId": "EX082",
+        "relationType": "progression",
+        "unresolvedText": "더 높은 타깃"
+      },
+      {
+        "exerciseId": "EX083",
+        "relationType": "regression",
+        "unresolvedText": "메드볼 데드리프트"
+      },
+      {
+        "exerciseId": "EX083",
+        "relationType": "progression",
+        "unresolvedText": "덤벨"
+      },
+      {
+        "exerciseId": "EX083",
+        "relationType": "progression",
+        "unresolvedText": "바벨 클린"
+      },
+      {
+        "exerciseId": "EX084",
+        "relationType": "regression",
+        "unresolvedText": "DB"
+      },
+      {
+        "exerciseId": "EX084",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 스러스터"
+      },
+      {
+        "exerciseId": "EX084",
+        "relationType": "progression",
+        "unresolvedText": "클러스터"
+      },
+      {
+        "exerciseId": "EX085",
+        "relationType": "regression",
+        "unresolvedText": "행 DB 스내치"
+      },
+      {
+        "exerciseId": "EX085",
+        "relationType": "progression",
+        "unresolvedText": "바벨 파워 스내치"
+      },
+      {
+        "exerciseId": "EX086",
+        "relationType": "regression",
+        "unresolvedText": "KB 데드리프트+하이풀"
+      },
+      {
+        "exerciseId": "EX086",
+        "relationType": "progression",
+        "unresolvedText": "더블KB 클린"
+      },
+      {
+        "exerciseId": "EX087",
+        "relationType": "regression",
+        "unresolvedText": "신발"
+      },
+      {
+        "exerciseId": "EX087",
+        "relationType": "regression",
+        "unresolvedText": "PVC TGU"
+      },
+      {
+        "exerciseId": "EX087",
+        "relationType": "progression",
+        "unresolvedText": "헤비 TGU"
+      },
+      {
+        "exerciseId": "EX088",
+        "relationType": "regression",
+        "unresolvedText": "인클라인 플랭크"
+      },
+      {
+        "exerciseId": "EX088",
+        "relationType": "progression",
+        "unresolvedText": "가중"
+      },
+      {
+        "exerciseId": "EX088",
+        "relationType": "progression",
+        "unresolvedText": "롱레버 플랭크"
+      },
+      {
+        "exerciseId": "EX089",
+        "relationType": "regression",
+        "unresolvedText": "무릎 사이드 플랭크"
+      },
+      {
+        "exerciseId": "EX089",
+        "relationType": "progression",
+        "unresolvedText": "코펜하겐 플랭크"
+      },
+      {
+        "exerciseId": "EX090",
+        "relationType": "regression",
+        "unresolvedText": "아이소 홀드"
+      },
+      {
+        "exerciseId": "EX090",
+        "relationType": "progression",
+        "unresolvedText": "스플릿스탠스 팔로프"
+      },
+      {
+        "exerciseId": "EX091",
+        "relationType": "regression",
+        "unresolvedText": "팔"
+      },
+      {
+        "exerciseId": "EX091",
+        "relationType": "regression",
+        "unresolvedText": "다리 단독"
+      },
+      {
+        "exerciseId": "EX091",
+        "relationType": "progression",
+        "unresolvedText": "밴드 버드독"
+      },
+      {
+        "exerciseId": "EX092",
+        "relationType": "regression",
+        "unresolvedText": "양발 브리지"
+      },
+      {
+        "exerciseId": "EX092",
+        "relationType": "progression",
+        "unresolvedText": "싱글레그"
+      },
+      {
+        "exerciseId": "EX092",
+        "relationType": "progression",
+        "unresolvedText": "바벨 힙쓰러스트"
+      },
+      {
+        "exerciseId": "EX093",
+        "relationType": "regression",
+        "unresolvedText": "밴드 보조"
+      },
+      {
+        "exerciseId": "EX093",
+        "relationType": "regression",
+        "unresolvedText": "부분 ROM"
+      },
+      {
+        "exerciseId": "EX093",
+        "relationType": "progression",
+        "unresolvedText": "완전 이센트릭+콘센트릭"
+      },
+      {
+        "exerciseId": "EX094",
+        "relationType": "progression",
+        "unresolvedText": "케이블 페이스풀"
+      },
+      {
+        "exerciseId": "EX095",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 밴드"
+      },
+      {
+        "exerciseId": "EX095",
+        "relationType": "progression",
+        "unresolvedText": "느린 템포"
+      },
+      {
+        "exerciseId": "EX096",
+        "relationType": "regression",
+        "unresolvedText": "양발"
+      },
+      {
+        "exerciseId": "EX096",
+        "relationType": "progression",
+        "unresolvedText": "싱글레그"
+      },
+      {
+        "exerciseId": "EX096",
+        "relationType": "progression",
+        "unresolvedText": "가중"
+      },
+      {
+        "exerciseId": "EX097",
+        "relationType": "regression",
+        "unresolvedText": "스텝백+스텝오버"
+      },
+      {
+        "exerciseId": "EX097",
+        "relationType": "progression",
+        "unresolvedText": "더 빠른 사이클"
+      },
+      {
+        "exerciseId": "EX098",
+        "relationType": "regression",
+        "unresolvedText": "스텝백+스텝오버"
+      },
+      {
+        "exerciseId": "EX098",
+        "relationType": "progression",
+        "unresolvedText": "더 빠른 사이클"
+      },
+      {
+        "exerciseId": "EX099",
+        "relationType": "regression",
+        "unresolvedText": "버피 박스 스텝오버"
+      },
+      {
+        "exerciseId": "EX099",
+        "relationType": "progression",
+        "unresolvedText": "높이"
+      },
+      {
+        "exerciseId": "EX099",
+        "relationType": "progression",
+        "unresolvedText": "사이클 증가"
+      },
+      {
+        "exerciseId": "EX100",
+        "relationType": "regression",
+        "unresolvedText": "버피+점핑 풀업"
+      },
+      {
+        "exerciseId": "EX100",
+        "relationType": "progression",
+        "unresolvedText": "버피 체스트투바"
+      },
+      {
+        "exerciseId": "EX101",
+        "relationType": "regression",
+        "unresolvedText": "걷기 셔틀"
+      },
+      {
+        "exerciseId": "EX101",
+        "relationType": "regression",
+        "unresolvedText": "긴 회전반경"
+      },
+      {
+        "exerciseId": "EX101",
+        "relationType": "progression",
+        "unresolvedText": "스프린트 셔틀"
+      },
+      {
+        "exerciseId": "EX102",
+        "relationType": "regression",
+        "unresolvedText": "프론트랙"
+      },
+      {
+        "exerciseId": "EX102",
+        "relationType": "regression",
+        "unresolvedText": "무부하 런지"
+      },
+      {
+        "exerciseId": "EX102",
+        "relationType": "progression",
+        "unresolvedText": "거리"
+      },
+      {
+        "exerciseId": "EX102",
+        "relationType": "progression",
+        "unresolvedText": "부하 증가"
+      },
+      {
+        "exerciseId": "EX103",
+        "relationType": "regression",
+        "unresolvedText": "무부하 워킹 런지"
+      },
+      {
+        "exerciseId": "EX103",
+        "relationType": "progression",
+        "unresolvedText": "오버헤드 런지"
+      },
+      {
+        "exerciseId": "EX104",
+        "relationType": "regression",
+        "unresolvedText": "무부하"
+      },
+      {
+        "exerciseId": "EX104",
+        "relationType": "regression",
+        "unresolvedText": "낮은 박스"
+      },
+      {
+        "exerciseId": "EX104",
+        "relationType": "progression",
+        "unresolvedText": "높이"
+      },
+      {
+        "exerciseId": "EX104",
+        "relationType": "progression",
+        "unresolvedText": "부하 증가"
+      },
+      {
+        "exerciseId": "EX105",
+        "relationType": "regression",
+        "unresolvedText": "무부하 박스 스텝오버"
+      },
+      {
+        "exerciseId": "EX105",
+        "relationType": "progression",
+        "unresolvedText": "부하"
+      },
+      {
+        "exerciseId": "EX105",
+        "relationType": "progression",
+        "unresolvedText": "높이 증가"
+      },
+      {
+        "exerciseId": "EX106",
+        "relationType": "regression",
+        "unresolvedText": "DB 행 클린+프레스"
+      },
+      {
+        "exerciseId": "EX106",
+        "relationType": "progression",
+        "unresolvedText": "연속 사이클"
+      },
+      {
+        "exerciseId": "EX106",
+        "relationType": "progression",
+        "unresolvedText": "부하 증가"
+      },
+      {
+        "exerciseId": "EX107",
+        "relationType": "regression",
+        "unresolvedText": "행 클린+스트릭트 프레스"
+      },
+      {
+        "exerciseId": "EX107",
+        "relationType": "progression",
+        "unresolvedText": "연속 사이클"
+      },
+      {
+        "exerciseId": "EX107",
+        "relationType": "progression",
+        "unresolvedText": "부하 증가"
+      },
+      {
+        "exerciseId": "EX108",
+        "relationType": "regression",
+        "unresolvedText": "싱글 DB"
+      },
+      {
+        "exerciseId": "EX108",
+        "relationType": "regression",
+        "unresolvedText": "가벼운 부하"
+      },
+      {
+        "exerciseId": "EX108",
+        "relationType": "progression",
+        "unresolvedText": "더블 DB 고중량"
+      },
+      {
+        "exerciseId": "EX109",
+        "relationType": "progression",
+        "unresolvedText": "부하"
+      },
+      {
+        "exerciseId": "EX109",
+        "relationType": "progression",
+        "unresolvedText": "템포 증가"
+      },
+      {
+        "exerciseId": "EX110",
+        "relationType": "regression",
+        "unresolvedText": "클린+푸시프레스"
+      },
+      {
+        "exerciseId": "EX110",
+        "relationType": "progression",
+        "unresolvedText": "클린앤저크 전략"
+      },
+      {
+        "exerciseId": "EX111",
+        "relationType": "regression",
+        "unresolvedText": "행 파워클린+푸시저크"
+      },
+      {
+        "exerciseId": "EX111",
+        "relationType": "progression",
+        "unresolvedText": "경기식 중량"
+      },
+      {
+        "exerciseId": "EX112",
+        "relationType": "regression",
+        "unresolvedText": "박스 파이크"
+      },
+      {
+        "exerciseId": "EX112",
+        "relationType": "regression",
+        "unresolvedText": "DB 스트릭트프레스"
+      },
+      {
+        "exerciseId": "EX112",
+        "relationType": "progression",
+        "unresolvedText": "디피싯 스트릭트 HSPU"
+      },
+      {
+        "exerciseId": "EX113",
+        "relationType": "regression",
+        "unresolvedText": "스텝백+스텝오버"
+      },
+      {
+        "exerciseId": "EX113",
+        "relationType": "progression",
+        "unresolvedText": "바페이싱"
+      },
+      {
+        "exerciseId": "EX113",
+        "relationType": "progression",
+        "unresolvedText": "고속 사이클"
+      },
+      {
+        "exerciseId": "EX114",
+        "relationType": "regression",
+        "unresolvedText": "행 파워클린"
+      },
+      {
+        "exerciseId": "EX114",
+        "relationType": "progression",
+        "unresolvedText": "저행"
+      },
+      {
+        "exerciseId": "EX114",
+        "relationType": "progression",
+        "unresolvedText": "복합 클린"
+      },
+      {
+        "exerciseId": "EX115",
+        "relationType": "regression",
+        "unresolvedText": "스모 데드리프트"
+      },
+      {
+        "exerciseId": "EX115",
+        "relationType": "progression",
+        "unresolvedText": "부하"
+      },
+      {
+        "exerciseId": "EX115",
+        "relationType": "progression",
+        "unresolvedText": "사이클 증가"
+      }
+    ],
+    "unresolvedScalingMapRefs": [
+      {
+        "scaleId": "SC01",
+        "field": "original",
+        "text": "Pull-up"
+      },
+      {
+        "scaleId": "SC01",
+        "field": "regression1",
+        "text": "Band-assisted pull-up"
+      },
+      {
+        "scaleId": "SC01",
+        "field": "regression2",
+        "text": "Ring row"
+      },
+      {
+        "scaleId": "SC02",
+        "field": "original",
+        "text": "Chest-to-bar pull-up"
+      },
+      {
+        "scaleId": "SC02",
+        "field": "regression1",
+        "text": "Pull-up"
+      },
+      {
+        "scaleId": "SC02",
+        "field": "regression2",
+        "text": "Band-assisted pull-up"
+      },
+      {
+        "scaleId": "SC03",
+        "field": "original",
+        "text": "Bar muscle-up"
+      },
+      {
+        "scaleId": "SC03",
+        "field": "regression1",
+        "text": "Chest-to-bar + straight-bar dip"
+      },
+      {
+        "scaleId": "SC03",
+        "field": "regression2",
+        "text": "Pull-up + box dip"
+      },
+      {
+        "scaleId": "SC04",
+        "field": "original",
+        "text": "Ring muscle-up"
+      },
+      {
+        "scaleId": "SC04",
+        "field": "regression1",
+        "text": "Low-ring transition + dip"
+      },
+      {
+        "scaleId": "SC04",
+        "field": "regression2",
+        "text": "Ring row + box dip"
+      },
+      {
+        "scaleId": "SC05",
+        "field": "original",
+        "text": "Handstand push-up"
+      },
+      {
+        "scaleId": "SC05",
+        "field": "regression1",
+        "text": "Box pike HSPU"
+      },
+      {
+        "scaleId": "SC05",
+        "field": "regression2",
+        "text": "DB strict press"
+      },
+      {
+        "scaleId": "SC06",
+        "field": "original",
+        "text": "Handstand walk"
+      },
+      {
+        "scaleId": "SC06",
+        "field": "regression1",
+        "text": "Wall-facing weight shift"
+      },
+      {
+        "scaleId": "SC06",
+        "field": "regression2",
+        "text": "Bear crawl"
+      },
+      {
+        "scaleId": "SC07",
+        "field": "regression1",
+        "text": "Hanging knee raise"
+      },
+      {
+        "scaleId": "SC07",
+        "field": "regression2",
+        "text": "Supine leg raise"
+      },
+      {
+        "scaleId": "SC08",
+        "field": "regression2",
+        "text": "Low pogo/step-over rope"
+      },
+      {
+        "scaleId": "SC09",
+        "field": "original",
+        "text": "Box jump"
+      },
+      {
+        "scaleId": "SC09",
+        "field": "regression1",
+        "text": "Low box jump/step-down"
+      },
+      {
+        "scaleId": "SC09",
+        "field": "regression2",
+        "text": "Box step-up"
+      },
+      {
+        "scaleId": "SC10",
+        "field": "original",
+        "text": "Pistol"
+      },
+      {
+        "scaleId": "SC10",
+        "field": "regression1",
+        "text": "Counterbalanced pistol to box"
+      },
+      {
+        "scaleId": "SC10",
+        "field": "regression2",
+        "text": "Step-up/split squat"
+      },
+      {
+        "scaleId": "SC11",
+        "field": "regression1",
+        "text": "Power snatch from hang"
+      },
+      {
+        "scaleId": "SC11",
+        "field": "regression2",
+        "text": "Muscle snatch + OHS"
+      },
+      {
+        "scaleId": "SC12",
+        "field": "regression1",
+        "text": "Hang power clean"
+      },
+      {
+        "scaleId": "SC12",
+        "field": "regression2",
+        "text": "DB hang power clean"
+      },
+      {
+        "scaleId": "SC13",
+        "field": "original",
+        "text": "Split jerk"
+      },
+      {
+        "scaleId": "SC13",
+        "field": "regression1",
+        "text": "Push jerk"
+      },
+      {
+        "scaleId": "SC13",
+        "field": "regression2",
+        "text": "Push press"
+      },
+      {
+        "scaleId": "SC14",
+        "field": "original",
+        "text": "Overhead squat"
+      },
+      {
+        "scaleId": "SC14",
+        "field": "regression1",
+        "text": "Front squat"
+      },
+      {
+        "scaleId": "SC14",
+        "field": "regression2",
+        "text": "Goblet squat"
+      },
+      {
+        "scaleId": "SC15",
+        "field": "regression1",
+        "text": "Elevated deadlift"
+      },
+      {
+        "scaleId": "SC15",
+        "field": "regression2",
+        "text": "KB deadlift"
+      },
+      {
+        "scaleId": "SC16",
+        "field": "original",
+        "text": "Wall ball"
+      },
+      {
+        "scaleId": "SC16",
+        "field": "regression1",
+        "text": "Light wall ball/lower target"
+      },
+      {
+        "scaleId": "SC16",
+        "field": "regression2",
+        "text": "Goblet squat to press"
+      },
+      {
+        "scaleId": "SC17",
+        "field": "regression1",
+        "text": "Light barbell thruster"
+      },
+      {
+        "scaleId": "SC17",
+        "field": "regression2",
+        "text": "DB thruster"
+      },
+      {
+        "scaleId": "SC18",
+        "field": "regression1",
+        "text": "Row"
+      },
+      {
+        "scaleId": "SC18",
+        "field": "regression2",
+        "text": "Bike erg"
+      },
+      {
+        "scaleId": "SC19",
+        "field": "original",
+        "text": "Row"
+      },
+      {
+        "scaleId": "SC19",
+        "field": "regression1",
+        "text": "Ski erg"
+      },
+      {
+        "scaleId": "SC19",
+        "field": "regression2",
+        "text": "Bike erg"
+      },
+      {
+        "scaleId": "SC20",
+        "field": "original",
+        "text": "Rope climb"
+      },
+      {
+        "scaleId": "SC20",
+        "field": "regression1",
+        "text": "Foot-lock drill + partial climb"
+      },
+      {
+        "scaleId": "SC20",
+        "field": "regression2",
+        "text": "Seated rope pull"
+      }
+    ],
+    "unresolvedOpenMovementExerciseIds": [],
+    "unresolvedOfficialVideoExerciseIds": []
+  }
+}

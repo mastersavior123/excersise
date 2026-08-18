@@ -1,0 +1,253 @@
+// WOD Compiler — Phase 0 스키마
+// 범위: crossfit_programming_knowledge_base.xlsx 13개 시트 중
+// 지식베이스(읽기 전용) 10개 시트를 정규화한 테이블만 정의한다.
+// 사용자 도메인 테이블(app_user, program 등)은 Phase 1에서 추가한다.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Exercise_DB (115행) — 운동 마스터
+// ---------------------------------------------------------------------------
+model Exercise {
+  exerciseId        String  @id @map("exercise_id") // 'EX001'
+  nameKo             String  @map("name_ko")
+  nameEn             String  @map("name_en")
+  modality            String // 체조 | 웨이트리프팅 | 모노스트럭처럴
+  family               String // 스쿼트 | 힌지 | 스내치 | 클린 | 저크 | 캐리 ...
+  primaryPattern        String[] @map("primary_pattern") // '+' 구분 원문을 분리
+  recommendedSlots       String[] @map("recommended_slots") // '/' 구분 원문을 분리
+  equipment               String[] // '/' 구분 원문을 분리 (단일값도 배열 1개로 저장)
+  minLevel                 Int      @map("min_level")
+  skillComplexity           Int      @map("skill_complexity") // 1~5
+  impact                     String // 낮음 | 중간 | 높음
+  doseUnit                    String   @map("dose_unit") // 회 | 품질회 | 세트×회 | m | 분 ...
+  defaultDoseRaw                String   @map("default_dose_raw") // 원문 그대로: '3~5×6~12 @RIR2~4'
+  defaultDoseSetsMin              Int?     @map("default_dose_sets_min")
+  defaultDoseSetsMax              Int?     @map("default_dose_sets_max")
+  defaultDoseRepsMin              Int?     @map("default_dose_reps_min")
+  defaultDoseRepsMax              Int?     @map("default_dose_reps_max")
+  relativeLoad                      String   @map("relative_load") // 무부하 / 가벼움~중간 등 자유 텍스트
+  regressionText                      String?  @map("regression_text") // 원문 그대로 (감사용)
+  progressionText                      String?  @map("progression_text")
+  contraindications                     String?
+  sourceId                                String   @map("source_id")
+  sourceUrl                                String?  @map("source_url")
+  openRx2017to26                            Boolean  @default(false) @map("open_rx_2017_26")
+  openWorkoutCount                            Int      @default(0) @map("open_workout_count")
+  openSeasons                                  Int[]    @map("open_seasons")
+  openWorkouts                                  String[] @map("open_workouts")
+  mostRecentOpenYear                              Int?     @map("most_recent_open_year")
+  crossfitMovementsUrl                              String?  @map("crossfit_movements_url")
+  officialYoutubeUrl                                  String?  @map("official_youtube_url")
+
+  aliases              ExerciseAlias[]
+  relationsFrom        ExerciseRelation[]      @relation("relation_from")
+  relationsTo          ExerciseRelation[]      @relation("relation_to")
+  openWorkoutMovements OpenWorkoutMovement[]
+  officialMedia        OfficialMedia[]
+  scalingAsOriginal    ScalingMap[]            @relation("scaling_original")
+  scalingAsRegression1 ScalingMap[]            @relation("scaling_regression1")
+  scalingAsRegression2 ScalingMap[]            @relation("scaling_regression2")
+
+  @@index([family])
+  @@index([minLevel])
+  @@map("exercise")
+}
+
+// 한글명/English 및 회귀·진행·Scaling_Map에 등장하는 표기 변형을 ExerciseID로 정규화
+model ExerciseAlias {
+  aliasName  String   @id @map("alias_name")
+  exerciseId String   @map("exercise_id")
+  exercise   Exercise @relation(fields: [exerciseId], references: [exerciseId])
+
+  @@map("exercise_alias")
+}
+
+// 회귀/진행 체인을 ID 관계로 저장 (한 운동이 복수의 회귀 옵션을 가질 수 있어 unique 제약을 두지 않음)
+model ExerciseRelation {
+  id               Int      @id @default(autoincrement())
+  exerciseId       String   @map("exercise_id")
+  exercise         Exercise @relation("relation_from", fields: [exerciseId], references: [exerciseId])
+  relationType     String   @map("relation_type") // 'regression' | 'progression'
+  orderIndex       Int      @default(0) @map("order_index") // 원문 내 등장 순서 (0 = 1차)
+  targetExerciseId String   @map("target_exercise_id")
+  targetExercise   Exercise @relation("relation_to", fields: [targetExerciseId], references: [exerciseId])
+
+  @@index([exerciseId, relationType])
+  @@map("exercise_relation")
+}
+
+// ---------------------------------------------------------------------------
+// Level_Profiles (4행: Level 1~4)
+// ---------------------------------------------------------------------------
+model LevelProfile {
+  level               Int     @id
+  groupName            String  @map("group_name") // 초급자/중급자/고급자/선수급
+  weeklyFrequency        String  @map("weekly_frequency")
+  criteriaText            String  @map("criteria_text")
+  sessionMinutesRange       String  @map("session_minutes_range")
+  weeklyStructure            String  @map("weekly_structure")
+  highIntensityCap            String  @map("high_intensity_cap")
+  consecutiveDayCap             String  @map("consecutive_day_cap")
+  weeklyGoal                     String  @map("weekly_goal")
+  cautions                        String?
+  defaultDeload                    String  @map("default_deload")
+
+  volumeLedgerRules VolumeLedgerRule[]
+
+  @@map("level_profile")
+}
+
+// ---------------------------------------------------------------------------
+// Volume_Rules (V01~V06 × Level = 24행)
+// ---------------------------------------------------------------------------
+model VolumeLedgerRule {
+  id                Int          @id @default(autoincrement())
+  ledgerId            String       @map("ledger_id") // 'V01'..'V06'
+  ledgerName            String       @map("ledger_name")
+  level                   Int
+  levelProfile              LevelProfile @relation(fields: [level], references: [level])
+  minValue                    Decimal      @map("min_value")
+  maxValue                      Decimal      @map("max_value")
+  unit                             String
+  aggregationRule                    String       @map("aggregation_rule")
+  usageNote                            String?      @map("usage_note")
+  evidenceStatus                          String?      @map("evidence_status")
+
+  @@unique([ledgerId, level])
+  @@map("volume_ledger_rule")
+}
+
+// ---------------------------------------------------------------------------
+// Session_Templates (T4-1..T4-4, T5-1..T5-5 = 9행)
+// ---------------------------------------------------------------------------
+model SessionTemplate {
+  templateId          String  @id @map("template_id") // 'T4-1'
+  frequency             String // '4일' | '5일'
+  dayLabel                String  @map("day_label") // 'Day 1'
+  dayType                   String  @map("day_type") // '큰 날' | '작은 날' | '중간/혼합'
+  slotSequenceRaw             String  @map("slot_sequence_raw") // 화살표(→) 원문
+  slotSequenceParsed             String[] @map("slot_sequence_parsed") // 코드 슬롯으로 정규화 (seed 시 수동 매핑)
+  conditioning                     String?
+  recommendedWeekday                 String?  @map("recommended_weekday")
+  conflictNote                          String?  @map("conflict_note")
+
+  @@map("session_template")
+}
+
+// ---------------------------------------------------------------------------
+// Generator_Rules (30행, 순서 보장)
+// ---------------------------------------------------------------------------
+model GeneratorRule {
+  orderIndex     Int    @id @map("order_index")
+  stage           String
+  checkItem         String @map("check_item")
+  conditionRule       String @map("condition_rule")
+  action                 String // BLOCK | REPLACE | ADJUST | ...
+  evidence                 String?
+
+  @@map("generator_rule")
+}
+
+// ---------------------------------------------------------------------------
+// Scaling_Map (20행) — 영문 동작명 기반, Exercise_DB와 완전히 1:1 매치되지 않을 수 있음
+// ---------------------------------------------------------------------------
+model ScalingMap {
+  scaleId               String    @id @map("scale_id")
+  originalText             String    @map("original_text")
+  originalExerciseId          String?   @map("original_exercise_id")
+  originalExercise               Exercise? @relation("scaling_original", fields: [originalExerciseId], references: [exerciseId])
+  regression1Text                   String    @map("regression1_text")
+  regression1ExerciseId                String?   @map("regression1_exercise_id")
+  regression1Exercise                     Exercise? @relation("scaling_regression1", fields: [regression1ExerciseId], references: [exerciseId])
+  regression2Text                            String    @map("regression2_text")
+  regression2ExerciseId                         String?   @map("regression2_exercise_id")
+  regression2Exercise                              Exercise? @relation("scaling_regression2", fields: [regression2ExerciseId], references: [exerciseId])
+  preservedFunction                                   String    @map("preserved_function")
+  stimulusTime                                           String    @map("stimulus_time")
+  coachingNote                                              String?   @map("coaching_note")
+
+  @@map("scaling_map")
+}
+
+// ---------------------------------------------------------------------------
+// Enums (21행) — Level/Modality/DayType/Load/TimeDomain/Impact 코드표
+// ---------------------------------------------------------------------------
+model EnumLookup {
+  enumType    String @map("enum_type")
+  code         String
+  labelKo       String @map("label_ko")
+  description     String?
+
+  @@id([enumType, code])
+  @@map("enum_lookup")
+}
+
+// ---------------------------------------------------------------------------
+// Open_Workouts (39행, 2017~2026)
+// ---------------------------------------------------------------------------
+model OpenWorkout {
+  year                Int
+  workout               String // '17.1'
+  format                  String?
+  timeCap                   String?  @map("time_cap")
+  canonicalMovements          String[] @map("canonical_movements") // '|' 구분 원문을 분리
+  structureNote                  String?  @map("structure_note")
+  division                          String?
+  sourceId                            String?  @map("source_id")
+  officialUrl                            String?  @map("official_url")
+
+  // open_workout_movement과의 직접 관계는 두지 않음: workouts_appeared_raw가 자유 텍스트라
+  // (year, workout) 복합키로 항상 안전하게 조인할 수 없음. Phase 1에서 필요 시 조인 테이블 추가.
+
+  @@id([year, workout])
+  @@map("open_workout")
+}
+
+// ---------------------------------------------------------------------------
+// Open_Movement_Index (44행)
+// ---------------------------------------------------------------------------
+model OpenWorkoutMovement {
+  id                    Int      @id @default(autoincrement())
+  canonicalMovement       String   @map("canonical_movement")
+  exerciseId                 String   @map("exercise_id")
+  exercise                      Exercise @relation(fields: [exerciseId], references: [exerciseId])
+  workoutCount                    Int?     @map("workout_count")
+  seasonCount                        Int?     @map("season_count")
+  seasonsAppeared                       Int[]    @map("seasons_appeared")
+  workoutsAppearedRaw                      String?  @map("workouts_appeared_raw") // 콤마 구분 원문 그대로 보관 (23.2A + 23.2B 같은 표기 보존)
+  mostRecentYear                              Int?     @map("most_recent_year")
+  normalizationNote                              String?  @map("normalization_note")
+  officialYoutubeUrl                                String?  @map("official_youtube_url")
+  crossfitMovementsUrl                                 String?  @map("crossfit_movements_url")
+
+  // OpenWorkout과의 직접 FK는 두지 않음: workouts_appeared_raw가 자유 텍스트라
+  // (year, workout) 복합키로 항상 안전하게 조인할 수 없음. Phase 1에서 필요 시 조인 테이블 추가.
+
+  @@unique([canonicalMovement, exerciseId])
+  @@map("open_workout_movement")
+}
+
+// ---------------------------------------------------------------------------
+// Official_Videos (19행)
+// ---------------------------------------------------------------------------
+model OfficialMedia {
+  videoId          String    @id @map("video_id") // 'YT001'
+  movement            String
+  exerciseId             String?   @map("exercise_id")
+  exercise                   Exercise? @relation(fields: [exerciseId], references: [exerciseId])
+  officialTitle                  String?   @map("official_title")
+  purpose                            String?
+  youtubeUrl                            String    @map("youtube_url")
+  verifiedDate                              DateTime? @map("verified_date") @db.Date
+  sourceId                                    String?   @map("source_id")
+
+  @@map("official_media")
+}
