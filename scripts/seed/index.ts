@@ -13,7 +13,7 @@ import { seedOpenWorkouts } from "./seedOpenWorkouts";
 import { seedOpenWorkoutMovements } from "./seedOpenWorkoutMovements";
 import { seedOfficialVideos } from "./seedOfficialVideos";
 
-const REPORT_PATH = join(__dirname, "..", "..", "data", "seed-report.json");
+const REPORT_PATH = join(import.meta.dirname, "..", "..", "data", "seed-report.json");
 
 async function clearAll() {
   // FK 의존성의 역순으로 비운다.

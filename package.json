@@ -2,9 +2,12 @@
   "name": "wod-compiler",
   "version": "0.1.0",
   "private": true,
-  "description": "1RM 기반 자동 크로스핏 월간 프로그램 생성 앱 — Phase 0: 지식베이스 데이터 파운데이션",
-  "type": "commonjs",
+  "description": "1RM 기반 자동 크로스핏 월간 프로그램 생성 앱 — Phase 0: 지식베이스 데이터 파운데이션, Phase 1: 회원가입·온보딩",
+  "type": "module",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "db:seed": "tsx scripts/seed/index.ts",
@@ -13,10 +16,18 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^6.1.0"
+    "@prisma/client": "^6.1.0",
+    "bcryptjs": "^3.0.3",
+    "next": "^16.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "prisma": "^6.1.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

@@ -7,7 +7,7 @@ import { join } from "node:path";
 //    'Cannot read properties of undefined (reading sheets)' 오류로 실패
 // 대신 scripts/convert_xlsx_to_json.py(openpyxl, 신뢰할 수 있는 변환)로 미리 만든
 // data/knowledge_base.json을 읽는다. xlsx 원본이 바뀌면 그 스크립트를 다시 실행해야 한다.
-const JSON_PATH = join(__dirname, "..", "..", "data", "knowledge_base.json");
+const JSON_PATH = join(import.meta.dirname, "..", "..", "data", "knowledge_base.json");
 
 type KnowledgeBaseJson = Record<string, unknown[][]>;
 

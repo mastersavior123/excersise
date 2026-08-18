@@ -1,7 +1,6 @@
-// WOD Compiler — Phase 0 스키마
-// 범위: crossfit_programming_knowledge_base.xlsx 13개 시트 중
-// 지식베이스(읽기 전용) 10개 시트를 정규화한 테이블만 정의한다.
-// 사용자 도메인 테이블(app_user, program 등)은 Phase 1에서 추가한다.
+// WOD Compiler — Phase 0(지식베이스) + Phase 1(회원가입·온보딩) 스키마
+// Phase 0: crossfit_programming_knowledge_base.xlsx 10개 지식베이스 시트를 정규화한 읽기 전용 테이블
+// Phase 1: 회원가입/온보딩/1RM 입력을 위한 사용자 도메인 테이블 (program 등 생성 엔진 테이블은 Phase 2)
 
 generator client {
   provider = "prisma-client-js"
@@ -250,4 +249,103 @@ model OfficialMedia {
   sourceId                                    String?   @map("source_id")
 
   @@map("official_media")
+}
+
+// =============================================================================
+// Phase 1 — 사용자 도메인 (회원가입 · 온보딩 · 1RM 입력)
+// =============================================================================
+
+model AppUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  profile          UserProfile?
+  oneRMs           UserOneRM[]
+  capabilities     UserCapability[]
+  healthFlags      UserHealthFlag[]
+  levelAssessments UserLevelAssessment[]
+
+  @@map("app_user")
+}
+
+// 온보딩 Step 2·5의 기본 정보 + 가용 자원/목표. 단계마다 부분 저장되므로 필수 항목이 거의 없다 —
+// "온보딩 완료" 여부는 API에서 별도로 판단한다(각 단계 데이터의 존재 여부로 계산).
+model UserProfile {
+  userId                     String   @id @map("user_id")
+  user                       AppUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age                        Int?
+  gender                     String?
+  occupationActivity         String?  @map("occupation_activity") // sedentary | active | shift_work
+  heightCm                   Decimal? @map("height_cm")
+  weightKg                   Decimal? @map("weight_kg")
+  recentTrainingFrequency    Int?     @map("recent_training_frequency") // 최근 8주 평균 주당 훈련일(0~7)
+  trainingDaysPerWeek        Int?     @map("training_days_per_week") // 4 | 5
+  sessionMinutesBudget       Int?     @map("session_minutes_budget")
+  equipmentAvailable         String[] @default([]) @map("equipment_available")
+  spaceType                  String?  @map("space_type")
+  primaryGoals                String[] @default([]) @map("primary_goals") // 최대 2개, API에서 검증
+  updatedAt                     DateTime @updatedAt @map("updated_at")
+
+  @@map("user_profile")
+}
+
+// 5대 리프트 1RM 이력. lift별로 여러 번 기록될 수 있고 최신 measuredAt이 "현재 1RM"이다.
+model UserOneRM {
+  id          Int      @id @default(autoincrement())
+  userId      String   @map("user_id")
+  user        AppUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lift        String // squat | deadlift | press | clean | snatch
+  valueKg     Decimal  @map("value_kg")
+  isEstimated Boolean  @default(false) @map("is_estimated") // Epley 등 추정 계산기로 입력했는지
+  measuredAt  DateTime @default(now()) @map("measured_at") @db.Date
+
+  @@unique([userId, lift, measuredAt])
+  @@index([userId, lift])
+  @@map("user_one_rm")
+}
+
+// 기술 체크리스트 (Level_Profiles 판정 근거). movementGroup은 4개 고정값:
+// basic_squat_hinge_press_pull | oly_snatch | oly_clean_jerk | pullup_inversion
+model UserCapability {
+  id             Int      @id @default(autoincrement())
+  userId         String   @map("user_id")
+  user           AppUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movementGroup  String   @map("movement_group")
+  passed         Boolean
+  checkedAt      DateTime @default(now()) @map("checked_at") @db.Date
+
+  @@unique([userId, movementGroup])
+  @@map("user_capability")
+}
+
+// Generator_Rules 1행(BLOCK 게이트)의 근거 데이터. acute_pain/chest_pain/fainting/neuro_symptom은
+// 차단 플래그, surgery/pregnancy/cardio_warning은 주의 플래그로 API 레벨에서 구분해서 취급한다.
+model UserHealthFlag {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  user      AppUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flagType  String   @map("flag_type")
+  active    Boolean  @default(true)
+  note      String?
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, flagType])
+  @@map("user_health_flag")
+}
+
+// 레벨 판정 이력. 재계산될 때마다 새 행을 추가해 이력을 남기고, finalLevel은 사용자가
+// suggestedLevel을 조정한 값(기본은 suggestedLevel과 동일)이다.
+model UserLevelAssessment {
+  id             Int      @id @default(autoincrement())
+  userId         String   @map("user_id")
+  user           AppUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  score          Decimal
+  breakdown      Json // {"skill":7,"relativeOneRm":6,"frequency":8,"goal":5}
+  suggestedLevel Int      @map("suggested_level")
+  finalLevel     Int      @map("final_level")
+  assessedAt     DateTime @default(now()) @map("assessed_at")
+
+  @@map("user_level_assessment")
 }
