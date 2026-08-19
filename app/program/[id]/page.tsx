@@ -2,8 +2,19 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import type { Prescription } from "@/lib/engine/prescribe";
-import { DAY_TYPE_LABELS, formatPrescription, LEDGER_LABELS, SLOT_LABELS } from "@/lib/engine/format";
+import { DAY_TYPE_LABELS, LEDGER_LABELS } from "@/lib/engine/format";
+
+const WEEKDAY_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
+
+function toDateKey(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+function addDays(date: Date, days: number): Date {
+  const d = new Date(date);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d;
+}
 
 export default async function ProgramPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -19,10 +30,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
           ledgers: true,
           days: {
             orderBy: { date: "asc" },
-            include: {
-              blocks: { orderBy: { orderIndex: "asc" }, include: { exercise: true } },
-              template: true,
-            },
+            include: { log: true },
           },
         },
       },
@@ -44,61 +52,62 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
       <div className="container wide">
         <h1>4주 프로그램</h1>
         <p className="lede">
-          Level {program.level} · 주 {program.frequency}일 · 시작일 {program.startDate.toISOString().slice(0, 10)}
+          Level {program.level} · 주 {program.frequency}일 · 시작일 {toDateKey(program.startDate)}
         </p>
 
-        {program.weeks.map((week) => (
-          <div className="card" key={week.id} style={{ marginBottom: "1.5rem" }}>
-            <h2>
-              Week {week.weekIndex} {week.isDeload && <span className="level-badge">디로드</span>}
-            </h2>
+        {program.weeks.map((week) => {
+          const weekStart = addDays(program.startDate, (week.weekIndex - 1) * 7);
+          const daysByKey = new Map(week.days.map((d) => [toDateKey(d.date), d]));
 
-            <div className="summary-grid" style={{ marginBottom: "1.2rem" }}>
-              {week.ledgers.map((l) => (
-                <div className="stat" key={l.id}>
-                  <div className="label">{LEDGER_LABELS[l.ledgerId] ?? l.ledgerId}</div>
-                  <div className="value">
-                    {Number(l.plannedValue).toFixed(1)}
-                    <span style={{ fontSize: "0.7rem", fontWeight: 400, color: "var(--ink-soft)" }}>
-                      {" "}
-                      / {Number(l.minValue)}~{Number(l.maxValue)}
+          return (
+            <div className="week-row" key={week.id}>
+              <div className="week-row-head">
+                <h2 style={{ margin: 0 }}>
+                  Week {week.weekIndex} {week.isDeload && <span className="level-badge">디로드</span>}
+                </h2>
+                <div className="ledger-strip">
+                  {week.ledgers.map((l) => (
+                    <span key={l.id} className={l.withinRange ? "" : "over"}>
+                      {LEDGER_LABELS[l.ledgerId] ?? l.ledgerId} {Number(l.plannedValue).toFixed(1)}
+                      {!l.withinRange && ` (범위 ${l.minValue}~${l.maxValue})`}
                     </span>
-                  </div>
-                  {!l.withinRange && <div className="flag-caution">범위 밖</div>}
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            {week.days.map((day) => (
-              <div key={day.id} style={{ marginBottom: "1.2rem" }}>
-                <h3 style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                  {day.date.toISOString().slice(0, 10)}
-                  <span className="pill" style={{ fontSize: "0.7rem" }}>
-                    {DAY_TYPE_LABELS[day.dayType] ?? day.dayType}
-                  </span>
-                </h3>
-                <table className="mini">
-                  <thead>
-                    <tr>
-                      <th>슬롯</th>
-                      <th>운동</th>
-                      <th>처방</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {day.blocks.map((block) => (
-                      <tr key={block.id}>
-                        <td>{SLOT_LABELS[block.slot] ?? block.slot}</td>
-                        <td>{block.exercise.nameKo}</td>
-                        <td>{formatPrescription(block.prescription as unknown as Prescription)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
-            ))}
-          </div>
-        ))}
+
+              <div className="cal-grid">
+                {WEEKDAY_LABELS.map((label) => (
+                  <div className="cal-head" key={label}>
+                    {label}
+                  </div>
+                ))}
+                {WEEKDAY_LABELS.map((_, offset) => {
+                  const date = addDays(weekStart, offset);
+                  const day = daysByKey.get(toDateKey(date));
+                  if (!day) {
+                    return (
+                      <div className="cal-cell rest" key={offset}>
+                        <span className="date-num">{date.getUTCDate()}</span>
+                        <span className="badge">휴식</span>
+                      </div>
+                    );
+                  }
+                  return (
+                    <Link
+                      href={`/program/${program.id}/day/${day.id}`}
+                      className={`cal-cell ${day.dayType}`}
+                      key={offset}
+                    >
+                      <span className="date-num">{date.getUTCDate()}</span>
+                      <span className="badge">{DAY_TYPE_LABELS[day.dayType] ?? day.dayType}</span>
+                      {day.log?.completed && <span className="done-mark">✓ 완료</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );

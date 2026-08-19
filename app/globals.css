@@ -281,3 +281,96 @@ table.mini td {
   color: var(--ink-soft);
   font-weight: 600;
 }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.cal-head {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-align: center;
+  padding-bottom: 0.2rem;
+}
+
+.cal-cell {
+  border: 1px solid var(--steel-line);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.5rem;
+  min-height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-decoration: none;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.15s;
+}
+
+.cal-cell.rest {
+  background: transparent;
+  color: var(--ink-soft);
+  border-style: dashed;
+}
+
+.cal-cell.big {
+  border-left: 3px solid var(--accent);
+}
+
+.cal-cell.small {
+  border-left: 3px solid var(--steel-line);
+}
+
+.cal-cell.mixed {
+  border-left: 3px solid var(--good);
+}
+
+.cal-cell:hover {
+  border-color: var(--accent);
+}
+
+.cal-cell .date-num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-cell .badge {
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+}
+
+.cal-cell .done-mark {
+  font-size: 0.7rem;
+  color: var(--good);
+  font-weight: 700;
+}
+
+.week-row {
+  margin-bottom: 1.75rem;
+}
+
+.week-row-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.ledger-strip {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.ledger-strip .over {
+  color: var(--danger);
+  font-weight: 600;
+}

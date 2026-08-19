@@ -8,17 +8,21 @@
 - **Phase 1 (완료)**: 회원가입, 5단계 온보딩(기본정보·1RM·기술체크·가용자원/목표), 레벨 자동 판정.
 - **Phase 2 (완료, 범위 축소된 v1)**: 4주 프로그램 생성 엔진 — 안전 게이트 → 세션 스켈레톤 선택 →
   일별 슬롯 배치 → 1RM 기반 처방 → 볼륨 장부 계산/조정 → 저장 → 조회.
-- Phase 3(캘린더 UI·완료 로그)는 아직 시작하지 않았다.
+- **Phase 3 (완료)**: 월간 캘린더 뷰, 세션 상세(스케일링 정보·동작 영상 링크), 완료 로그(RPE/통증/수면/메모).
+- Phase 4(피드백 루프 — 완료 로그 기반 다음 주 자동 보정)는 아직 시작하지 않았다.
 
 ## 구조
 
 ```
 app/                       # Next.js App Router — 페이지 + API 라우트
-  page.tsx, signup/, login/, onboarding/, dashboard/, program/[id]/
+  page.tsx, signup/, login/, onboarding/, dashboard/
+  program/[id]/              # 월간 캘린더
+  program/[id]/day/[dayId]/  # 세션 상세 + 완료 로그
   api/auth/{signup,login,logout}
   api/onboarding/{profile,one-rm,capability,resources-goals,complete}
   api/program/generate
-components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton
+  api/program/day/[dayId]/log
+components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm
 lib/                       # Next 런타임에서 쓰는 서버 로직
   db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts
   levelAssessment.ts        # 레벨 스코어링 순수 함수
@@ -36,7 +40,8 @@ data/
   knowledge_base.json                        # xlsx → JSON 1회 변환 결과 (아래 "왜 JSON인가" 참고)
   seed-report.json                           # 마지막 db:seed 실행이 남긴 미해결 항목 리포트
 prisma/
-  schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2) 테이블
+  schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2)
+                           # + 완료 로그 1개(Phase 3) 테이블
 scripts/
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
   lib/                    # knowledge_base.json 로더, 파싱 유틸, prisma 클라이언트 (CLI 스크립트 전용)
@@ -153,6 +158,31 @@ Exercise_DB의 기본 처방(품질회 등)을 그대로 쓴다 — Phase 1 READ
   `exercise`를 참조하는데 `db:seed`는 `exercise` 테이블을 통째로 비우고 다시 채운다 — 지금은
   실제 프로그램이 쌓이기 전이라 문제없지만, Phase 3 이후에는 시딩 전략을 다시 봐야 한다.
 
+## Phase 3 — 월간 캘린더 · 세션 상세 · 완료 로그
+
+`/program/[id]`를 표 나열에서 진짜 캘린더로 바꿨다. `program.start_date`가 항상 월요일이라는
+Phase 2의 불변식(`mondayOnOrBefore`) 덕분에, 각 주를 월~일 7열 그리드로 그리고 훈련일이 없는
+칸은 점선 테두리의 "휴식"으로 표시하면 실제 달력처럼 맞아떨어진다. 날짜를 누르면
+`/program/[id]/day/[dayId]`(세션 상세)로 이동한다.
+
+**세션 상세의 스케일링 정보는 Phase 0의 발견을 그대로 반영했다.** 각 운동 카드는 항상
+`exercise.regression_text` 원문(예: "PVC OHS/프론트 스쿼트")을 먼저 보여주고, 그중
+`exercise_relation`으로 실제 해석된 것(카탈로그 전체의 13%만 해당, README 위쪽 참고)이 있으면
+운동 이름을 볼드로 덧붙이면서 "처방은 재계산되지 않은 참고용"이라고 명시한다. 원문보다 앞서
+있는 것처럼 보이게 하지 않는다 — 해석 안 된 나머지 87%도 원문 그대로는 항상 보인다.
+동작 영상(`official_youtube_url`)·CrossFit Movements 링크(`crossfit_movements_url`)가 있으면
+같이 노출한다(Phase 0에서 채운 필드를 처음으로 실제 화면에 쓴 것).
+
+**완료 로그**(`training_log`, program_day 1:1)는 완료 여부·RPE(1~10)·통증(0~10)·수면시간·메모를
+기록한다. 소유권 검증은 `programDay → programWeek → program.userId`를 조인해서 확인하고,
+다른 사용자가 남의 세션 상세나 로그 API에 접근하면 404를 준다(실제로 두 번째 계정으로 재현해서
+확인함 — 200이 아니라 404인 이유는 "존재를 숨기는" 편이 "권한 없음"보다 정보 노출이 적어서다).
+아직 로그 값을 어디에도 반영하지 않는다 — 다음 주 자동 보정(Phase 4)이 붙어야 의미가 생긴다.
+
+세 단계(회원가입 → 온보딩 → 생성)를 거친 실제 사용자로 캘린더 렌더링(큰 날 8·작은 날 4·중간 날
+4·휴식 12칸, 4주×7일=28칸 정확히 일치), 세션 상세의 %1RM 처방·영상 링크·회귀 표시, 완료 로그
+저장→재조회 시 폼에 값이 그대로 채워지는 것, 캘린더에 "✓ 완료" 표시가 뜨는 것까지 확인했다.
+
 ## 실행 결과 (2026-08-18 기준)
 
 ```
@@ -191,7 +221,7 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 단어 때문에 `skill_power`로 오분류되기 쉬움). 시트가 갱신되어 새 세그먼트가 추가되면
 `db:validate`가 `UNMAPPED_SEGMENT`로 표시한다.
 
-## 아직 남은 미확정 사항 (Phase 3 착수 전 결정하면 좋은 것들)
+## 아직 남은 미확정 사항 (Phase 4 착수 전 결정하면 좋은 것들)
 
 - **주차별 %1RM 테이블**(`lib/engine/constants.ts`의 `LOAD_TABLE_BY_FAMILY`): 스쿼트/힌지/
   수직밀기 3계열에 코드로 구현은 했지만 여전히 ACSM/StrongLifts 원칙을 참고한 제품 잠정값이고
@@ -204,6 +234,9 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
   축소한 범위"에 정리한 3가지가 다음으로 붙일 만한 반복 작업이다.
 - **서버 측 세션 무효화**: 현재 세션은 쿠키 서명만으로 검증되어 로그아웃은 클라이언트 쿠키
   삭제로 처리된다. "다른 기기에서 로그아웃" 같은 기능이 필요해지면 세션 테이블이 필요하다.
+- **완료 로그가 아직 아무것도 바꾸지 않는다**: MD 7장의 자동 감량 조건(수면≤5h·통증≥6·의욕≤3
+  중 2개 이상 → 당일 볼륨 30~40% 감량, 최근 3일 session-RPE×분이 28일 중앙값보다 30%+ 높으면
+  다음 Big을 Little로)이 Phase 4의 핵심 작업이다. 지금은 `training_log`에 값만 쌓인다.
 
 ## 스크립트
 

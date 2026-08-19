@@ -63,3 +63,11 @@ export const resourcesGoalsSchema = z.object({
   spaceType: z.string().max(100).optional(),
   primaryGoals: z.array(z.enum(GOAL_OPTIONS)).min(1, "목표를 1개 이상 선택하세요").max(2, "목표는 최대 2개까지 선택할 수 있습니다"),
 });
+
+export const trainingLogSchema = z.object({
+  completed: z.boolean(),
+  rpe: z.coerce.number().int().min(1).max(10).nullable().optional(),
+  pain: z.coerce.number().int().min(0).max(10).nullable().optional(),
+  sleepHours: z.coerce.number().min(0).max(24).nullable().optional(),
+  notes: z.string().max(2000).optional(),
+});

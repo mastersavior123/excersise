@@ -399,6 +399,7 @@ model ProgramDay {
   template      SessionTemplate? @relation(fields: [templateId], references: [templateId])
 
   blocks ProgramBlock[]
+  log    TrainingLog?
 
   @@map("program_day")
 }
@@ -429,4 +430,24 @@ model WeeklyLedger {
 
   @@unique([programWeekId, ledgerId])
   @@map("weekly_ledger")
+}
+
+// =============================================================================
+// Phase 3 — 완료 로그
+// =============================================================================
+
+// program_day 1:1. 하루에 한 번만 기록한다고 가정하고, 다시 제출하면 upsert로 덮어쓴다.
+// completed=false인 채로 rpe/pain 등만 채워질 수도 있다(예: 부분 완료 메모).
+model TrainingLog {
+  id           Int        @id @default(autoincrement())
+  programDayId Int        @unique @map("program_day_id")
+  programDay   ProgramDay @relation(fields: [programDayId], references: [id], onDelete: Cascade)
+  completed    Boolean    @default(false)
+  rpe          Int? // 1~10
+  pain         Int? // 0~10
+  sleepHours   Decimal?   @map("sleep_hours")
+  notes        String?
+  loggedAt     DateTime   @default(now()) @map("logged_at") @updatedAt
+
+  @@map("training_log")
 }
