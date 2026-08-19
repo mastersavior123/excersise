@@ -79,7 +79,14 @@ export default async function ProgramDayPage({
                   <strong>{block.exercise.nameKo}</strong>
                   <span style={{ color: "var(--ink-soft)", fontSize: "0.85rem" }}>{block.exercise.nameEn}</span>
                 </div>
-                <p style={{ margin: "0.4rem 0" }}>{formatPrescription(prescription)}</p>
+                <p style={{ margin: "0.4rem 0" }}>
+                  {formatPrescription(prescription)}
+                  {prescription.adjustedBy && prescription.adjustedBy.length > 0 && (
+                    <span className="pill" style={{ marginLeft: "0.5rem", fontSize: "0.68rem" }}>
+                      자동 조정됨
+                    </span>
+                  )}
+                </p>
 
                 <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap", fontSize: "0.82rem" }}>
                   {block.exercise.officialYoutubeUrl && (
@@ -127,7 +134,9 @@ export default async function ProgramDayPage({
                     completed: day.log.completed,
                     rpe: day.log.rpe,
                     pain: day.log.pain,
+                    motivation: day.log.motivation,
                     sleepHours: day.log.sleepHours ? Number(day.log.sleepHours) : null,
+                    actualDurationMinutes: day.log.actualDurationMinutes,
                     notes: day.log.notes,
                   }
                 : null

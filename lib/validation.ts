@@ -68,6 +68,8 @@ export const trainingLogSchema = z.object({
   completed: z.boolean(),
   rpe: z.coerce.number().int().min(1).max(10).nullable().optional(),
   pain: z.coerce.number().int().min(0).max(10).nullable().optional(),
+  motivation: z.coerce.number().int().min(1).max(10).nullable().optional(),
   sleepHours: z.coerce.number().min(0).max(24).nullable().optional(),
+  actualDurationMinutes: z.coerce.number().int().min(0).max(600).nullable().optional(),
   notes: z.string().max(2000).optional(),
 });

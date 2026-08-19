@@ -10,6 +10,8 @@ export interface Prescription {
   repsMax?: number;
   loadKg?: number;
   percent1RM?: number;
+  /** Phase 4 피드백 루프가 이 블록에 적용한 조정 트리거 목록(중복 적용 방지용) */
+  adjustedBy?: string[];
 }
 
 function roundToPlate(kg: number): number {

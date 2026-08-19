@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireUserId } from "@/lib/auth";
 import { trainingLogSchema } from "@/lib/validation";
+import { runFeedbackLoop } from "@/lib/engine/rebalance";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ dayId: string }> }) {
   const userId = await requireUserId();
@@ -26,13 +27,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ day
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "입력값이 올바르지 않습니다" }, { status: 400 });
   }
-  const { completed, rpe, pain, sleepHours, notes } = parsed.data;
+  const { completed, rpe, pain, motivation, sleepHours, actualDurationMinutes, notes } = parsed.data;
 
   await prisma.trainingLog.upsert({
     where: { programDayId },
-    create: { programDayId, completed, rpe, pain, sleepHours, notes },
-    update: { completed, rpe, pain, sleepHours, notes },
+    create: { programDayId, completed, rpe, pain, motivation, sleepHours, actualDurationMinutes, notes },
+    update: { completed, rpe, pain, motivation, sleepHours, actualDurationMinutes, notes },
   });
 
-  return NextResponse.json({ ok: true });
+  const adjustments = await runFeedbackLoop(programDayId);
+
+  return NextResponse.json({ ok: true, adjustments });
 }

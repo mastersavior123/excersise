@@ -369,7 +369,8 @@ model Program {
   status        String   @default("active") // active | completed | archived
   createdAt     DateTime @default(now()) @map("created_at")
 
-  weeks ProgramWeek[]
+  weeks             ProgramWeek[]
+  adjustmentEvents  ProgramAdjustmentEvent[]
 
   @@map("program")
 }
@@ -439,15 +440,31 @@ model WeeklyLedger {
 // program_day 1:1. 하루에 한 번만 기록한다고 가정하고, 다시 제출하면 upsert로 덮어쓴다.
 // completed=false인 채로 rpe/pain 등만 채워질 수도 있다(예: 부분 완료 메모).
 model TrainingLog {
-  id           Int        @id @default(autoincrement())
-  programDayId Int        @unique @map("program_day_id")
-  programDay   ProgramDay @relation(fields: [programDayId], references: [id], onDelete: Cascade)
-  completed    Boolean    @default(false)
-  rpe          Int? // 1~10
-  pain         Int? // 0~10
-  sleepHours   Decimal?   @map("sleep_hours")
-  notes        String?
-  loggedAt     DateTime   @default(now()) @map("logged_at") @updatedAt
+  id                    Int        @id @default(autoincrement())
+  programDayId          Int        @unique @map("program_day_id")
+  programDay            ProgramDay @relation(fields: [programDayId], references: [id], onDelete: Cascade)
+  completed             Boolean    @default(false)
+  rpe                   Int? // 1~10
+  pain                  Int? // 0~10
+  motivation            Int?       // 1~10. MD 7장 웰니스 규칙(수면·통증·의욕 중 2개)에 필요해 Phase 4에서 추가
+  sleepHours            Decimal?   @map("sleep_hours")
+  actualDurationMinutes Int?       @map("actual_duration_minutes") // session-RPE×분 부하 계산에 사용(Phase 4)
+  notes                 String?
+  loggedAt              DateTime   @default(now()) @map("logged_at") @updatedAt
 
   @@map("training_log")
+}
+
+// Phase 4 — 피드백 루프가 남기는 감사 로그. 로그 저장 시 자동으로 적용된 조정을 기록해
+// "왜 바뀌었는지" 사용자와 코치가 나중에 확인할 수 있게 한다.
+model ProgramAdjustmentEvent {
+  id            Int      @id @default(autoincrement())
+  programId     String   @map("program_id")
+  program       Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  programWeekId Int?     @map("program_week_id")
+  triggerRule   String   @map("trigger_rule") // 'wellness_2of3' | 'rpe_load_spike' | 'chronic_fatigue'
+  actionTaken   String   @map("action_taken") // 사람이 읽을 수 있는 설명
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("program_adjustment_event")
 }

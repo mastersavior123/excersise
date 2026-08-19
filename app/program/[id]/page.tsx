@@ -34,6 +34,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
           },
         },
       },
+      adjustmentEvents: { orderBy: { createdAt: "desc" } },
     },
   });
 
@@ -108,6 +109,34 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
             </div>
           );
         })}
+
+        {program.adjustmentEvents.length > 0 && (
+          <div className="card">
+            <h2>자동 보정 이력</h2>
+            <p className="lede" style={{ marginBottom: "0.8rem" }}>
+              완료 로그를 저장할 때마다 MD 7장 규칙에 따라 자동으로 평가된다 (Phase 4). 세션 전/도중
+              체크인의 수면·통증·의욕, 완료 후 입력한 RPE·실제 시간이 근거다.
+            </p>
+            <table className="mini">
+              <thead>
+                <tr>
+                  <th>일시</th>
+                  <th>규칙</th>
+                  <th>적용된 조정</th>
+                </tr>
+              </thead>
+              <tbody>
+                {program.adjustmentEvents.map((event) => (
+                  <tr key={event.id}>
+                    <td>{event.createdAt.toISOString().slice(0, 16).replace("T", " ")}</td>
+                    <td>{event.triggerRule}</td>
+                    <td>{event.actionTaken}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   );
