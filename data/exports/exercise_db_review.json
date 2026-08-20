@@ -1,0 +1,3075 @@
+{
+  "exportedAt": "2026-08-20T05:25:45.150Z",
+  "count": 115,
+  "regressionResolutionRate": 0.2,
+  "progressionResolutionRate": 0.13043478260869565,
+  "exercises": [
+    {
+      "exerciseId": "EX001",
+      "nameKo": "에어 스쿼트",
+      "nameEn": "Air Squat",
+      "modality": "체조",
+      "family": "스쿼트",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×10~20",
+      "relativeLoad": "무부하",
+      "contraindications": "급성 무릎 통증",
+      "regression": {
+        "text": "박스 스쿼트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "고블릿 스쿼트",
+        "resolved": [
+          "고블릿 스쿼트"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=C_VtOYc6j5c"
+    },
+    {
+      "exerciseId": "EX002",
+      "nameKo": "고블릿 스쿼트",
+      "nameEn": "Goblet Squat",
+      "modality": "웨이트리프팅",
+      "family": "스쿼트",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×6~12",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "급성 무릎/고관절 통증",
+      "regression": {
+        "text": "박스 고블릿 스쿼트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "프론트 스쿼트",
+        "resolved": [
+          "프론트 스쿼트"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX003",
+      "nameKo": "프론트 스쿼트",
+      "nameEn": "Front Squat",
+      "modality": "웨이트리프팅",
+      "family": "스쿼트",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~6 @RIR2~4",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "손목/어깨 프론트랙 제한",
+      "regression": {
+        "text": "고블릿 스쿼트",
+        "resolved": [
+          "고블릿 스쿼트"
+        ]
+      },
+      "progression": {
+        "text": "템포/포즈 프론트 스쿼트",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=m4ytaCJZpl0"
+    },
+    {
+      "exerciseId": "EX004",
+      "nameKo": "백 스쿼트",
+      "nameEn": "Back Squat",
+      "modality": "웨이트리프팅",
+      "family": "스쿼트",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~8 @RIR2~4",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통/무릎 통증",
+      "regression": {
+        "text": "박스 스쿼트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "포즈 백 스쿼트",
+        "resolved": []
+      },
+      "sourceId": "S03",
+      "sourceUrl": "https://stronglifts.com/stronglifts-5x5/workout-program/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX005",
+      "nameKo": "오버헤드 스쿼트",
+      "nameEn": "Overhead Squat",
+      "modality": "웨이트리프팅",
+      "family": "스쿼트",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~6×2~5",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨 가동성 제한",
+      "regression": {
+        "text": "PVC OHS/프론트 스쿼트",
+        "resolved": [
+          "프론트 스쿼트"
+        ]
+      },
+      "progression": {
+        "text": "스내치 밸런스",
+        "resolved": [
+          "스내치 밸런스"
+        ]
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=RD_vUnqwqqI"
+    },
+    {
+      "exerciseId": "EX006",
+      "nameKo": "불가리안 스플릿 스쿼트",
+      "nameEn": "Bulgarian Split Squat",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회/측",
+      "defaultDoseRaw": "2~4×6~12",
+      "relativeLoad": "중간",
+      "contraindications": "균형 불안/급성 무릎 통증",
+      "regression": {
+        "text": "스플릿 스쿼트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "프론트랙 BSS",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX007",
+      "nameKo": "리버스 런지",
+      "nameEn": "Reverse Lunge",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "2~4×8~16",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "급성 무릎 통증",
+      "regression": {
+        "text": "지지 런지",
+        "resolved": []
+      },
+      "progression": {
+        "text": "프론트랙 런지",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX008",
+      "nameKo": "워킹 런지",
+      "nameEn": "Walking Lunge",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "중간",
+      "doseUnit": "m/회",
+      "defaultDoseRaw": "20~100m",
+      "relativeLoad": "무부하~중간",
+      "contraindications": "무릎/아킬레스 통증",
+      "regression": {
+        "text": "제자리 런지",
+        "resolved": []
+      },
+      "progression": {
+        "text": "오버헤드 런지",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX009",
+      "nameKo": "박스 스텝업",
+      "nameEn": "Box Step-up",
+      "modality": "체조",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "2~4×8~20",
+      "relativeLoad": "무부하~중간",
+      "contraindications": "균형 불안",
+      "regression": {
+        "text": "낮은 박스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "덤벨 스텝업",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX010",
+      "nameKo": "피스톨",
+      "nameEn": "Pistol Squat",
+      "modality": "체조",
+      "family": "편측 하체",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "품질회/측",
+      "defaultDoseRaw": "3~6×2~6",
+      "relativeLoad": "무부하",
+      "contraindications": "무릎 통증/발목 제한",
+      "regression": {
+        "text": "박스 피스톨",
+        "resolved": []
+      },
+      "progression": {
+        "text": "가중 피스톨",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX011",
+      "nameKo": "데드리프트",
+      "nameEn": "Deadlift",
+      "modality": "웨이트리프팅",
+      "family": "힌지",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "1~5×3~8",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "상승 데드리프트/KB 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "포즈/디피싯 데드리프트",
+        "resolved": []
+      },
+      "sourceId": "S03",
+      "sourceUrl": "https://stronglifts.com/stronglifts-5x5/workout-program/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=op9kVnSso6Q"
+    },
+    {
+      "exerciseId": "EX012",
+      "nameKo": "루마니안 데드리프트",
+      "nameEn": "Romanian Deadlift",
+      "modality": "웨이트리프팅",
+      "family": "힌지",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "2~4×6~12",
+      "relativeLoad": "중간",
+      "contraindications": "급성 햄스트링/요통",
+      "regression": {
+        "text": "덤벨 RDL 짧은 ROM",
+        "resolved": []
+      },
+      "progression": {
+        "text": "싱글레그 RDL",
+        "resolved": [
+          "싱글레그 RDL"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX013",
+      "nameKo": "케틀벨 데드리프트",
+      "nameEn": "Kettlebell Deadlift",
+      "modality": "웨이트리프팅",
+      "family": "힌지",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×8~15",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "상승 KB 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "바벨 데드리프트",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX014",
+      "nameKo": "케틀벨 스윙",
+      "nameEn": "Kettlebell Swing",
+      "modality": "웨이트리프팅",
+      "family": "힌지",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "8~25/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "급성 요통/어깨 통증",
+      "regression": {
+        "text": "KB 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "러시안→오버헤드 스윙",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=mKDIuUbH94Q"
+    },
+    {
+      "exerciseId": "EX015",
+      "nameKo": "굿모닝",
+      "nameEn": "Good Morning",
+      "modality": "웨이트리프팅",
+      "family": "힌지",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "2~4×6~12",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "밴드 굿모닝",
+        "resolved": []
+      },
+      "progression": {
+        "text": "템포 굿모닝",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX016",
+      "nameKo": "싱글레그 RDL",
+      "nameEn": "Single-leg Romanian Deadlift",
+      "modality": "웨이트리프팅",
+      "family": "편측 힌지",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "2~4×6~10",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "균형 불안/햄스트링 통증",
+      "regression": {
+        "text": "킥스탠드 RDL",
+        "resolved": []
+      },
+      "progression": {
+        "text": "가중 싱글레그 RDL",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX017",
+      "nameKo": "벤치프레스",
+      "nameEn": "Bench Press",
+      "modality": "웨이트리프팅",
+      "family": "수평 밀기",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~8",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 어깨/흉근 통증",
+      "regression": {
+        "text": "덤벨/푸시업",
+        "resolved": [
+          "푸시업"
+        ]
+      },
+      "progression": {
+        "text": "포즈 벤치프레스",
+        "resolved": []
+      },
+      "sourceId": "S03",
+      "sourceUrl": "https://stronglifts.com/stronglifts-5x5/workout-program/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX018",
+      "nameKo": "덤벨 벤치프레스",
+      "nameEn": "Dumbbell Bench Press",
+      "modality": "웨이트리프팅",
+      "family": "수평 밀기",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "2~4×6~12",
+      "relativeLoad": "중간",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "푸시업",
+        "resolved": [
+          "푸시업"
+        ]
+      },
+      "progression": {
+        "text": "편측 DB 벤치",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX019",
+      "nameKo": "푸시업",
+      "nameEn": "Push-up",
+      "modality": "체조",
+      "family": "수평 밀기",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~5×5~20",
+      "relativeLoad": "무부하",
+      "contraindications": "손목/어깨 통증",
+      "regression": {
+        "text": "인클라인 푸시업",
+        "resolved": []
+      },
+      "progression": {
+        "text": "링/디피싯 푸시업",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX020",
+      "nameKo": "딥",
+      "nameEn": "Dip",
+      "modality": "체조",
+      "family": "수직 밀기",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~5×3~12",
+      "relativeLoad": "체중",
+      "contraindications": "전방 어깨 통증",
+      "regression": {
+        "text": "박스 딥/밴드 딥",
+        "resolved": []
+      },
+      "progression": {
+        "text": "링/가중 딥",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX021",
+      "nameKo": "스트릭트 프레스",
+      "nameEn": "Strict Press",
+      "modality": "웨이트리프팅",
+      "family": "수직 밀기",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~8",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "덤벨 프레스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "포즈/템포 프레스",
+        "resolved": []
+      },
+      "sourceId": "S03",
+      "sourceUrl": "https://stronglifts.com/stronglifts-5x5/workout-program/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=xe19t2_6yis"
+    },
+    {
+      "exerciseId": "EX022",
+      "nameKo": "푸시프레스",
+      "nameEn": "Push Press",
+      "modality": "웨이트리프팅",
+      "family": "오버헤드",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~6×2~6",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "어깨/손목 통증",
+      "regression": {
+        "text": "스트릭트 프레스",
+        "resolved": [
+          "스트릭트 프레스"
+        ]
+      },
+      "progression": {
+        "text": "헤비 푸시프레스",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=iaBVSJm78ko"
+    },
+    {
+      "exerciseId": "EX023",
+      "nameKo": "덤벨 숄더프레스",
+      "nameEn": "Dumbbell Shoulder Press",
+      "modality": "웨이트리프팅",
+      "family": "수직 밀기",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "2~4×6~12",
+      "relativeLoad": "중간",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "싱글암 가벼운 프레스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "아놀드/편측 프레스",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX024",
+      "nameKo": "바벨 로우",
+      "nameEn": "Barbell Row",
+      "modality": "웨이트리프팅",
+      "family": "수평 당기기",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×5~10",
+      "relativeLoad": "중간",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "링 로우",
+        "resolved": [
+          "링 로우"
+        ]
+      },
+      "progression": {
+        "text": "펜들레이 로우",
+        "resolved": []
+      },
+      "sourceId": "S03",
+      "sourceUrl": "https://stronglifts.com/stronglifts-5x5/workout-program/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX025",
+      "nameKo": "링 로우",
+      "nameEn": "Ring Row",
+      "modality": "체조",
+      "family": "수평 당기기",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~5×6~15",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/팔꿈치 통증",
+      "regression": {
+        "text": "수직 각도 높임",
+        "resolved": []
+      },
+      "progression": {
+        "text": "발 상승 링 로우",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX026",
+      "nameKo": "스트릭트 풀업",
+      "nameEn": "Strict Pull-up",
+      "modality": "체조",
+      "family": "수직 당기기",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "낮음",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~6",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/팔꿈치 통증",
+      "regression": {
+        "text": "밴드 풀업/링 로우",
+        "resolved": [
+          "링 로우"
+        ]
+      },
+      "progression": {
+        "text": "가중 풀업",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX027",
+      "nameKo": "키핑 풀업",
+      "nameEn": "Kipping Pull-up",
+      "modality": "체조",
+      "family": "수직 당기기",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "세트당 3~15",
+      "relativeLoad": "체중",
+      "contraindications": "어깨 불안정/스트릭트 기반 없음",
+      "regression": {
+        "text": "스트릭트/밴드 풀업",
+        "resolved": []
+      },
+      "progression": {
+        "text": "체스트투바",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=aAggnpPyR6E"
+    },
+    {
+      "exerciseId": "EX028",
+      "nameKo": "체스트투바 풀업",
+      "nameEn": "Chest-to-bar Pull-up",
+      "modality": "체조",
+      "family": "수직 당기기",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "세트당 2~10",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/팔꿈치 통증",
+      "regression": {
+        "text": "풀업",
+        "resolved": []
+      },
+      "progression": {
+        "text": "바 머슬업",
+        "resolved": [
+          "바 머슬업"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=p9Stan68FYM"
+    },
+    {
+      "exerciseId": "EX029",
+      "nameKo": "로프 클라임",
+      "nameEn": "Rope Climb",
+      "modality": "체조",
+      "family": "수직 당기기",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "상승회/m",
+      "defaultDoseRaw": "2~8회",
+      "relativeLoad": "체중",
+      "contraindications": "그립/어깨 통증; 하강 미숙",
+      "regression": {
+        "text": "풋록/시티드 로프 풀",
+        "resolved": []
+      },
+      "progression": {
+        "text": "레그리스 클라임",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX030",
+      "nameKo": "스내치",
+      "nameEn": "Snatch",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-스내치",
+      "minLevel": 2,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "5~10×1~3",
+      "relativeLoad": "가벼움~무거움",
+      "contraindications": "감독 없음/어깨·손목 통증",
+      "regression": {
+        "text": "행 파워 스내치/PVC",
+        "resolved": [
+          "행 파워 스내치"
+        ]
+      },
+      "progression": {
+        "text": "블록/디피싯/복합 스내치",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX031",
+      "nameKo": "파워 스내치",
+      "nameEn": "Power Snatch",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-스내치",
+      "minLevel": 1,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~3",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/손목 통증",
+      "regression": {
+        "text": "행 머슬 스내치",
+        "resolved": []
+      },
+      "progression": {
+        "text": "풀 스내치",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX032",
+      "nameKo": "행 파워 스내치",
+      "nameEn": "Hang Power Snatch",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-스내치",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×2~4",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/손목 통증",
+      "regression": {
+        "text": "머슬 스내치",
+        "resolved": [
+          "머슬 스내치"
+        ]
+      },
+      "progression": {
+        "text": "파워 스내치 바닥",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX033",
+      "nameKo": "머슬 스내치",
+      "nameEn": "Muscle Snatch",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-스내치",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "3~5×3~5",
+      "relativeLoad": "가벼움",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "PVC 머슬 스내치",
+        "resolved": []
+      },
+      "progression": {
+        "text": "파워 스내치",
+        "resolved": [
+          "파워 스내치"
+        ]
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX034",
+      "nameKo": "톨 스내치",
+      "nameEn": "Tall Snatch",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-스내치",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "낮음",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~6×2~3",
+      "relativeLoad": "가벼움",
+      "contraindications": "오버헤드 불안정",
+      "regression": {
+        "text": "드롭 스내치 PVC",
+        "resolved": []
+      },
+      "progression": {
+        "text": "하이행 스내치",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX035",
+      "nameKo": "스내치 밸런스",
+      "nameEn": "Snatch Balance",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-스내치",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~7×1~3",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/무릎 통증",
+      "regression": {
+        "text": "드롭 스내치",
+        "resolved": []
+      },
+      "progression": {
+        "text": "헤비 스내치 밸런스",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX036",
+      "nameKo": "스내치 풀",
+      "nameEn": "Snatch Pull",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-풀",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~6×2~5",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "스내치 데드리프트",
+        "resolved": [
+          "스내치 데드리프트"
+        ]
+      },
+      "progression": {
+        "text": "디피싯/포즈 스내치 풀",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX037",
+      "nameKo": "스내치 데드리프트",
+      "nameEn": "Snatch Deadlift",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-풀",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~6",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "블록 스내치 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "포즈/슬로우 스내치 DL",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX038",
+      "nameKo": "클린",
+      "nameEn": "Clean",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-클린",
+      "minLevel": 2,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "5~10×1~3",
+      "relativeLoad": "가벼움~무거움",
+      "contraindications": "감독 없음/손목·요통",
+      "regression": {
+        "text": "행 파워 클린",
+        "resolved": [
+          "행 파워 클린"
+        ]
+      },
+      "progression": {
+        "text": "블록/디피싯/복합 클린",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=9ujMWHBX5CU"
+    },
+    {
+      "exerciseId": "EX039",
+      "nameKo": "파워 클린",
+      "nameEn": "Power Clean",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-클린",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~3",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "손목/요통",
+      "regression": {
+        "text": "행 파워 클린",
+        "resolved": [
+          "행 파워 클린"
+        ]
+      },
+      "progression": {
+        "text": "풀 클린",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX040",
+      "nameKo": "행 파워 클린",
+      "nameEn": "Hang Power Clean",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-클린",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×2~4",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "손목/요통",
+      "regression": {
+        "text": "덤벨 행 클린",
+        "resolved": []
+      },
+      "progression": {
+        "text": "파워 클린 바닥",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX041",
+      "nameKo": "톨 클린",
+      "nameEn": "Tall Clean",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-클린",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "낮음",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~6×2~3",
+      "relativeLoad": "가벼움",
+      "contraindications": "손목/무릎 통증",
+      "regression": {
+        "text": "클린 턴오버 드릴",
+        "resolved": []
+      },
+      "progression": {
+        "text": "하이행 클린",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX042",
+      "nameKo": "클린 풀",
+      "nameEn": "Clean Pull",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-풀",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~6×2~5",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "클린 데드리프트",
+        "resolved": [
+          "클린 데드리프트"
+        ]
+      },
+      "progression": {
+        "text": "디피싯/포즈 클린 풀",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX043",
+      "nameKo": "클린 데드리프트",
+      "nameEn": "Clean Deadlift",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-풀",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~6",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "블록 클린 DL",
+        "resolved": []
+      },
+      "progression": {
+        "text": "포즈/슬로우 클린 DL",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX044",
+      "nameKo": "클린+프론트스쿼트",
+      "nameEn": "Clean + Front Squat Complex",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-복합",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "콤플렉스",
+      "defaultDoseRaw": "4~7×(1+1~2)",
+      "relativeLoad": "중간",
+      "contraindications": "손목/무릎 통증",
+      "regression": {
+        "text": "행 클린+스쿼트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "클린+다중 스쿼트",
+        "resolved": []
+      },
+      "sourceId": "S08",
+      "sourceUrl": "https://www.catalystathletics.com/article/2031/Multidimensionality-in-Weightlifting-Programming-Do-More-wit/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX045",
+      "nameKo": "스플릿 저크",
+      "nameEn": "Split Jerk",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-저크",
+      "minLevel": 2,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "5~10×1~3",
+      "relativeLoad": "가벼움~무거움",
+      "contraindications": "감독 없음/어깨·무릎 통증",
+      "regression": {
+        "text": "푸시 저크/프레스 인 스플릿",
+        "resolved": [
+          "푸시 저크",
+          "프레스 인 스플릿"
+        ]
+      },
+      "progression": {
+        "text": "블록/랙 헤비 저크",
+        "resolved": []
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX046",
+      "nameKo": "푸시 저크",
+      "nameEn": "Push Jerk",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-저크",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~7×2~6",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/손목 통증",
+      "regression": {
+        "text": "푸시프레스",
+        "resolved": [
+          "푸시프레스"
+        ]
+      },
+      "progression": {
+        "text": "스플릿 저크",
+        "resolved": [
+          "스플릿 저크"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=V-hKuAfWNUw"
+    },
+    {
+      "exerciseId": "EX047",
+      "nameKo": "파워 저크",
+      "nameEn": "Power Jerk",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-저크",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~3",
+      "relativeLoad": "중간",
+      "contraindications": "어깨/무릎 통증",
+      "regression": {
+        "text": "푸시 저크",
+        "resolved": [
+          "푸시 저크"
+        ]
+      },
+      "progression": {
+        "text": "스플릿 저크",
+        "resolved": [
+          "스플릿 저크"
+        ]
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX048",
+      "nameKo": "저크 딥",
+      "nameEn": "Jerk Dip",
+      "modality": "웨이트리프팅",
+      "family": "저크 보조",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~5×3~5",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "무릎/허리 통증",
+      "regression": {
+        "text": "무부하 딥",
+        "resolved": []
+      },
+      "progression": {
+        "text": "저크 드라이브",
+        "resolved": [
+          "저크 드라이브"
+        ]
+      },
+      "sourceId": "S14",
+      "sourceUrl": "https://www.catalystathletics.com/exercises/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX049",
+      "nameKo": "저크 드라이브",
+      "nameEn": "Jerk Drive",
+      "modality": "웨이트리프팅",
+      "family": "저크 보조",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "세트×회",
+      "defaultDoseRaw": "3~6×2~4",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "무릎/어깨 통증",
+      "regression": {
+        "text": "저크 딥",
+        "resolved": [
+          "저크 딥"
+        ]
+      },
+      "progression": {
+        "text": "푸시프레스+저크",
+        "resolved": []
+      },
+      "sourceId": "S08",
+      "sourceUrl": "https://www.catalystathletics.com/article/2031/Multidimensionality-in-Weightlifting-Programming-Do-More-wit/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX050",
+      "nameKo": "프레스 인 스플릿",
+      "nameEn": "Press in Split",
+      "modality": "웨이트리프팅",
+      "family": "저크 보조",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "3~5×4~8",
+      "relativeLoad": "가벼움",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "PVC 프레스 인 스플릿",
+        "resolved": []
+      },
+      "progression": {
+        "text": "푸시프레스 인 스플릿",
+        "resolved": []
+      },
+      "sourceId": "S08",
+      "sourceUrl": "https://www.catalystathletics.com/article/2031/Multidimensionality-in-Weightlifting-Programming-Do-More-wit/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX051",
+      "nameKo": "버피",
+      "nameEn": "Burpee",
+      "modality": "체조",
+      "family": "전신",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~20/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "손목/요통/충격 제한",
+      "regression": {
+        "text": "업다운/박스 버피",
+        "resolved": []
+      },
+      "progression": {
+        "text": "바페이 박스점프오버",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=TU8QYVW0gDU"
+    },
+    {
+      "exerciseId": "EX052",
+      "nameKo": "박스 점프",
+      "nameEn": "Box Jump",
+      "modality": "체조",
+      "family": "점프",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "높음",
+      "doseUnit": "접촉회",
+      "defaultDoseRaw": "3~8×3~10",
+      "relativeLoad": "무부하",
+      "contraindications": "아킬레스/무릎 통증",
+      "regression": {
+        "text": "낮은 박스/스텝업",
+        "resolved": []
+      },
+      "progression": {
+        "text": "높은 박스/리바운드",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX053",
+      "nameKo": "박스 점프 오버",
+      "nameEn": "Box Jump-over",
+      "modality": "체조",
+      "family": "점프",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "높음",
+      "doseUnit": "접촉회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "충격 내성 부족",
+      "regression": {
+        "text": "스텝오버",
+        "resolved": []
+      },
+      "progression": {
+        "text": "버피 박스점프오버",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX054",
+      "nameKo": "싱글언더",
+      "nameEn": "Single-under",
+      "modality": "모노스트럭처럴",
+      "family": "줄넘기",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "중간",
+      "doseUnit": "회/초",
+      "defaultDoseRaw": "30~120초",
+      "relativeLoad": "무부하",
+      "contraindications": "아킬레스 통증",
+      "regression": {
+        "text": "라인 스텝",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더블언더",
+        "resolved": [
+          "더블언더"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX055",
+      "nameKo": "더블언더",
+      "nameEn": "Double-under",
+      "modality": "모노스트럭처럴",
+      "family": "줄넘기",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "높음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "10~80/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "아킬레스/종아리 통증",
+      "regression": {
+        "text": "싱글언더",
+        "resolved": [
+          "싱글언더"
+        ]
+      },
+      "progression": {
+        "text": "크로스오버",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX056",
+      "nameKo": "핸드스탠드 홀드",
+      "nameEn": "Handstand Hold",
+      "modality": "체조",
+      "family": "인버전",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "낮음",
+      "doseUnit": "초",
+      "defaultDoseRaw": "4~8×10~40초",
+      "relativeLoad": "체중",
+      "contraindications": "손목/어깨 통증; 어지럼",
+      "regression": {
+        "text": "박스 파이크 홀드",
+        "resolved": []
+      },
+      "progression": {
+        "text": "프리 핸드스탠드",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX057",
+      "nameKo": "월워크",
+      "nameEn": "Wall Walk",
+      "modality": "체조",
+      "family": "인버전",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~8/세트",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/손목 통증",
+      "regression": {
+        "text": "부분 월워크",
+        "resolved": []
+      },
+      "progression": {
+        "text": "핸드스탠드 워크",
+        "resolved": [
+          "핸드스탠드 워크"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX058",
+      "nameKo": "핸드스탠드 푸시업",
+      "nameEn": "Handstand Push-up",
+      "modality": "체조",
+      "family": "인버전 밀기",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "3~8×1~8",
+      "relativeLoad": "체중",
+      "contraindications": "목/어깨/손목 통증",
+      "regression": {
+        "text": "박스 파이크 HSPU",
+        "resolved": []
+      },
+      "progression": {
+        "text": "디피싯/프리 HSPU",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX059",
+      "nameKo": "핸드스탠드 워크",
+      "nameEn": "Handstand Walk",
+      "modality": "체조",
+      "family": "인버전 이동",
+      "minLevel": 3,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "m/초",
+      "defaultDoseRaw": "5~20m",
+      "relativeLoad": "체중",
+      "contraindications": "손목/어깨 통증",
+      "regression": {
+        "text": "벽 체중이동/베어크롤",
+        "resolved": []
+      },
+      "progression": {
+        "text": "장애물 HSW",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX060",
+      "nameKo": "행잉 니레이즈",
+      "nameEn": "Hanging Knee Raise",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~5×5~15",
+      "relativeLoad": "체중",
+      "contraindications": "그립/어깨 통증",
+      "regression": {
+        "text": "수파인 니레이즈",
+        "resolved": []
+      },
+      "progression": {
+        "text": "토투바",
+        "resolved": [
+          "토투바"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX061",
+      "nameKo": "토투바",
+      "nameEn": "Toes-to-bar",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~10/세트",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/그립 통증",
+      "regression": {
+        "text": "니레이즈",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스트릭트 TTB",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX062",
+      "nameKo": "싯업",
+      "nameEn": "Sit-up",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "10~30/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "요통/고관절 굴곡근 통증",
+      "regression": {
+        "text": "크런치",
+        "resolved": []
+      },
+      "progression": {
+        "text": "GHD 싯업",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX063",
+      "nameKo": "홀로우 홀드",
+      "nameEn": "Hollow Hold",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "초",
+      "defaultDoseRaw": "3~5×15~40초",
+      "relativeLoad": "체중",
+      "contraindications": "요통",
+      "regression": {
+        "text": "턱 홀로우",
+        "resolved": []
+      },
+      "progression": {
+        "text": "홀로우 락",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX064",
+      "nameKo": "아치 홀드",
+      "nameEn": "Arch Hold",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "초",
+      "defaultDoseRaw": "3~5×15~40초",
+      "relativeLoad": "체중",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "버드독",
+        "resolved": [
+          "버드독"
+        ]
+      },
+      "progression": {
+        "text": "아치 락",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX065",
+      "nameKo": "엘싯",
+      "nameEn": "L-sit",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "낮음",
+      "doseUnit": "초",
+      "defaultDoseRaw": "4~8×5~20초",
+      "relativeLoad": "체중",
+      "contraindications": "손목/고관절 굴곡근 통증",
+      "regression": {
+        "text": "턱싯",
+        "resolved": []
+      },
+      "progression": {
+        "text": "링 L-sit",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX066",
+      "nameKo": "바 머슬업",
+      "nameEn": "Bar Muscle-up",
+      "modality": "체조",
+      "family": "복합 당김/밀기",
+      "minLevel": 3,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~5",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/팔꿈치 통증",
+      "regression": {
+        "text": "체스트투바+바 딥",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스트릭트/연속 BMU",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=iUAukdE0QQ4"
+    },
+    {
+      "exerciseId": "EX067",
+      "nameKo": "링 머슬업",
+      "nameEn": "Ring Muscle-up",
+      "modality": "체조",
+      "family": "복합 당김/밀기",
+      "minLevel": 3,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~4",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/팔꿈치 통증",
+      "regression": {
+        "text": "낮은 링 전환+딥",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스트릭트/연속 RMU",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=vJTJFc2wmk4"
+    },
+    {
+      "exerciseId": "EX068",
+      "nameKo": "달리기",
+      "nameEn": "Run",
+      "modality": "모노스트럭처럴",
+      "family": "달리기",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "중간~높음",
+      "doseUnit": "m/분",
+      "defaultDoseRaw": "100m~60분",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "하지 통증",
+      "regression": {
+        "text": "걷기/로우",
+        "resolved": [
+          "로우"
+        ]
+      },
+      "progression": {
+        "text": "인터벌/스프린트",
+        "resolved": []
+      },
+      "sourceId": "S11",
+      "sourceUrl": "https://www.crossfit.com/pro-coach/programming-basics-part-1",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX069",
+      "nameKo": "로우",
+      "nameEn": "Row Erg",
+      "modality": "모노스트럭처럴",
+      "family": "로잉",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "m/cal/분",
+      "defaultDoseRaw": "10초~60분",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "기술 로우",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스프린트 인터벌",
+        "resolved": []
+      },
+      "sourceId": "S11",
+      "sourceUrl": "https://www.crossfit.com/pro-coach/programming-basics-part-1",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX070",
+      "nameKo": "바이크에르그",
+      "nameEn": "Bike Erg",
+      "modality": "모노스트럭처럴",
+      "family": "사이클",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "cal/분",
+      "defaultDoseRaw": "10초~90분",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "무릎 통증",
+      "regression": {
+        "text": "리컴번트/쉬운 페달",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스프린트 인터벌",
+        "resolved": []
+      },
+      "sourceId": "S11",
+      "sourceUrl": "https://www.crossfit.com/pro-coach/programming-basics-part-1",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX071",
+      "nameKo": "에코바이크",
+      "nameEn": "Echo Bike",
+      "modality": "모노스트럭처럴",
+      "family": "사이클",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "cal/분",
+      "defaultDoseRaw": "10초~40분",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "무릎/어깨 통증",
+      "regression": {
+        "text": "하체만 쉬운 페달",
+        "resolved": []
+      },
+      "progression": {
+        "text": "고출력 인터벌",
+        "resolved": []
+      },
+      "sourceId": "S11",
+      "sourceUrl": "https://www.crossfit.com/pro-coach/programming-basics-part-1",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX072",
+      "nameKo": "스키에르그",
+      "nameEn": "Ski Erg",
+      "modality": "모노스트럭처럴",
+      "family": "스키",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "m/cal/분",
+      "defaultDoseRaw": "10초~60분",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "어깨/요통",
+      "regression": {
+        "text": "밴드 풀다운",
+        "resolved": []
+      },
+      "progression": {
+        "text": "고출력 인터벌",
+        "resolved": []
+      },
+      "sourceId": "S11",
+      "sourceUrl": "https://www.crossfit.com/pro-coach/programming-basics-part-1",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX073",
+      "nameKo": "수영",
+      "nameEn": "Swim",
+      "modality": "모노스트럭처럴",
+      "family": "수영",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "낮음",
+      "doseUnit": "m/분",
+      "defaultDoseRaw": "25m~60분",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "감독/수영능력 없음",
+      "regression": {
+        "text": "아쿠아조깅",
+        "resolved": []
+      },
+      "progression": {
+        "text": "인터벌",
+        "resolved": []
+      },
+      "sourceId": "S11",
+      "sourceUrl": "https://www.crossfit.com/pro-coach/programming-basics-part-1",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX074",
+      "nameKo": "파머 캐리",
+      "nameEn": "Farmer Carry",
+      "modality": "웨이트리프팅",
+      "family": "캐리",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "m/초",
+      "defaultDoseRaw": "3~6×20~60m",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "그립/요통",
+      "regression": {
+        "text": "가벼운 양손 캐리",
+        "resolved": []
+      },
+      "progression": {
+        "text": "수트케이스 캐리",
+        "resolved": [
+          "수트케이스 캐리"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX075",
+      "nameKo": "수트케이스 캐리",
+      "nameEn": "Suitcase Carry",
+      "modality": "웨이트리프팅",
+      "family": "캐리",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "m/측",
+      "defaultDoseRaw": "3~5×20~50m",
+      "relativeLoad": "중간",
+      "contraindications": "요통",
+      "regression": {
+        "text": "양손 파머 캐리",
+        "resolved": []
+      },
+      "progression": {
+        "text": "오버헤드 캐리",
+        "resolved": [
+          "오버헤드 캐리"
+        ]
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX076",
+      "nameKo": "프론트랙 캐리",
+      "nameEn": "Front Rack Carry",
+      "modality": "웨이트리프팅",
+      "family": "캐리",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "m/초",
+      "defaultDoseRaw": "3~5×20~50m",
+      "relativeLoad": "중간",
+      "contraindications": "손목/호흡 제한",
+      "regression": {
+        "text": "고블릿 캐리",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더블KB/바벨 캐리",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX077",
+      "nameKo": "오버헤드 캐리",
+      "nameEn": "Overhead Carry",
+      "modality": "웨이트리프팅",
+      "family": "캐리",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "낮음",
+      "doseUnit": "m/측",
+      "defaultDoseRaw": "3~5×15~40m",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "프론트랙 캐리",
+        "resolved": [
+          "프론트랙 캐리"
+        ]
+      },
+      "progression": {
+        "text": "싱글암 KB 오버헤드 캐리",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX078",
+      "nameKo": "슬레드 푸시",
+      "nameEn": "Sled Push",
+      "modality": "웨이트리프팅",
+      "family": "슬레드",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "m/초",
+      "defaultDoseRaw": "4~10×10~30m",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 무릎 통증",
+      "regression": {
+        "text": "가벼운 슬레드",
+        "resolved": []
+      },
+      "progression": {
+        "text": "헤비/스프린트 슬레드",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX079",
+      "nameKo": "슬레드 풀",
+      "nameEn": "Sled Pull",
+      "modality": "웨이트리프팅",
+      "family": "슬레드",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "m/초",
+      "defaultDoseRaw": "4~10×10~30m",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "요통/그립 통증",
+      "regression": {
+        "text": "가벼운 백워드 드래그",
+        "resolved": []
+      },
+      "progression": {
+        "text": "핸드오버핸드 풀",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX080",
+      "nameKo": "샌드백 클린",
+      "nameEn": "Sandbag Clean",
+      "modality": "웨이트리프팅",
+      "family": "비정형 물체",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~10/세트",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "샌드백 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "숄더링",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX081",
+      "nameKo": "샌드백 캐리",
+      "nameEn": "Sandbag Carry",
+      "modality": "웨이트리프팅",
+      "family": "비정형 물체",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "m/초",
+      "defaultDoseRaw": "20~200m",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "호흡/요통 제한",
+      "regression": {
+        "text": "가벼운 베어허그 캐리",
+        "resolved": []
+      },
+      "progression": {
+        "text": "숄더 캐리",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX082",
+      "nameKo": "월볼샷",
+      "nameEn": "Wall-ball Shot",
+      "modality": "웨이트리프팅",
+      "family": "혼합",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "10~30/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "무릎/어깨 통증",
+      "regression": {
+        "text": "낮은 타깃/가벼운 볼",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더 높은 타깃",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX083",
+      "nameKo": "메디신볼 클린",
+      "nameEn": "Medicine-ball Clean",
+      "modality": "웨이트리프팅",
+      "family": "혼합",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~5×5~15",
+      "relativeLoad": "가벼움",
+      "contraindications": "요통/무릎 통증",
+      "regression": {
+        "text": "메드볼 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "덤벨/바벨 클린",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=-nk0GqeSTJs"
+    },
+    {
+      "exerciseId": "EX084",
+      "nameKo": "스러스터",
+      "nameEn": "Thruster",
+      "modality": "웨이트리프팅",
+      "family": "혼합",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~20/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "무릎/어깨 통증",
+      "regression": {
+        "text": "DB/가벼운 스러스터",
+        "resolved": []
+      },
+      "progression": {
+        "text": "클러스터",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=aea5BGj9a8Y"
+    },
+    {
+      "exerciseId": "EX085",
+      "nameKo": "덤벨 스내치",
+      "nameEn": "Dumbbell Snatch",
+      "modality": "웨이트리프팅",
+      "family": "혼합",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "6~20/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/요통",
+      "regression": {
+        "text": "행 DB 스내치",
+        "resolved": []
+      },
+      "progression": {
+        "text": "바벨 파워 스내치",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX086",
+      "nameKo": "케틀벨 클린",
+      "nameEn": "Kettlebell Clean",
+      "modality": "웨이트리프팅",
+      "family": "혼합",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "3~5×5~10",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "손목/요통",
+      "regression": {
+        "text": "KB 데드리프트+하이풀",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더블KB 클린",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX087",
+      "nameKo": "터키시 겟업",
+      "nameEn": "Turkish Get-up",
+      "modality": "웨이트리프팅",
+      "family": "안정성",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "2~5×1~3",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/어지럼",
+      "regression": {
+        "text": "신발/PVC TGU",
+        "resolved": []
+      },
+      "progression": {
+        "text": "헤비 TGU",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX088",
+      "nameKo": "플랭크",
+      "nameEn": "Plank",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "초",
+      "defaultDoseRaw": "3~5×20~60초",
+      "relativeLoad": "체중",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "인클라인 플랭크",
+        "resolved": []
+      },
+      "progression": {
+        "text": "가중/롱레버 플랭크",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX089",
+      "nameKo": "사이드 플랭크",
+      "nameEn": "Side Plank",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "초/측",
+      "defaultDoseRaw": "3~5×15~45초",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/내전근 통증",
+      "regression": {
+        "text": "무릎 사이드 플랭크",
+        "resolved": []
+      },
+      "progression": {
+        "text": "코펜하겐 플랭크",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX090",
+      "nameKo": "팔로프 프레스",
+      "nameEn": "Pallof Press",
+      "modality": "웨이트리프팅",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "2~4×8~15",
+      "relativeLoad": "가벼움",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "아이소 홀드",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스플릿스탠스 팔로프",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX091",
+      "nameKo": "버드독",
+      "nameEn": "Bird Dog",
+      "modality": "체조",
+      "family": "몸통",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회/측",
+      "defaultDoseRaw": "2~4×6~10",
+      "relativeLoad": "무부하",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "팔/다리 단독",
+        "resolved": []
+      },
+      "progression": {
+        "text": "밴드 버드독",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX092",
+      "nameKo": "글루트 브리지",
+      "nameEn": "Glute Bridge",
+      "modality": "체조",
+      "family": "둔근",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×10~20",
+      "relativeLoad": "무부하~중간",
+      "contraindications": "급성 요통",
+      "regression": {
+        "text": "양발 브리지",
+        "resolved": []
+      },
+      "progression": {
+        "text": "싱글레그/바벨 힙쓰러스트",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX093",
+      "nameKo": "노르딕 햄스트링 컬",
+      "nameEn": "Nordic Hamstring Curl",
+      "modality": "체조",
+      "family": "햄스트링",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×3~8",
+      "relativeLoad": "체중",
+      "contraindications": "햄스트링 통증",
+      "regression": {
+        "text": "밴드 보조/부분 ROM",
+        "resolved": []
+      },
+      "progression": {
+        "text": "완전 이센트릭+콘센트릭",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX094",
+      "nameKo": "밴드 페이스풀",
+      "nameEn": "Band Face Pull",
+      "modality": "웨이트리프팅",
+      "family": "상부 등",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×12~20",
+      "relativeLoad": "가벼움",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "밴드 풀어파트",
+        "resolved": [
+          "밴드 풀어파트"
+        ]
+      },
+      "progression": {
+        "text": "케이블 페이스풀",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX095",
+      "nameKo": "밴드 풀어파트",
+      "nameEn": "Band Pull-apart",
+      "modality": "웨이트리프팅",
+      "family": "상부 등",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×15~25",
+      "relativeLoad": "가벼움",
+      "contraindications": "어깨 통증",
+      "regression": {
+        "text": "가벼운 밴드",
+        "resolved": []
+      },
+      "progression": {
+        "text": "느린 템포",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX096",
+      "nameKo": "카프레이즈",
+      "nameEn": "Calf Raise",
+      "modality": "웨이트리프팅",
+      "family": "하퇴",
+      "minLevel": 1,
+      "skillComplexity": 1,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "2~4×10~20",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "아킬레스 급성 통증",
+      "regression": {
+        "text": "양발",
+        "resolved": []
+      },
+      "progression": {
+        "text": "싱글레그/가중",
+        "resolved": []
+      },
+      "sourceId": "S15",
+      "sourceUrl": "https://www.crossfit.com/movements/",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX097",
+      "nameKo": "바페이싱 버피",
+      "nameEn": "Bar-facing Burpee",
+      "modality": "체조",
+      "family": "버피 변형",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "높음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "손목/허리/아킬레스 통증",
+      "regression": {
+        "text": "스텝백+스텝오버",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더 빠른 사이클",
+        "resolved": []
+      },
+      "sourceId": "S20",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2017",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX098",
+      "nameKo": "덤벨 측면 버피 오버",
+      "nameEn": "Lateral Burpee over Dumbbell",
+      "modality": "체조",
+      "family": "버피 변형",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "높음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "손목/허리/아킬레스 통증",
+      "regression": {
+        "text": "스텝백+스텝오버",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더 빠른 사이클",
+        "resolved": []
+      },
+      "sourceId": "S28",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2025",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX099",
+      "nameKo": "버피 박스 점프오버",
+      "nameEn": "Burpee Box Jump-over",
+      "modality": "체조",
+      "family": "버피 변형",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "높음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~12/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "손목/무릎/아킬레스 통증",
+      "regression": {
+        "text": "버피 박스 스텝오버",
+        "resolved": []
+      },
+      "progression": {
+        "text": "높이/사이클 증가",
+        "resolved": []
+      },
+      "sourceId": "S20",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2017",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=GLktGkmcvWE"
+    },
+    {
+      "exerciseId": "EX100",
+      "nameKo": "버피 풀업",
+      "nameEn": "Burpee Pull-up",
+      "modality": "체조",
+      "family": "버피 변형",
+      "minLevel": 2,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~12/세트",
+      "relativeLoad": "체중",
+      "contraindications": "어깨/팔꿈치/손목 통증",
+      "regression": {
+        "text": "버피+점핑 풀업",
+        "resolved": []
+      },
+      "progression": {
+        "text": "버피 체스트투바",
+        "resolved": []
+      },
+      "sourceId": "S26",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2023",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX101",
+      "nameKo": "셔틀런",
+      "nameEn": "Shuttle Run",
+      "modality": "모노스트럭처럴",
+      "family": "달리기",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "높음",
+      "doseUnit": "왕복회/m",
+      "defaultDoseRaw": "10~50ft 왕복 반복",
+      "relativeLoad": "개인 페이스",
+      "contraindications": "무릎/발목/아킬레스 통증",
+      "regression": {
+        "text": "걷기 셔틀/긴 회전반경",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스프린트 셔틀",
+        "resolved": []
+      },
+      "sourceId": "S26",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2023",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX102",
+      "nameKo": "덤벨 오버헤드 워킹 런지",
+      "nameEn": "Dumbbell Overhead Walking Lunge",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "ft/m",
+      "defaultDoseRaw": "20~200ft",
+      "relativeLoad": "중간",
+      "contraindications": "어깨/무릎 통증",
+      "regression": {
+        "text": "프론트랙/무부하 런지",
+        "resolved": []
+      },
+      "progression": {
+        "text": "거리/부하 증가",
+        "resolved": []
+      },
+      "sourceId": "S22",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2019",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX103",
+      "nameKo": "덤벨 프론트랙 워킹 런지",
+      "nameEn": "Dumbbell Front-rack Walking Lunge",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "ft/m",
+      "defaultDoseRaw": "20~100ft",
+      "relativeLoad": "중간",
+      "contraindications": "손목/무릎 통증",
+      "regression": {
+        "text": "무부하 워킹 런지",
+        "resolved": []
+      },
+      "progression": {
+        "text": "오버헤드 런지",
+        "resolved": []
+      },
+      "sourceId": "S20",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2017",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX104",
+      "nameKo": "덤벨 박스 스텝업",
+      "nameEn": "Dumbbell Box Step-up",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~20/세트",
+      "relativeLoad": "중간",
+      "contraindications": "균형 불안/무릎 통증",
+      "regression": {
+        "text": "무부하/낮은 박스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "높이/부하 증가",
+        "resolved": []
+      },
+      "sourceId": "S22",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2019",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX105",
+      "nameKo": "메디신볼 박스 스텝오버",
+      "nameEn": "Medicine-ball Box Step-over",
+      "modality": "웨이트리프팅",
+      "family": "편측 하체",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "낮음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~20/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "균형 불안/무릎 통증",
+      "regression": {
+        "text": "무부하 박스 스텝오버",
+        "resolved": []
+      },
+      "progression": {
+        "text": "부하/높이 증가",
+        "resolved": []
+      },
+      "sourceId": "S29",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2026",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX106",
+      "nameKo": "덤벨 행 클린앤저크",
+      "nameEn": "Dumbbell Hang Clean and Jerk",
+      "modality": "웨이트리프팅",
+      "family": "덤벨 복합",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/손목/허리 통증",
+      "regression": {
+        "text": "DB 행 클린+프레스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "연속 사이클/부하 증가",
+        "resolved": []
+      },
+      "sourceId": "S21",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2018",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX107",
+      "nameKo": "덤벨 행 클린투오버헤드",
+      "nameEn": "Dumbbell Hang Clean-to-Overhead",
+      "modality": "웨이트리프팅",
+      "family": "덤벨 복합",
+      "minLevel": 1,
+      "skillComplexity": 3,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "어깨/손목/허리 통증",
+      "regression": {
+        "text": "행 클린+스트릭트 프레스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "연속 사이클/부하 증가",
+        "resolved": []
+      },
+      "sourceId": "S28",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2025",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX108",
+      "nameKo": "덤벨 스러스터",
+      "nameEn": "Dumbbell Thruster",
+      "modality": "웨이트리프팅",
+      "family": "혼합",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~20/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "무릎/어깨 통증",
+      "regression": {
+        "text": "싱글 DB/가벼운 부하",
+        "resolved": []
+      },
+      "progression": {
+        "text": "더블 DB 고중량",
+        "resolved": []
+      },
+      "sourceId": "S23",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2020",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=u3wKkZjE8QM"
+    },
+    {
+      "exerciseId": "EX109",
+      "nameKo": "덤벨 스쿼트",
+      "nameEn": "Dumbbell Squat",
+      "modality": "웨이트리프팅",
+      "family": "스쿼트",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~20/세트",
+      "relativeLoad": "중간",
+      "contraindications": "손목/무릎 통증",
+      "regression": {
+        "text": "고블릿 스쿼트",
+        "resolved": [
+          "고블릿 스쿼트"
+        ]
+      },
+      "progression": {
+        "text": "부하/템포 증가",
+        "resolved": []
+      },
+      "sourceId": "S21",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2018",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX110",
+      "nameKo": "그라운드투오버헤드",
+      "nameEn": "Ground-to-Overhead",
+      "modality": "웨이트리프팅",
+      "family": "바벨 복합",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "3~15/세트",
+      "relativeLoad": "중간",
+      "contraindications": "어깨/손목/허리 통증",
+      "regression": {
+        "text": "클린+푸시프레스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "스내치/클린앤저크 전략",
+        "resolved": [
+          "스내치"
+        ]
+      },
+      "sourceId": "S23",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2020",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX111",
+      "nameKo": "클린앤저크",
+      "nameEn": "Clean and Jerk",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-복합",
+      "minLevel": 2,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~10×1~2",
+      "relativeLoad": "중간~무거움",
+      "contraindications": "감독 없음/어깨·손목·허리 통증",
+      "regression": {
+        "text": "행 파워클린+푸시저크",
+        "resolved": []
+      },
+      "progression": {
+        "text": "경기식 중량",
+        "resolved": []
+      },
+      "sourceId": "S23",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2020",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX112",
+      "nameKo": "스트릭트 핸드스탠드 푸시업",
+      "nameEn": "Strict Handstand Push-up",
+      "modality": "체조",
+      "family": "인버전 밀기",
+      "minLevel": 3,
+      "skillComplexity": 5,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "3~8×1~6",
+      "relativeLoad": "체중",
+      "contraindications": "목/어깨/손목 통증",
+      "regression": {
+        "text": "박스 파이크/DB 스트릭트프레스",
+        "resolved": []
+      },
+      "progression": {
+        "text": "디피싯 스트릭트 HSPU",
+        "resolved": []
+      },
+      "sourceId": "S22",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2019",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX113",
+      "nameKo": "바 넘기 버피",
+      "nameEn": "Burpee over Bar",
+      "modality": "체조",
+      "family": "버피 변형",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "높음",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "무부하",
+      "contraindications": "손목/허리/아킬레스 통증",
+      "regression": {
+        "text": "스텝백+스텝오버",
+        "resolved": []
+      },
+      "progression": {
+        "text": "바페이싱/고속 사이클",
+        "resolved": []
+      },
+      "sourceId": "S29",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2026",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX114",
+      "nameKo": "행 클린",
+      "nameEn": "Hang Clean",
+      "modality": "웨이트리프팅",
+      "family": "올림픽-클린",
+      "minLevel": 2,
+      "skillComplexity": 4,
+      "impact": "중간",
+      "doseUnit": "품질회",
+      "defaultDoseRaw": "4~8×1~3",
+      "relativeLoad": "중간",
+      "contraindications": "손목/허리/무릎 통증",
+      "regression": {
+        "text": "행 파워클린",
+        "resolved": []
+      },
+      "progression": {
+        "text": "저행/복합 클린",
+        "resolved": []
+      },
+      "sourceId": "S24",
+      "sourceUrl": "https://games.crossfit.com/workouts/open/2021",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": null
+    },
+    {
+      "exerciseId": "EX115",
+      "nameKo": "스모 데드리프트 하이풀",
+      "nameEn": "Sumo Deadlift High Pull",
+      "modality": "웨이트리프팅",
+      "family": "힌지/당기기",
+      "minLevel": 1,
+      "skillComplexity": 2,
+      "impact": "중간",
+      "doseUnit": "회",
+      "defaultDoseRaw": "5~15/세트",
+      "relativeLoad": "가벼움~중간",
+      "contraindications": "허리/어깨/손목 통증",
+      "regression": {
+        "text": "스모 데드리프트",
+        "resolved": []
+      },
+      "progression": {
+        "text": "부하/사이클 증가",
+        "resolved": []
+      },
+      "sourceId": "S18",
+      "sourceUrl": "https://www.crossfit.com/essentials/movements",
+      "crossfitMovementsUrl": "https://www.crossfit.com/essentials/movements",
+      "officialYoutubeUrl": "https://www.youtube.com/watch?v=o6QniJ9FaGA"
+    }
+  ]
+}

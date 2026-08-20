@@ -55,6 +55,12 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
         <p className="lede">
           Level {program.level} · 주 {program.frequency}일 · 시작일 {toDateKey(program.startDate)}
         </p>
+        <p style={{ marginTop: "-1rem", marginBottom: "1.5rem", fontSize: "0.85rem" }}>
+          코치 검수용 내보내기:{" "}
+          <a href={`/api/program/${program.id}/export?format=csv`}>CSV 다운로드</a>
+          {" · "}
+          <a href={`/api/program/${program.id}/export?format=json`}>JSON 다운로드</a>
+        </p>
 
         {program.weeks.map((week) => {
           const weekStart = addDays(program.startDate, (week.weekIndex - 1) * 7);

@@ -12,7 +12,8 @@
 - **Phase 4 (완료, 범위 축소된 v1)**: 피드백 루프 — 완료 로그 저장 시 MD 7장 세 규칙(당일 웰니스
   감량·부하 급증 감량·조기 디로드)을 자동 평가해 아직 지나지 않은 세션의 처방을 낮추고
   근거를 남긴다.
-- Phase 5(코치 검수 도구·오픈 워크아웃 벤치마크·모바일 등)는 아직 시작하지 않았다.
+- **Phase 5 (부분 착수)**: 코치 검수용 데이터 Export — 생성된 프로그램(CSV/JSON)과 Exercise_DB
+  전체(CSV/JSON) 내보내기. 오픈 워크아웃 벤치마크·모바일 등 나머지는 아직 시작하지 않았다.
 
 ## 구조
 
@@ -24,6 +25,7 @@ app/                       # Next.js App Router — 페이지 + API 라우트
   api/auth/{signup,login,logout}
   api/onboarding/{profile,one-rm,capability,resources-goals,complete}
   api/program/generate
+  api/program/[id]/export    # 코치 검수용 CSV/JSON 다운로드
   api/program/day/[dayId]/log
 components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm
 lib/                       # Next 런타임에서 쓰는 서버 로직
@@ -39,15 +41,19 @@ lib/                       # Next 런타임에서 쓰는 서버 로직
     format.ts                 # 조회 페이지용 표시 포맷터
     feedback.ts               # Phase 4: MD 7장 세 규칙의 순수 판정 함수
     rebalance.ts               # Phase 4: 로그 저장 후 규칙을 적용해 미래 블록을 갱신하는 오케스트레이터
+    csv.ts                      # Phase 5: 최소 CSV 인코더(BOM 포함)
+    exportProgram.ts             # Phase 5: 프로그램 → CSV행/JSON 구조 변환
 data/
   crossfit_programming_knowledge_base.xlsx   # 원본 지식베이스
   crossfit_programming_knowledge_base.md     # 원본 설계 문서
   knowledge_base.json                        # xlsx → JSON 1회 변환 결과 (아래 "왜 JSON인가" 참고)
   seed-report.json                           # 마지막 db:seed 실행이 남긴 미해결 항목 리포트
+  exports/                                   # Phase 5: db:export-exercises 결과 스냅샷 (커밋됨)
 prisma/
   schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2)
                            # + 완료 로그 1개(Phase 3) + 조정 이력 1개(Phase 4) 테이블
 scripts/
+  export/exportExerciseDb.ts # Phase 5: Exercise_DB 전체를 코치 검수용 CSV/JSON으로 내보내는 CLI
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
   lib/                    # knowledge_base.json 로더, 파싱 유틸, prisma 클라이언트 (CLI 스크립트 전용)
   seed/                   # 시트별 적재 스크립트 + orchestrator(index.ts)
@@ -234,6 +240,31 @@ MD 7장 규칙이 요구하는데 빠져 있어서 Phase 4에서 `training_log`�
 - **재조정은 소급 적용되지 않는다.** 조정 시점 이전에 이미 완료된 세션이나 이미 지난 날짜는
   절대 건드리지 않는다 — 이건 의도적인 안전장치지 축소가 아니다.
 
+## Phase 5 — 코치 검수용 데이터 Export
+
+MD 11장 "출시 전 검증 과제"의 1번("코치가 115개 운동의 MinLevel·금기·회귀·진행 사슬을
+검수")과 3번("생성기 결과를 블라인드로 코치가 평가")을 실제로 시작할 수 있게 두 가지를
+내보낸다. 둘 다 CSV(엑셀에서 바로 열기)와 JSON(다른 도구·재가공용)을 함께 만든다.
+
+**생성된 프로그램** — `/program/[id]` 캘린더 페이지에 "CSV 다운로드"·"JSON 다운로드" 링크로
+추가했다(`GET /api/program/[id]/export?format=csv|json`, 로그인한 소유자만 접근 가능 — 인증
+없음 401, 다른 사용자 404로 실제 확인). CSV는 세션 블록 하나당 한 행으로 만들어 코치가 한 달
+전체를 스프레드시트로 훑어볼 수 있게 했고, 그 날의 완료 로그(RPE·통증·의욕·수면·메모)를 같은
+날 모든 블록 행에 반복해 넣었다 — 정규화된 형태는 아니지만 필터/정렬해서 보기엔 이 편이
+편하다. `자동조정` 열에는 Phase 4에서 어떤 규칙이 그 블록을 건드렸는지 그대로 나온다.
+JSON은 주차별 볼륨 장부·조정 이력까지 포함한 완전한 구조라 CSV에 없는 정보(예: 장부 범위
+자체)까지 필요할 때 쓴다.
+
+**Exercise_DB 전체** — `npm run db:export-exercises`(`scripts/export/exportExerciseDb.ts`)가
+`data/exports/`에 115개 운동을 코치 검수용으로 정리한다. 여기서도 Phase 0의 발견을 그대로
+반영했다: 회귀/진행 "원문"과 "해석됨"(exercise_relation으로 실제 연결된 것) 컬럼을 나란히
+둬서, 코치가 시스템이 자동으로 연결한 것과 원문 그대로를 구분해서 볼 수 있게 했다. 실행
+결과 회귀 텍스트 115건 중 23건(20%), 진행 텍스트 115건 중 15건(13%)만 해석됐다 — "운동 하나당
+회귀/진행 텍스트가 하나라도 해석됐는가"를 기준으로 센 값이라, Phase 0에서 보고한 "개별 옵션
+기준 13%"와는 분모가 달라 숫자가 다르다(둘 다 같은 근본 원인 — 카탈로그에 없는 설명적 코칭
+문구 — 을 다른 각도로 보여준다). `data/exports/exercise_db_review.csv`·`.json`을
+저장소에 스냅샷으로 커밋해둬서, 스크립트를 안 돌려도 바로 열어볼 수 있다.
+
 ## 실행 결과 (2026-08-18 기준)
 
 ```
@@ -272,7 +303,7 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 단어 때문에 `skill_power`로 오분류되기 쉬움). 시트가 갱신되어 새 세그먼트가 추가되면
 `db:validate`가 `UNMAPPED_SEGMENT`로 표시한다.
 
-## 아직 남은 미확정 사항 (Phase 5 착수 전 결정하면 좋은 것들)
+## 아직 남은 미확정 사항
 
 - **주차별 %1RM 테이블**(`lib/engine/constants.ts`의 `LOAD_TABLE_BY_FAMILY`): 스쿼트/힌지/
   수직밀기 3계열에 코드로 구현은 했지만 여전히 ACSM/StrongLifts 원칙을 참고한 제품 잠정값이고
@@ -291,6 +322,10 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
   성공 여부를 기록하는 구조가 없으면 구현할 수 없다.
 - **서버 측 세션 무효화**: 현재 세션은 쿠키 서명만으로 검증되어 로그아웃은 클라이언트 쿠키
   삭제로 처리된다. "다른 기기에서 로그아웃" 같은 기능이 필요해지면 세션 테이블이 필요하다.
+- **Export는 아직 아무도 검수하지 않았다**: Phase 5에서 코치가 볼 수 있는 자료를 만들었을 뿐,
+  실제 코치 검수(MD 11장 과제 1·2·3)는 이 저장소 밖의 다음 단계다. `data/exports/`의 스냅샷은
+  마지막 `db:export-exercises` 실행 시점 것이라, xlsx 원본이나 시딩 로직이 바뀌면 다시 실행해야
+  최신 상태가 된다.
 
 ## 스크립트
 
@@ -301,6 +336,7 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 | `npm run prisma:migrate` | 스키마 마이그레이션 적용 |
 | `npm run db:seed` | knowledge_base.json → DB 적재 (지식베이스 테이블만 초기화 후 재적재) |
 | `npm run db:validate` | 적재 후 DB를 재쿼리해 관계 정합성 검증, 이상 있으면 종료 코드 1 |
+| `npm run db:export-exercises` | Exercise_DB 115개를 `data/exports/`에 코치 검수용 CSV/JSON으로 내보냄 |
 | `npm run typecheck` | TypeScript 타입 검사 |
 | `python3 scripts/convert_xlsx_to_json.py` | xlsx 원본이 바뀌었을 때 JSON 재생성 |
 
