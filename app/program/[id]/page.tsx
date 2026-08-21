@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isCoachEmail } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { DAY_TYPE_LABELS, LEDGER_LABELS } from "@/lib/engine/format";
 
@@ -38,7 +38,8 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
     },
   });
 
-  if (!program || program.userId !== user.id) notFound();
+  const isCoachViewing = program?.userId !== user.id && isCoachEmail(user.email);
+  if (!program || (program.userId !== user.id && !isCoachViewing)) notFound();
 
   return (
     <>
@@ -52,6 +53,11 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
       </div>
       <div className="container wide">
         <h1>4주 프로그램</h1>
+        {isCoachViewing && (
+          <div className="warning-banner">
+            코치 보기 모드 — 다른 사용자의 프로그램을 읽기 전용으로 보고 있습니다.
+          </div>
+        )}
         <p className="lede">
           Level {program.level} · 주 {program.frequency}일 · 시작일 {toDateKey(program.startDate)}
         </p>

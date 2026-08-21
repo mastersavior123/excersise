@@ -12,8 +12,9 @@
 - **Phase 4 (완료, 범위 축소된 v1)**: 피드백 루프 — 완료 로그 저장 시 MD 7장 세 규칙(당일 웰니스
   감량·부하 급증 감량·조기 디로드)을 자동 평가해 아직 지나지 않은 세션의 처방을 낮추고
   근거를 남긴다.
-- **Phase 5 (부분 착수)**: 코치 검수용 데이터 Export — 생성된 프로그램(CSV/JSON)과 Exercise_DB
-  전체(CSV/JSON) 내보내기. 오픈 워크아웃 벤치마크·모바일 등 나머지는 아직 시작하지 않았다.
+- **Phase 5 (완료, 범위 축소된 v1)**: 코치 검수용 데이터 Export(생성된 프로그램·Exercise_DB
+  전체 CSV/JSON), 오픈 워크아웃 벤치마크 기록, 코치 대시보드(이메일 allowlist 기반 읽기 전용
+  타 사용자 프로그램 열람). 모바일 앱·커뮤니티/공유는 아직 시작하지 않았다.
 
 ## 구조
 
@@ -27,7 +28,10 @@ app/                       # Next.js App Router — 페이지 + API 라우트
   api/program/generate
   api/program/[id]/export    # 코치 검수용 CSV/JSON 다운로드
   api/program/day/[dayId]/log
-components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm
+  api/benchmarks              # 오픈 워크아웃 벤치마크 기록 upsert
+  benchmarks/                  # 오픈 워크아웃 벤치마크 기록 화면
+  coach/                        # 코치 대시보드(이메일 allowlist)
+components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm, BenchmarkForm
 lib/                       # Next 런타임에서 쓰는 서버 로직
   db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts
   levelAssessment.ts        # 레벨 스코어링 순수 함수
@@ -51,7 +55,8 @@ data/
   exports/                                   # Phase 5: db:export-exercises 결과 스냅샷 (커밋됨)
 prisma/
   schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2)
-                           # + 완료 로그 1개(Phase 3) + 조정 이력 1개(Phase 4) 테이블
+                           # + 완료 로그 1개(Phase 3) + 조정 이력 1개(Phase 4)
+                           # + 벤치마크 기록 1개(Phase 5, benchmark_result) 테이블
 scripts/
   export/exportExerciseDb.ts # Phase 5: Exercise_DB 전체를 코치 검수용 CSV/JSON으로 내보내는 CLI
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
@@ -265,6 +270,54 @@ JSON은 주차별 볼륨 장부·조정 이력까지 포함한 완전한 구조�
 문구 — 을 다른 각도로 보여준다). `data/exports/exercise_db_review.csv`·`.json`을
 저장소에 스냅샷으로 커밋해둬서, 스크립트를 안 돌려도 바로 열어볼 수 있다.
 
+## Phase 5 (계속) — 오픈 워크아웃 벤치마크 · 코치 대시보드
+
+MD 11장 과제 3("생성기 결과를 코치가 평가")을 실제로 시작하려면 코치가 여러 사용자의
+프로그램을 오갈 수 있는 진입점이 필요했다. 여기서는 두 가지를 붙였다: 실제 벤치마크
+기록(사용자 참여를 늘리고 미래 개인화의 데이터 소스가 됨)과, 그 데이터를 코치가 훑어볼 수
+있는 최소 대시보드.
+
+**오픈 워크아웃 벤치마크** (`/benchmarks`, `POST /api/benchmarks`): `open_workout` 39건을
+연도별로 묶어 보여주고, 각 워크아웃마다 결과 텍스트(자유 형식, 예: "12:34" 또는 "Rx'd, 205lb")와
+메모를 기록할 수 있다. `benchmark_result`는 `(userId, year, workout)` 유니크 제약으로
+upsert하므로 같은 워크아웃을 다시 기록하면 덮어쓴다. Phase 0에서 채웠지만 화면에 한 번도
+쓰지 않았던 `exercise.openWorkouts`(해당 운동이 등장한 오픈 워크아웃 목록)를 세션 상세
+페이지(`program/[id]/day/[dayId]`)에 처음 노출해서, 훈련 중인 운동이 어느 오픈 워크아웃에
+나왔는지 보고 바로 `/benchmarks`로 이동해 기록할 수 있게 연결했다.
+
+**코치 대시보드** (`/coach`): `COACH_EMAILS` 환경변수(콤마 구분 이메일 목록,
+`lib/auth.ts`의 `isCoachEmail`)에 있는 계정만 접근할 수 있다. 전체 사용자를 레벨·프로그램
+수·최신 프로그램·자동조정 누적 건수와 함께 표로 보여주고, 최신 프로그램 링크를 누르면 해당
+사용자의 캘린더로 들어간다. 코치가 남의 프로그램에 들어가면 원래 소유자 전용이던
+`program/[id]`·`program/[id]/day/[dayId]` 페이지가 "코치 보기 모드" 배너를 띄우고 읽기
+전용으로 바뀐다 — 특히 세션 상세의 완료 로그 카드는 소유자에게는 편집 가능한 `TrainingLogForm`을,
+코치에게는 정적 `<table>`을 보여주도록 분기했다. 로그 저장 API(`POST
+/api/program/day/[dayId]/log`)는 의도적으로 그대로 소유자 전용으로 남겨뒀는데, 만약 UI만
+읽기 전용으로 바꾸고 API를 안 막았다면 문제없지만, 반대로 API는 막았는데 UI에 편집 폼을
+그대로 뒀다면 코치가 값을 고치고 저장을 눌렀을 때 조용히 실패하는 혼란스러운 UX가 됐을
+것이다. Export API(`api/program/[id]/export`)도 같은 기준으로 소유자 또는 코치 접근을
+허용하도록 바꿨다.
+
+실제로 두 번째 테스트 계정을 `COACH_EMAILS`에 등록하고 curl로 확인했다: 코치가 아닌 계정은
+`/coach` 접근 시 307로 `/dashboard`로 리다이렉트, 코치 계정은 정상 조회, 코치가 다른 사용자의
+`program/[id]`·`day/[dayId]`·`export`에 접근하면 200(읽기 전용 배너 포함)이지만 같은 사용자로
+로그 저장 API에 POST하면 404(소유자 전용 검증이 그대로 살아있음 확인), 그리고 코치가 아닌
+일반 사용자가 여전히 다른 사용자의 프로그램에 접근하면 이전과 동일하게 404가 나는 것도
+재확인했다. `npx tsc --noEmit`과 `npm run build` 모두 통과.
+
+### Phase 5 (계속) — 의도적으로 축소한 범위
+
+- **코치 권한은 진짜 RBAC가 아니라 환경변수 allowlist다.** 역할·초대·승인 흐름이 없고,
+  코치를 추가/제거하려면 배포 환경의 `COACH_EMAILS` 값을 직접 고쳐야 한다. 코치 온보딩이
+  실제 운영 기능이 되려면 사용자 테이블에 role 컬럼을 추가하고 관리 UI를 만들어야 한다.
+- **벤치마크 결과는 구조화되지 않은 자유 텍스트다.** 시간(`12:34`)·라운드+리프(`5 rounds + 10
+  reps`)·Rx 여부·중량이 전부 한 문자열에 섞여 있어, 사용자 간 순위표나 정렬 가능한 리더보드를
+  만들려면 워크아웃 포맷(`format`)별로 결과를 파싱하는 별도 로직이 필요하다 — 지금은 기록·열람만
+  된다.
+- **코치 대시보드는 목록뿐이다.** 필터링·정렬·검색이 없고, 프로그램 승인/피드백을 남기는 기능도
+  없다 — MD 11장 과제 3("생성기 결과를 블라인드로 평가")을 하려면 코치가 프로그램을 보고 점수나
+  코멘트를 남길 수 있는 별도 테이블/폼이 필요한데, 이번에는 "볼 수 있게" 하는 데까지만 했다.
+
 ## 실행 결과 (2026-08-18 기준)
 
 ```
@@ -326,6 +379,10 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
   실제 코치 검수(MD 11장 과제 1·2·3)는 이 저장소 밖의 다음 단계다. `data/exports/`의 스냅샷은
   마지막 `db:export-exercises` 실행 시점 것이라, xlsx 원본이나 시딩 로직이 바뀌면 다시 실행해야
   최신 상태가 된다.
+- **코치 접근은 환경변수 allowlist일 뿐 진짜 권한 체계가 아니다**: "Phase 5 (계속) — 의도적으로
+  축소한 범위" 참고. 역할 컬럼·초대 흐름·관리 UI가 없어 `COACH_EMAILS`를 직접 편집해야 한다.
+- **벤치마크 결과는 자유 텍스트라 순위표를 만들 수 없다**: 워크아웃 포맷별 파싱 로직이 없으면
+  리더보드·개인 기록 추이 그래프 같은 기능은 구현할 수 없다.
 
 ## 스크립트
 

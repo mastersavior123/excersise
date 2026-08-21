@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isCoachEmail } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import type { Prescription } from "@/lib/engine/prescribe";
 import { DAY_TYPE_LABELS, formatPrescription, SLOT_LABELS } from "@/lib/engine/format";
@@ -37,7 +37,9 @@ export default async function ProgramDayPage({
     },
   });
 
-  if (!day || day.programWeek.program.userId !== user.id || day.programWeek.programId !== id) notFound();
+  const isOwner = day?.programWeek.program.userId === user.id;
+  const isCoachViewing = !isOwner && isCoachEmail(user.email);
+  if (!day || (!isOwner && !isCoachViewing) || day.programWeek.programId !== id) notFound();
 
   return (
     <>
@@ -54,6 +56,9 @@ export default async function ProgramDayPage({
           {day.date.toISOString().slice(0, 10)}{" "}
           <span className="pill">{DAY_TYPE_LABELS[day.dayType] ?? day.dayType}</span>
         </h1>
+        {isCoachViewing && (
+          <div className="warning-banner">코치 보기 모드 — 읽기 전용입니다.</div>
+        )}
         <p className="lede">
           Week {day.programWeek.weekIndex}
           {day.programWeek.isDeload && " · 디로드 주"}
@@ -101,6 +106,14 @@ export default async function ProgramDayPage({
                   )}
                 </div>
 
+                {block.exercise.openWorkouts.length > 0 && (
+                  <p className="hint" style={{ marginTop: "0.3rem" }}>
+                    오픈 등장: {block.exercise.openWorkouts.join(", ")}
+                    {" — "}
+                    <Link href="/benchmarks">벤치마크 기록 보기</Link>
+                  </p>
+                )}
+
                 {block.exercise.regressionText && (
                   <p className="hint" style={{ marginTop: "0.4rem" }}>
                     회귀(쉬운 버전): {block.exercise.regressionText}
@@ -126,22 +139,39 @@ export default async function ProgramDayPage({
 
         <div className="card">
           <h2>완료 기록</h2>
-          <TrainingLogForm
-            dayId={day.id}
-            initial={
-              day.log
-                ? {
-                    completed: day.log.completed,
-                    rpe: day.log.rpe,
-                    pain: day.log.pain,
-                    motivation: day.log.motivation,
-                    sleepHours: day.log.sleepHours ? Number(day.log.sleepHours) : null,
-                    actualDurationMinutes: day.log.actualDurationMinutes,
-                    notes: day.log.notes,
-                  }
-                : null
-            }
-          />
+          {isCoachViewing ? (
+            day.log ? (
+              <table className="mini">
+                <tbody>
+                  <tr><td>완료</td><td>{day.log.completed ? "Y" : "N"}</td></tr>
+                  <tr><td>RPE</td><td>{day.log.rpe ?? "-"}</td></tr>
+                  <tr><td>통증</td><td>{day.log.pain ?? "-"}</td></tr>
+                  <tr><td>의욕</td><td>{day.log.motivation ?? "-"}</td></tr>
+                  <tr><td>수면시간</td><td>{day.log.sleepHours ? Number(day.log.sleepHours) : "-"}</td></tr>
+                  <tr><td>메모</td><td>{day.log.notes ?? "-"}</td></tr>
+                </tbody>
+              </table>
+            ) : (
+              <p className="lede">아직 기록이 없습니다.</p>
+            )
+          ) : (
+            <TrainingLogForm
+              dayId={day.id}
+              initial={
+                day.log
+                  ? {
+                      completed: day.log.completed,
+                      rpe: day.log.rpe,
+                      pain: day.log.pain,
+                      motivation: day.log.motivation,
+                      sleepHours: day.log.sleepHours ? Number(day.log.sleepHours) : null,
+                      actualDurationMinutes: day.log.actualDurationMinutes,
+                      notes: day.log.notes,
+                    }
+                  : null
+              }
+            />
+          )}
         </div>
       </div>
     </>

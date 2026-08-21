@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { requireUserId } from "@/lib/auth";
+import { getCurrentUser, isCoachEmail } from "@/lib/auth";
 import { PROGRAM_EXPORT_INCLUDE, buildProgramExportCsv, buildProgramExportJson } from "@/lib/engine/exportProgram";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const userId = await requireUserId();
-  if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+  const user = await getCurrentUser();
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
 
   const { id } = await params;
   const program = await prisma.program.findUnique({ where: { id }, include: PROGRAM_EXPORT_INCLUDE });
-  if (!program || program.userId !== userId) {
+  if (!program || (program.userId !== user.id && !isCoachEmail(user.email))) {
     return NextResponse.json({ error: "찾을 수 없습니다" }, { status: 404 });
   }
 

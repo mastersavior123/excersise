@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isCoachEmail } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isOnboardingComplete } from "@/lib/onboardingStatus";
 import LogoutButton from "@/components/LogoutButton";
@@ -56,7 +56,17 @@ export default async function DashboardPage() {
         <Link href="/dashboard" className="brand">
           WOD Compiler
         </Link>
-        <LogoutButton />
+        <div style={{ display: "flex", gap: "0.6rem", alignItems: "center" }}>
+          <Link href="/benchmarks">
+            <button className="secondary">오픈 벤치마크</button>
+          </Link>
+          {isCoachEmail(user.email) && (
+            <Link href="/coach">
+              <button className="secondary">코치 대시보드</button>
+            </Link>
+          )}
+          <LogoutButton />
+        </div>
       </div>
       <div className="container wide">
         <h1>{user.email}</h1>

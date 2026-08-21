@@ -73,3 +73,10 @@ export const trainingLogSchema = z.object({
   actualDurationMinutes: z.coerce.number().int().min(0).max(600).nullable().optional(),
   notes: z.string().max(2000).optional(),
 });
+
+export const benchmarkResultSchema = z.object({
+  year: z.coerce.number().int().min(2017).max(2026),
+  workout: z.string().min(1).max(20),
+  resultText: z.string().trim().min(1, "결과를 입력하세요").max(100),
+  notes: z.string().max(1000).optional(),
+});

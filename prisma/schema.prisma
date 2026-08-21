@@ -209,6 +209,8 @@ model OpenWorkout {
   // open_workout_movement과의 직접 관계는 두지 않음: workouts_appeared_raw가 자유 텍스트라
   // (year, workout) 복합키로 항상 안전하게 조인할 수 없음. Phase 1에서 필요 시 조인 테이블 추가.
 
+  benchmarkResults BenchmarkResult[]
+
   @@id([year, workout])
   @@map("open_workout")
 }
@@ -270,6 +272,7 @@ model AppUser {
   healthFlags      UserHealthFlag[]
   levelAssessments UserLevelAssessment[]
   programs         Program[]
+  benchmarkResults BenchmarkResult[]
 
   @@map("app_user")
 }
@@ -467,4 +470,26 @@ model ProgramAdjustmentEvent {
   createdAt     DateTime @default(now()) @map("created_at")
 
   @@map("program_adjustment_event")
+}
+
+// =============================================================================
+// Phase 5 — 오픈 워크아웃 벤치마크 기록
+// =============================================================================
+
+// 사용자가 직접 기록하는 CrossFit Open 벤치마크 성적. 워크아웃마다 결과 형식이 다르다
+// (시간/반복/무게/라운드+반복 등)라 result_text는 의도적으로 자유 텍스트다 — 구조화된
+// 파싱은 하지 않는다(포맷 다양성 대비 이득이 적다고 판단).
+model BenchmarkResult {
+  id          Int         @id @default(autoincrement())
+  userId      String      @map("user_id")
+  user        AppUser     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  year        Int
+  workout     String
+  openWorkout OpenWorkout @relation(fields: [year, workout], references: [year, workout])
+  resultText  String      @map("result_text") // '12:34', '185 reps', '95kg' 등
+  recordedAt  DateTime    @default(now()) @map("recorded_at")
+  notes       String?
+
+  @@unique([userId, year, workout])
+  @@map("benchmark_result")
 }
