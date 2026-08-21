@@ -14,7 +14,8 @@
   근거를 남긴다.
 - **Phase 5 (완료, 범위 축소된 v1)**: 코치 검수용 데이터 Export(생성된 프로그램·Exercise_DB
   전체 CSV/JSON), 오픈 워크아웃 벤치마크 기록, 코치 대시보드(이메일 allowlist 기반 읽기 전용
-  타 사용자 프로그램 열람). 모바일 앱·커뮤니티/공유는 아직 시작하지 않았다.
+  타 사용자 프로그램 열람 + 프로그램 검수 판정/코멘트 제출). 모바일 앱·커뮤니티/공유는 아직
+  시작하지 않았다.
 
 ## 구조
 
@@ -27,11 +28,13 @@ app/                       # Next.js App Router — 페이지 + API 라우트
   api/onboarding/{profile,one-rm,capability,resources-goals,complete}
   api/program/generate
   api/program/[id]/export    # 코치 검수용 CSV/JSON 다운로드
+  api/program/[id]/review     # 코치 검수 판정(승인/수정필요/반려)+코멘트 제출
   api/program/day/[dayId]/log
   api/benchmarks              # 오픈 워크아웃 벤치마크 기록 upsert
   benchmarks/                  # 오픈 워크아웃 벤치마크 기록 화면
   coach/                        # 코치 대시보드(이메일 allowlist)
-components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm, BenchmarkForm
+components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm,
+                            # BenchmarkForm, ProgramReviewForm
 lib/                       # Next 런타임에서 쓰는 서버 로직
   db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts
   levelAssessment.ts        # 레벨 스코어링 순수 함수
@@ -56,7 +59,8 @@ data/
 prisma/
   schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2)
                            # + 완료 로그 1개(Phase 3) + 조정 이력 1개(Phase 4)
-                           # + 벤치마크 기록 1개(Phase 5, benchmark_result) 테이블
+                           # + 벤치마크 기록 1개 + 프로그램 검수 1개(Phase 5, benchmark_result,
+                           # program_review) 테이블
 scripts/
   export/exportExerciseDb.ts # Phase 5: Exercise_DB 전체를 코치 검수용 CSV/JSON으로 내보내는 CLI
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
@@ -318,6 +322,45 @@ upsert하므로 같은 워크아웃을 다시 기록하면 덮어쓴다. Phase 0
   없다 — MD 11장 과제 3("생성기 결과를 블라인드로 평가")을 하려면 코치가 프로그램을 보고 점수나
   코멘트를 남길 수 있는 별도 테이블/폼이 필요한데, 이번에는 "볼 수 있게" 하는 데까지만 했다.
 
+## Phase 5 (계속 2) — 코치 검수 판정
+
+앞서 만든 코치 대시보드는 "볼 수만" 있었다. MD 11장 과제 3("생성기 결과를 코치가 블라인드로
+평가")을 실제로 끝내려면 코치가 판정을 남길 곳이 필요해서 `program_review` 테이블과
+`POST /api/program/[id]/review`를 추가했다.
+
+**검수 이력은 append-only다** — `user_level_assessment`와 같은 패턴으로, 같은 프로그램을
+다시 검수하면 새 행이 쌓인다(덮어쓰지 않음). 이렇게 한 이유는 두 가지다: 코치가 여러 명일
+수 있고(누가 언제 무슨 판정을 남겼는지 감사 이력이 필요), 프로그램이 조정(Phase 4 자동 보정)을
+거치며 계속 바뀌므로 "예전에 승인했다가 지금은 반려" 같은 변화 자체가 의미 있는 기록이다.
+`/program/[id]` 페이지의 "코치 검수" 카드는 소유자·코치 모두에게 전체 이력을 최신순으로
+보여주고(그래야 사용자가 코치 피드백을 실제로 볼 수 있다 — 이게 이 기능의 핵심이다), 코치가
+보고 있을 때만 그 위에 판정 제출 폼(`ProgramReviewForm`)이 함께 뜬다. 코치 대시보드
+(`/coach`)에는 사용자별 최신 프로그램의 **최신** 검수 판정만 배지로 보여줘서, 코치가 아직
+검수하지 않은 프로그램("미검수")을 목록에서 바로 찾을 수 있게 했다.
+
+판정은 승인/수정 필요/반려 3종 고정값(`lib/constants.ts`의 `PROGRAM_REVIEW_VERDICTS`)이고
+코멘트는 자유 텍스트다. 검수 API는 코치 여부만 검증하고(`isCoachEmail`) 소유권은 따지지
+않는다 — 애초에 "다른 사람의 프로그램을 평가하는" 것이 기능의 목적이라 owner-only 검증을
+걸 이유가 없다. 대신 로그인 안 함(401)·코치 아님(403)·존재하지 않는 프로그램(404)·잘못된
+verdict 값(400)을 각각 실제로 재현해 정확한 상태 코드가 나오는지 확인했다.
+
+실제로 새 테스트 계정 2개(온보딩을 마치고 프로그램을 생성한 소유자, `COACH_EMAILS`에 등록한
+코치)로 전체 흐름을 재현했다: 검수 전 코치 대시보드에 "미검수" 표시 → 코치가 승인+코멘트
+제출 → 소유자의 프로그램 페이지와 코치 대시보드 양쪽에 "승인" 배지 반영 → 같은 코치가
+다시 "수정 필요"로 재검수 → 소유자 페이지에는 두 행(수정 필요가 위, 승인이 아래)이 모두
+남고 코치 대시보드 배지는 최신 값인 "수정 필요"로만 바뀌는 것까지 확인했다. `npx tsc --noEmit`,
+`npm run build` 모두 통과.
+
+### Phase 5 (계속 2) — 의도적으로 축소한 범위
+
+- **검수와 Phase 4 자동 조정이 연결되어 있지 않다.** 코치가 "수정 필요"를 남겨도 시스템이
+  뭔가를 자동으로 바꾸지 않는다 — 순수하게 사람이 읽는 기록이다. 검수 결과에 따라 프로그램을
+  재생성하거나 특정 주차를 되돌리는 액션은 없다.
+- **알림이 없다.** 코치가 검수를 남겨도 사용자에게 이메일/푸시 등으로 알리지 않는다 — 사용자가
+  직접 `/program/[id]`에 들어가야 알 수 있다.
+- **검수 대상 선택 UI가 없다.** 코치가 "이 사용자를 다음에 검수해야지" 같은 큐 관리는 못 하고,
+  코치 대시보드에서 "미검수" 배지를 보고 수동으로 골라 들어가야 한다.
+
 ## 실행 결과 (2026-08-18 기준)
 
 ```
@@ -383,6 +426,9 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
   축소한 범위" 참고. 역할 컬럼·초대 흐름·관리 UI가 없어 `COACH_EMAILS`를 직접 편집해야 한다.
 - **벤치마크 결과는 자유 텍스트라 순위표를 만들 수 없다**: 워크아웃 포맷별 파싱 로직이 없으면
   리더보드·개인 기록 추이 그래프 같은 기능은 구현할 수 없다.
+- **코치 검수는 사람이 읽는 기록일 뿐, 시스템 동작에 연결되지 않는다**: "Phase 5 (계속 2) —
+  의도적으로 축소한 범위" 참고. 판정이 남아도 프로그램이 자동으로 바뀌지 않고, 사용자에게
+  알림도 가지 않는다.
 
 ## 스크립트
 

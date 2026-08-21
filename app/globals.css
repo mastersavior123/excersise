@@ -374,3 +374,18 @@ table.mini td {
   color: var(--danger);
   font-weight: 600;
 }
+
+.pill.verdict-approved {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.pill.verdict-needs_revision {
+  border-color: #d98c1d;
+  color: #7a5210;
+}
+
+.pill.verdict-rejected {
+  border-color: var(--danger);
+  color: var(--danger);
+}

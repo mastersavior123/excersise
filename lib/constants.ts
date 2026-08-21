@@ -87,3 +87,13 @@ export const OCCUPATION_ACTIVITY_LABELS: Record<OccupationActivity, string> = {
   active: "활동량이 많은 근무",
   shift_work: "교대 근무",
 };
+
+// 코치 검수(Phase 5) verdict 3종
+export const PROGRAM_REVIEW_VERDICTS = ["approved", "needs_revision", "rejected"] as const;
+export type ProgramReviewVerdict = (typeof PROGRAM_REVIEW_VERDICTS)[number];
+
+export const PROGRAM_REVIEW_VERDICT_LABELS: Record<ProgramReviewVerdict, string> = {
+  approved: "승인",
+  needs_revision: "수정 필요",
+  rejected: "반려",
+};

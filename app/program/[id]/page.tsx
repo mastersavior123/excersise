@@ -3,6 +3,8 @@ import { notFound, redirect } from "next/navigation";
 import { getCurrentUser, isCoachEmail } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { DAY_TYPE_LABELS, LEDGER_LABELS } from "@/lib/engine/format";
+import { PROGRAM_REVIEW_VERDICT_LABELS, type ProgramReviewVerdict } from "@/lib/constants";
+import ProgramReviewForm from "@/components/ProgramReviewForm";
 
 const WEEKDAY_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
 
@@ -35,6 +37,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
         },
       },
       adjustmentEvents: { orderBy: { createdAt: "desc" } },
+      reviews: { orderBy: { createdAt: "desc" }, include: { coach: { select: { email: true } } } },
     },
   });
 
@@ -67,6 +70,41 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
           {" · "}
           <a href={`/api/program/${program.id}/export?format=json`}>JSON 다운로드</a>
         </p>
+
+        <div className="card" style={{ marginBottom: "1.5rem" }}>
+          <h2>코치 검수</h2>
+          {isCoachViewing && <ProgramReviewForm programId={program.id} />}
+          {program.reviews.length === 0 ? (
+            <p className="lede" style={{ marginBottom: 0 }}>
+              아직 코치 검수 기록이 없습니다.
+            </p>
+          ) : (
+            <table className="mini" style={{ marginBottom: 0 }}>
+              <thead>
+                <tr>
+                  <th>일시</th>
+                  <th>코치</th>
+                  <th>판정</th>
+                  <th>코멘트</th>
+                </tr>
+              </thead>
+              <tbody>
+                {program.reviews.map((review) => (
+                  <tr key={review.id}>
+                    <td>{review.createdAt.toISOString().slice(0, 16).replace("T", " ")}</td>
+                    <td>{review.coach.email}</td>
+                    <td>
+                      <span className={`pill verdict-${review.verdict}`}>
+                        {PROGRAM_REVIEW_VERDICT_LABELS[review.verdict as ProgramReviewVerdict] ?? review.verdict}
+                      </span>
+                    </td>
+                    <td>{review.comment ?? ""}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
 
         {program.weeks.map((week) => {
           const weekStart = addDays(program.startDate, (week.weekIndex - 1) * 7);

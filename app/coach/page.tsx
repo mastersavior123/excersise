@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser, isCoachEmail } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { PROGRAM_REVIEW_VERDICT_LABELS, type ProgramReviewVerdict } from "@/lib/constants";
 
 export default async function CoachPage() {
   const user = await getCurrentUser();
@@ -14,7 +15,10 @@ export default async function CoachPage() {
       levelAssessments: { orderBy: { assessedAt: "desc" }, take: 1 },
       programs: {
         orderBy: { createdAt: "desc" },
-        include: { _count: { select: { adjustmentEvents: true } } },
+        include: {
+          _count: { select: { adjustmentEvents: true } },
+          reviews: { orderBy: { createdAt: "desc" }, take: 1 },
+        },
       },
     },
   });
@@ -44,6 +48,7 @@ export default async function CoachPage() {
                 <th>레벨</th>
                 <th>프로그램 수</th>
                 <th>최신 프로그램</th>
+                <th>최신 검수</th>
                 <th>자동조정 누적</th>
               </tr>
             </thead>
@@ -51,6 +56,7 @@ export default async function CoachPage() {
               {users.map((u) => {
                 const level = u.levelAssessments[0]?.finalLevel;
                 const latestProgram = u.programs[0];
+                const latestReview = latestProgram?.reviews[0];
                 const totalAdjustments = u.programs.reduce((sum, p) => sum + p._count.adjustmentEvents, 0);
                 return (
                   <tr key={u.id}>
@@ -62,6 +68,18 @@ export default async function CoachPage() {
                         <Link href={`/program/${latestProgram.id}`}>
                           {latestProgram.createdAt.toISOString().slice(0, 10)}
                         </Link>
+                      ) : (
+                        "-"
+                      )}
+                    </td>
+                    <td>
+                      {latestReview ? (
+                        <span className={`pill verdict-${latestReview.verdict}`}>
+                          {PROGRAM_REVIEW_VERDICT_LABELS[latestReview.verdict as ProgramReviewVerdict] ??
+                            latestReview.verdict}
+                        </span>
+                      ) : latestProgram ? (
+                        "미검수"
                       ) : (
                         "-"
                       )}

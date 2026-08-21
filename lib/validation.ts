@@ -80,3 +80,8 @@ export const benchmarkResultSchema = z.object({
   resultText: z.string().trim().min(1, "결과를 입력하세요").max(100),
   notes: z.string().max(1000).optional(),
 });
+
+export const programReviewSchema = z.object({
+  verdict: z.enum(["approved", "needs_revision", "rejected"]),
+  comment: z.string().max(2000).optional(),
+});

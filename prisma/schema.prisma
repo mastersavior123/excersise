@@ -273,6 +273,7 @@ model AppUser {
   levelAssessments UserLevelAssessment[]
   programs         Program[]
   benchmarkResults BenchmarkResult[]
+  programReviews   ProgramReview[]
 
   @@map("app_user")
 }
@@ -374,6 +375,7 @@ model Program {
 
   weeks             ProgramWeek[]
   adjustmentEvents  ProgramAdjustmentEvent[]
+  reviews           ProgramReview[]
 
   @@map("program")
 }
@@ -492,4 +494,20 @@ model BenchmarkResult {
 
   @@unique([userId, year, workout])
   @@map("benchmark_result")
+}
+
+// 코치가 생성된 프로그램에 남기는 검수 기록. user_level_assessment와 같은 패턴으로
+// append-only 이력을 쌓는다(재검수 시 새 행 추가) — 최신 행이 "현재 검수 상태"다.
+model ProgramReview {
+  id        Int      @id @default(autoincrement())
+  programId String   @map("program_id")
+  program   Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  coachId   String   @map("coach_id")
+  coach     AppUser  @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  verdict   String // approved | needs_revision | rejected
+  comment   String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([programId, createdAt])
+  @@map("program_review")
 }
