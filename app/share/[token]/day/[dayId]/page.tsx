@@ -1,0 +1,125 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/db";
+import type { Prescription } from "@/lib/engine/prescribe";
+import { DAY_TYPE_LABELS, formatPrescription, SLOT_LABELS } from "@/lib/engine/format";
+
+export default async function SharedProgramDayPage({
+  params,
+}: {
+  params: Promise<{ token: string; dayId: string }>;
+}) {
+  const { token, dayId } = await params;
+
+  const day = await prisma.programDay.findUnique({
+    where: { id: Number(dayId) },
+    include: {
+      programWeek: { include: { program: true } },
+      blocks: {
+        orderBy: { orderIndex: "asc" },
+        include: {
+          exercise: {
+            include: {
+              relationsFrom: {
+                where: { relationType: "regression" },
+                orderBy: { orderIndex: "asc" },
+                include: { targetExercise: true },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const program = day?.programWeek.program;
+  if (!day || !program || !program.isPublic || program.shareToken !== token) notFound();
+
+  return (
+    <>
+      <div className="topbar">
+        <Link href="/" className="brand">
+          WOD Compiler
+        </Link>
+        <Link href={`/share/${token}`}>
+          <button className="secondary">캘린더로</button>
+        </Link>
+      </div>
+      <div className="container wide">
+        <h1>
+          {day.date.toISOString().slice(0, 10)}{" "}
+          <span className="pill">{DAY_TYPE_LABELS[day.dayType] ?? day.dayType}</span>
+        </h1>
+        <p className="lede">
+          Week {day.programWeek.weekIndex}
+          {day.programWeek.isDeload && " · 디로드 주"}
+        </p>
+
+        <div className="card">
+          <h2>세션</h2>
+          {day.blocks.map((block, i) => {
+            const prescription = block.prescription as unknown as Prescription;
+            const regressions = block.exercise.relationsFrom;
+            return (
+              <div
+                key={block.id}
+                style={{
+                  padding: "0.9rem 0",
+                  borderBottom: i < day.blocks.length - 1 ? "1px solid var(--steel-line)" : "none",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "baseline", gap: "0.6rem", flexWrap: "wrap" }}>
+                  <span className="pill" style={{ fontSize: "0.68rem" }}>
+                    {SLOT_LABELS[block.slot] ?? block.slot}
+                  </span>
+                  <strong>{block.exercise.nameKo}</strong>
+                  <span style={{ color: "var(--ink-soft)", fontSize: "0.85rem" }}>{block.exercise.nameEn}</span>
+                </div>
+                <p style={{ margin: "0.4rem 0" }}>
+                  {formatPrescription(prescription)}
+                  {prescription.adjustedBy && prescription.adjustedBy.length > 0 && (
+                    <span className="pill" style={{ marginLeft: "0.5rem", fontSize: "0.68rem" }}>
+                      자동 조정됨
+                    </span>
+                  )}
+                </p>
+
+                <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap", fontSize: "0.82rem" }}>
+                  {block.exercise.officialYoutubeUrl && (
+                    <a href={block.exercise.officialYoutubeUrl} target="_blank" rel="noreferrer">
+                      동작 영상 보기 ↗
+                    </a>
+                  )}
+                  {block.exercise.crossfitMovementsUrl && (
+                    <a href={block.exercise.crossfitMovementsUrl} target="_blank" rel="noreferrer">
+                      CrossFit Movements ↗
+                    </a>
+                  )}
+                </div>
+
+                {block.exercise.regressionText && (
+                  <p className="hint" style={{ marginTop: "0.4rem" }}>
+                    회귀(쉬운 버전): {block.exercise.regressionText}
+                    {regressions.length > 0 && (
+                      <>
+                        {" "}
+                        —{" "}
+                        {regressions.map((r, idx) => (
+                          <span key={r.id}>
+                            {idx > 0 && ", "}
+                            <strong>{r.targetExercise.nameKo}</strong>
+                          </span>
+                        ))}{" "}
+                        참고 가능 (자극·시간 유지, 처방은 재계산되지 않은 참고용)
+                      </>
+                    )}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+}

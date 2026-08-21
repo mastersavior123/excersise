@@ -14,27 +14,40 @@
   근거를 남긴다.
 - **Phase 5 (완료, 범위 축소된 v1)**: 코치 검수용 데이터 Export(생성된 프로그램·Exercise_DB
   전체 CSV/JSON), 오픈 워크아웃 벤치마크 기록, 코치 대시보드(이메일 allowlist 기반 읽기 전용
-  타 사용자 프로그램 열람 + 프로그램 검수 판정/코멘트 제출). 모바일 앱·커뮤니티/공유는 아직
-  시작하지 않았다.
+  타 사용자 프로그램 열람 + 프로그램 검수 판정/코멘트 제출).
+- **Phase 6 (완료, 범위 축소된 v1)**: PWA(설치 가능한 앱 셸 + 오프라인 폴백), 프로그램 공개
+  공유 링크(로그인 없이 읽기 전용 열람), 팔로우 + 피드(팔로우한 사용자의 벤치마크 기록·공개
+  프로그램만 노출).
 
 ## 구조
 
 ```
 app/                       # Next.js App Router — 페이지 + API 라우트
   page.tsx, signup/, login/, onboarding/, dashboard/
-  program/[id]/              # 월간 캘린더
+  program/[id]/              # 월간 캘린더 (소유자 전용 공개 공유 토글 포함)
   program/[id]/day/[dayId]/  # 세션 상세 + 완료 로그
+  share/[token]/              # Phase 6: 로그인 없이 보는 공개 읽기 전용 캘린더
+  share/[token]/day/[dayId]/  # Phase 6: 공개 읽기 전용 세션 상세(개인 로그 제외)
+  feed/                        # Phase 6: 팔로우 중인 사용자의 벤치마크·공개 프로그램 피드
+  manifest.ts                  # Phase 6: PWA 웹 매니페스트
+  offline/                     # Phase 6: 서비스워커 오프라인 폴백 페이지
   api/auth/{signup,login,logout}
   api/onboarding/{profile,one-rm,capability,resources-goals,complete}
   api/program/generate
   api/program/[id]/export    # 코치 검수용 CSV/JSON 다운로드
   api/program/[id]/review     # 코치 검수 판정(승인/수정필요/반려)+코멘트 제출
+  api/program/[id]/share       # Phase 6: 공개 공유 링크 활성화/재발급/비활성화
   api/program/day/[dayId]/log
   api/benchmarks              # 오픈 워크아웃 벤치마크 기록 upsert
+  api/follow                   # Phase 6: 팔로우/언팔로우
   benchmarks/                  # 오픈 워크아웃 벤치마크 기록 화면
   coach/                        # 코치 대시보드(이메일 allowlist)
 components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm,
-                            # BenchmarkForm, ProgramReviewForm
+                            # BenchmarkForm, ProgramReviewForm, ProgramShareControl, FollowButton,
+                            # ServiceWorkerRegister
+public/
+  sw.js                       # Phase 6: 서비스워커(앱 셸 캐시 + 오프라인 폴백)
+  icon-192.png, icon-512.png, icon-maskable-512.png   # Phase 6: PWA 아이콘(sharp로 생성)
 lib/                       # Next 런타임에서 쓰는 서버 로직
   db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts
   levelAssessment.ts        # 레벨 스코어링 순수 함수
@@ -60,7 +73,8 @@ prisma/
   schema.prisma           # 지식베이스 10개(Phase 0) + 사용자 도메인 6개(Phase 1) + 프로그램 5개(Phase 2)
                            # + 완료 로그 1개(Phase 3) + 조정 이력 1개(Phase 4)
                            # + 벤치마크 기록 1개 + 프로그램 검수 1개(Phase 5, benchmark_result,
-                           # program_review) 테이블
+                           # program_review) + 팔로우 1개(Phase 6, follow; program에 is_public/
+                           # share_token/shared_at 컬럼 추가) 테이블
 scripts/
   export/exportExerciseDb.ts # Phase 5: Exercise_DB 전체를 코치 검수용 CSV/JSON으로 내보내는 CLI
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
@@ -361,6 +375,71 @@ verdict 값(400)을 각각 실제로 재현해 정확한 상태 코드가 나오
 - **검수 대상 선택 UI가 없다.** 코치가 "이 사용자를 다음에 검수해야지" 같은 큐 관리는 못 하고,
   코치 대시보드에서 "미검수" 배지를 보고 수동으로 골라 들어가야 한다.
 
+## Phase 6 — PWA · 공개 공유 · 팔로우/피드
+
+원래 로드맵의 "모바일 앱"과 "커뮤니티/공유"를 시작했다. 둘 다 그대로 하기엔 이 원격
+컨테이너 환경과 맞지 않는 부분이 있어 시작 전에 범위를 좁혔다: 모바일 앱은 iOS/Android
+시뮬레이터가 없는 이 세션에서 실행 검증이 불가능한 React Native 같은 별도 코드베이스 대신
+**PWA**(기존 Next.js 코드베이스에 매니페스트+서비스워커만 추가)로, 커뮤니티/공유는 원 로드맵의
+네 항목(공유 링크·리더보드·팔로우·프로필) 중 **프로그램 공개 공유 링크**와 **팔로우/피드**
+두 가지로 좁혔다.
+
+**PWA**: `app/manifest.ts`가 Next.js 메타데이터 라우트로 `/manifest.webmanifest`를 생성한다
+(이름·아이콘·`display: standalone`·`theme_color`). 아이콘 3장(192/512/마스커블 512)은
+`sharp`로 즉석에서 렌더링해 `public/`에 커밋했다. `public/sw.js`는 페이지 탐색은
+네트워크 우선(실패 시 `/offline` 폴백)으로, 아이콘 같은 정적 자산은 캐시 우선으로 처리하고
+**API/훈련 데이터 요청에는 관여하지 않는다** — 캐시 때문에 프로그램·로그가 낡아 보이는 걸
+막기 위한 의도적 선택이다. `next.config.mjs`에 `/sw.js`가 브라우저에 캐시되지 않도록
+`Cache-Control: no-cache` 헤더를 추가했다(업데이트가 항상 반영되도록).
+
+**프로그램 공개 공유**: `program.is_public`/`share_token`(유니크, 12자 `crypto.randomBytes`
+base64url)/`shared_at` 3개 컬럼을 추가했다. `/program/[id]`의 소유자(코치 열람 모드 제외)에게만
+"공개 공유" 카드가 보이고, `POST /api/program/[id]/share`로 활성화/재발급/비활성화한다.
+재발급하면 이전 토큰은 즉시 무효화(값이 바뀌므로)되고, 비활성화하면 토큰 자체를 `null`로
+지운다. 공개 페이지(`/share/[token]`, `/share/[token]/day/[dayId]`)는 로그인 없이 열리지만
+**완료 로그(RPE·통증·수면·메모)와 코치 검수 카드는 아예 렌더링하지 않는다** — 소유자 페이지
+컴포넌트를 재사용하지 않고 별도로 작성해서, 나중에 소유자 페이지에 필드가 추가돼도 실수로
+공개 페이지에 새어나가지 않게 했다.
+
+**팔로우/피드**: `follow` 테이블(`followerId`+`followeeId` 유니크)과 `POST`/`DELETE
+/api/follow`. 팔로우 진입점은 별도의 "사용자 검색/디렉터리" 화면을 만드는 대신 **공개 공유
+페이지에 팔로우 버튼을 붙이는 것**으로 좁혔다 — 이 앱엔 사용자명이 없고 이메일이 유일한
+식별자라, 공개 디렉터리를 만들면 이메일을 사실상 공개하는 셈이 된다. 그래서 익명 방문자에게는
+이메일을 보여주지 않고(로그인 유도만), 팔로우는 프로그램 작성자의 `userId`를 대상으로 한다.
+`/feed`는 팔로우 중인 사용자의 **벤치마크 기록 전체**(별도 공개 설정 없음 — 벤치마크는
+원래도 소유자만 보던 데이터라 팔로우가 곧 공개 동의로 취급)와 **공개(`isPublic`) 전환한
+프로그램만** 시간순으로 합쳐 보여준다. 비공개 프로그램·완료 로그는 팔로우해도 절대 보이지
+않는다.
+
+실제로 새 소유자·팔로워 테스트 계정으로 전체 흐름을 재현했다: 공유 활성화 → 익명 curl로
+캘린더/세션 상세 열람(완료 로그·코치 검수 섹션이 응답에 전혀 없음 확인) → 재발급 후 이전
+토큰 404, 새 토큰 200 → 비활성화 후 404 → 코치 계정이 타인 프로그램의 공유 설정을 바꾸려
+하면 404(소유자 전용, 코치 열람 권한과는 별개) → 팔로워 계정이 로그인 후 팔로우 →
+벤치마크 기록 저장 → 팔로워의 `/feed`에 벤치마크·공유 프로그램 둘 다 반영 → 언팔로우 후
+피드가 다시 비는 것까지 확인. 자기 자신 팔로우(400)·존재하지 않는 사용자 팔로우(404)·
+미로그인 팔로우(401)도 재현했다. `manifest.webmanifest`·`sw.js`·아이콘 3장이 올바른
+`Content-Type`/캐시 헤더로 서빙되는 것도 curl로 확인. `npx tsc --noEmit`, `npm run build`
+모두 통과(23개 라우트 생성 확인).
+
+### Phase 6 — 의도적으로 축소한 범위
+
+- **진짜 네이티브 모바일 앱은 만들지 않았다.** PWA는 홈 화면 설치·오프라인 앱 셸까지는
+  되지만, 이 환경엔 모바일 브라우저/기기가 없어 설치 프롬프트나 실제 기기에서의 동작은
+  검증하지 못했다(매니페스트 스펙 준수와 서비스워커 등록/캐시 동작만 curl·빌드로 확인).
+  푸시 알림은 아예 손대지 않았다 — VAPID 키 발급·`web-push` 패키지가 필요하고 이번 스코프
+  밖이다.
+- **오프라인 지원은 앱 셸뿐이다.** `/offline` 폴백 페이지와 아이콘만 미리 캐시한다 —
+  프로그램·훈련 로그 같은 실제 데이터는 오프라인에서 전혀 안 보인다. 진짜 오프라인 데이터
+  열람은 IndexedDB 동기화 같은 훨씬 큰 작업이라 손대지 않았다.
+- **사용자 검색/디렉터리가 없다.** 팔로우는 공개 공유 링크를 통해서만 시작할 수 있고, "이
+  사람을 팔로우해볼까" 하고 둘러볼 방법이 없다 — 의도적으로 이메일을 공개 디렉터리로
+  노출하지 않기 위한 선택이지만, 결과적으로 팔로우 발견성이 매우 낮다.
+- **좋아요/댓글/알림이 없다.** 피드는 읽기 전용 타임라인이고, 상호작용(반응·댓글)이나
+  새 활동에 대한 알림은 없다.
+- **벤치마크는 팔로워 전체에게 그대로 공개된다.** 프로그램처럼 개별로 공개/비공개를
+  고를 수 없다 — 누군가를 팔로우로 받아들이면 내 벤치마크 기록 전체가 그 사람에게
+  보인다. 세밀한 공개 범위 제어는 다음 반복 과제다.
+
 ## 실행 결과 (2026-08-18 기준)
 
 ```
@@ -429,6 +508,12 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 - **코치 검수는 사람이 읽는 기록일 뿐, 시스템 동작에 연결되지 않는다**: "Phase 5 (계속 2) —
   의도적으로 축소한 범위" 참고. 판정이 남아도 프로그램이 자동으로 바뀌지 않고, 사용자에게
   알림도 가지 않는다.
+- **모바일은 PWA뿐, 네이티브 앱은 없다**: "Phase 6 — 의도적으로 축소한 범위" 참고. 실제
+  모바일 기기/시뮬레이터에서의 설치·동작은 검증하지 못했고, 오프라인 지원은 앱 셸(정적
+  자산)뿐이라 실제 데이터는 오프라인에서 보이지 않는다.
+- **팔로우는 사용자 검색 없이 공개 공유 링크를 통해서만 가능하다**: 발견성이 매우 낮다.
+  벤치마크 기록은 팔로워에게 전체 공개되고 개별로 비공개 처리할 수 없다 — "Phase 6 —
+  의도적으로 축소한 범위" 참고.
 
 ## 스크립트
 

@@ -60,6 +60,9 @@ export default async function DashboardPage() {
           <Link href="/benchmarks">
             <button className="secondary">오픈 벤치마크</button>
           </Link>
+          <Link href="/feed">
+            <button className="secondary">피드</button>
+          </Link>
           {isCoachEmail(user.email) && (
             <Link href="/coach">
               <button className="secondary">코치 대시보드</button>

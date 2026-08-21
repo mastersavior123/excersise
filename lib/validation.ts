@@ -85,3 +85,11 @@ export const programReviewSchema = z.object({
   verdict: z.enum(["approved", "needs_revision", "rejected"]),
   comment: z.string().max(2000).optional(),
 });
+
+export const programShareSchema = z.object({
+  action: z.enum(["enable", "regenerate", "disable"]),
+});
+
+export const followSchema = z.object({
+  followeeId: z.string().min(1),
+});

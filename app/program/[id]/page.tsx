@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import { DAY_TYPE_LABELS, LEDGER_LABELS } from "@/lib/engine/format";
 import { PROGRAM_REVIEW_VERDICT_LABELS, type ProgramReviewVerdict } from "@/lib/constants";
 import ProgramReviewForm from "@/components/ProgramReviewForm";
+import ProgramShareControl from "@/components/ProgramShareControl";
 
 const WEEKDAY_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
 
@@ -70,6 +71,17 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
           {" · "}
           <a href={`/api/program/${program.id}/export?format=json`}>JSON 다운로드</a>
         </p>
+
+        {!isCoachViewing && (
+          <div className="card" style={{ marginBottom: "1.5rem" }}>
+            <h2>공개 공유</h2>
+            <ProgramShareControl
+              programId={program.id}
+              initialIsPublic={program.isPublic}
+              initialShareToken={program.shareToken}
+            />
+          </div>
+        )}
 
         <div className="card" style={{ marginBottom: "1.5rem" }}>
           <h2>코치 검수</h2>

@@ -274,6 +274,8 @@ model AppUser {
   programs         Program[]
   benchmarkResults BenchmarkResult[]
   programReviews   ProgramReview[]
+  following        Follow[] @relation("Follower")
+  followers        Follow[] @relation("Followee")
 
   @@map("app_user")
 }
@@ -372,6 +374,9 @@ model Program {
   priorityGoals String[] @map("priority_goals")
   status        String   @default("active") // active | completed | archived
   createdAt     DateTime @default(now()) @map("created_at")
+  isPublic      Boolean  @default(false) @map("is_public")
+  shareToken    String?  @unique @map("share_token")
+  sharedAt      DateTime? @map("shared_at")
 
   weeks             ProgramWeek[]
   adjustmentEvents  ProgramAdjustmentEvent[]
@@ -510,4 +515,19 @@ model ProgramReview {
 
   @@index([programId, createdAt])
   @@map("program_review")
+}
+
+// 팔로우 관계. 팔로우하면 피드(/feed)에서 상대의 벤치마크 기록과 공개(isPublic) 전환한
+// 프로그램만 볼 수 있다 — 비공개 프로그램 본문·완료 로그 같은 개인 훈련 데이터는 팔로우해도
+// 보이지 않는다.
+model Follow {
+  id         Int      @id @default(autoincrement())
+  followerId String   @map("follower_id")
+  follower   AppUser  @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followeeId String   @map("followee_id")
+  followee   AppUser  @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([followerId, followeeId])
+  @@map("follow")
 }
