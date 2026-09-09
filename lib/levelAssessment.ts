@@ -27,24 +27,32 @@ export interface LevelAssessmentResult {
   suggestedLevel: 1 | 2 | 3 | 4;
 }
 
-const WEIGHTS = { skill: 0.4, relativeOneRm: 0.3, frequency: 0.2, goal: 0.1 } as const;
+export const LEVEL_WEIGHTS = { skill: 0.4, relativeOneRm: 0.3, frequency: 0.2, goal: 0.1 } as const;
+const WEIGHTS = LEVEL_WEIGHTS;
+
+/** 백스쿼트 1RM/체중 비율 구간 → 점수. 성별·연령 보정 없이 하나의 척도만 쓴다(코치 검수 항목). */
+export const RELATIVE_ONE_RM_BANDS: [maxRatioExclusive: number, score: number][] = [
+  [0.5, 1],
+  [0.75, 3],
+  [1.0, 5],
+  [1.5, 7],
+  [2.0, 9],
+];
+export const RELATIVE_ONE_RM_TOP_SCORE = 10;
+
+/** 종합 점수(0~10) → 레벨 컷오프: >8.5 → L4, >6 → L3, >3 → L2, 그 외 L1 */
+export const LEVEL_CUTOFFS = { level4: 8.5, level3: 6, level2: 3 } as const;
 
 function scoreSkill(capabilities: Partial<Record<MovementGroup, boolean>>): number {
   const passed = MOVEMENT_GROUPS.filter((group) => capabilities[group]).length;
   return (passed / MOVEMENT_GROUPS.length) * 10;
 }
 
-// 백스쿼트 1RM/체중 비율 임계값. 성별·연령 보정 없이 임시로 하나의 척도만 쓴다 —
-// 원 설계 문서(README) 기준 코치 검수 필요 항목.
 function scoreRelativeOneRm(squatOneRmKg: number | null, bodyweightKg: number | null): number {
   if (!squatOneRmKg || !bodyweightKg) return 0;
   const ratio = squatOneRmKg / bodyweightKg;
-  if (ratio < 0.5) return 1;
-  if (ratio < 0.75) return 3;
-  if (ratio < 1.0) return 5;
-  if (ratio < 1.5) return 7;
-  if (ratio < 2.0) return 9;
-  return 10;
+  for (const [max, score] of RELATIVE_ONE_RM_BANDS) if (ratio < max) return score;
+  return RELATIVE_ONE_RM_TOP_SCORE;
 }
 
 function scoreFrequency(freq: number | null): number {
@@ -71,9 +79,9 @@ export function assessLevel(input: LevelAssessmentInput): LevelAssessmentResult 
     goal * WEIGHTS.goal;
 
   let suggestedLevel: 1 | 2 | 3 | 4 = 1;
-  if (score > 8.5) suggestedLevel = 4;
-  else if (score > 6) suggestedLevel = 3;
-  else if (score > 3) suggestedLevel = 2;
+  if (score > LEVEL_CUTOFFS.level4) suggestedLevel = 4;
+  else if (score > LEVEL_CUTOFFS.level3) suggestedLevel = 3;
+  else if (score > LEVEL_CUTOFFS.level2) suggestedLevel = 2;
 
   return { score, breakdown: { skill, relativeOneRm, frequency, goal }, suggestedLevel };
 }

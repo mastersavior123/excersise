@@ -9,12 +9,15 @@ export interface WellnessInput {
   motivation: number | null;
 }
 
+/** MD 7장 웰니스 임계값: 수면≤5h · 통증≥6/10 · 의욕≤3/10 */
+export const WELLNESS_THRESHOLDS = { sleepHoursMax: 5, painMin: 6, motivationMax: 3 } as const;
+
 /** 수면≤5h · 통증≥6/10 · 의욕≤3/10 중 몇 개에 해당하는지 */
 export function wellnessFlagCount(input: WellnessInput): number {
   let count = 0;
-  if (input.sleepHours !== null && input.sleepHours <= 5) count++;
-  if (input.pain !== null && input.pain >= 6) count++;
-  if (input.motivation !== null && input.motivation <= 3) count++;
+  if (input.sleepHours !== null && input.sleepHours <= WELLNESS_THRESHOLDS.sleepHoursMax) count++;
+  if (input.pain !== null && input.pain >= WELLNESS_THRESHOLDS.painMin) count++;
+  if (input.motivation !== null && input.motivation <= WELLNESS_THRESHOLDS.motivationMax) count++;
   return count;
 }
 

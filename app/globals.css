@@ -404,3 +404,13 @@ table.mini td {
   border-color: var(--danger);
   color: var(--danger);
 }
+
+.pill.review-approved {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.pill.review-needs_change {
+  border-color: var(--danger);
+  color: var(--danger);
+}

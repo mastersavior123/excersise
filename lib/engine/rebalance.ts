@@ -15,6 +15,12 @@ const VOLUME_SLOTS = new Set(["main_strength", "accessory", "metcon"]);
 const BASELINE_WINDOW_DAYS = 28;
 /** MD 9장 19행 "2회 연속 실패 시 5~10% 감량" — 중간값 7.5% */
 export const STRENGTH_CUT_FACTOR = 0.925;
+/** MD 7장 "당일 볼륨 30~40% 감량" — 중간값 35% */
+export const WELLNESS_CUT_FACTOR = 0.65;
+/** MD 7장 "다음 Big을 Little로" — 세트 약 30% 감량으로 해석 */
+export const LOAD_SPIKE_CUT_FACTOR = 0.7;
+/** 조기 디로드 주 세트 감량 (MD 9장 "디로드 60~75%") */
+export const EARLY_DELOAD_FACTOR = 0.7;
 
 export interface AppliedAdjustment {
   triggerRule:
@@ -158,7 +164,7 @@ export async function runFeedbackLoop(programDayId: number): Promise<AppliedAdju
       const targets = dayRecord?.blocks.filter((b) => VOLUME_SLOTS.has(b.slot)) ?? [];
       let changed = false;
       for (const block of targets) {
-        if (await store.applyIfUntagged(tx, block.id, 0.65, "wellness_2of3")) changed = true;
+        if (await store.applyIfUntagged(tx, block.id, WELLNESS_CUT_FACTOR, "wellness_2of3")) changed = true;
       }
       if (changed) {
         await event(day.programWeekId, {
@@ -178,7 +184,7 @@ export async function runFeedbackLoop(programDayId: number): Promise<AppliedAdju
         const targets = nextBigDay.blocks.filter((b) => VOLUME_SLOTS.has(b.slot));
         let changed = false;
         for (const block of targets) {
-          if (await store.applyIfUntagged(tx, block.id, 0.7, "rpe_load_spike")) changed = true;
+          if (await store.applyIfUntagged(tx, block.id, LOAD_SPIKE_CUT_FACTOR, "rpe_load_spike")) changed = true;
         }
         if (changed) {
           await event(nextBigDay.programWeekId, {
@@ -203,10 +209,10 @@ export async function runFeedbackLoop(programDayId: number): Promise<AppliedAdju
         .sort((a, b) => a.weekIndex - b.weekIndex)[0];
 
       if (nextWeek && !nextWeek.days.some((d) => d.log?.completed)) {
-        await tx.programWeek.update({ where: { id: nextWeek.id }, data: { isDeload: true, loadMultiplier: 0.7 } });
+        await tx.programWeek.update({ where: { id: nextWeek.id }, data: { isDeload: true, loadMultiplier: EARLY_DELOAD_FACTOR } });
         for (const d of nextWeek.days) {
           for (const block of d.blocks) {
-            await store.applyIfUntagged(tx, block.id, 0.7, "chronic_fatigue");
+            await store.applyIfUntagged(tx, block.id, EARLY_DELOAD_FACTOR, "chronic_fatigue");
           }
         }
         await event(nextWeek.id, {

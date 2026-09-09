@@ -282,8 +282,23 @@ model AppUser {
   programReviews   ProgramReview[]
   following        Follow[] @relation("Follower")
   followers        Follow[] @relation("Followee")
+  parameterReviews ParameterReview[]
 
   @@map("app_user")
+}
+
+// Phase 7: 코드에 박힌 잠정 파라미터(%1RM 테이블, 레벨 가중치, 감량 계수 등)의 코치 검수 상태.
+// 값 자체는 코드(lib/assumptions.ts가 상수에서 읽어 렌더)에 있고, 여기엔 "누가 언제 승인/수정요청
+// 했는가"만 남긴다 — 값을 DB로 옮겨 UI에서 고치게 하는 건 검수가 한 번 끝난 뒤의 일이다.
+model ParameterReview {
+  key          String   @id
+  status       String // pending | approved | needs_change
+  note         String?
+  reviewedById String   @map("reviewed_by_id")
+  reviewedBy   AppUser  @relation(fields: [reviewedById], references: [id], onDelete: Cascade)
+  reviewedAt   DateTime @default(now()) @updatedAt @map("reviewed_at")
+
+  @@map("parameter_review")
 }
 
 // 온보딩 Step 2·5의 기본 정보 + 가용 자원/목표. 단계마다 부분 저장되므로 필수 항목이 거의 없다 —
