@@ -265,6 +265,12 @@ model AppUser {
   email        String   @unique
   passwordHash String   @map("password_hash")
   createdAt    DateTime @default(now()) @map("created_at")
+  // Phase 7: 역할 기반 권한. user | coach | admin. COACH_EMAILS 환경변수는 "첫 관리자를 만드는
+  // 부트스트랩" 용도로만 남기고(lib/auth.ts), 이후 코치 추가/제거는 관리자가 /coach에서 한다.
+  role         String   @default("user")
+  // Phase 7: 서버 측 세션 무효화. 세션 쿠키에 발급 당시 값을 넣고, 검증 때 이 값과 비교한다.
+  // "모든 기기에서 로그아웃"은 이 숫자를 1 올리는 것으로 끝난다 — 세션 테이블 없이도 충분.
+  sessionVersion Int    @default(0) @map("session_version")
 
   profile          UserProfile?
   oneRMs           UserOneRM[]

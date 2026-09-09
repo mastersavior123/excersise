@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   const passwordHash = await hashPassword(password);
   const user = await prisma.appUser.create({ data: { email, passwordHash } });
-  await createSessionCookie(user.id);
+  await createSessionCookie(user.id, user.sessionVersion);
 
   return NextResponse.json({ ok: true });
 }

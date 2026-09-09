@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getCurrentUser, isCoachEmail } from "@/lib/auth";
+import { getCurrentUser, isCoach } from "@/lib/auth";
 import { PROGRAM_EXPORT_INCLUDE, buildProgramExportCsv, buildProgramExportJson } from "@/lib/engine/exportProgram";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -9,7 +9,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
   const { id } = await params;
   const program = await prisma.program.findUnique({ where: { id }, include: PROGRAM_EXPORT_INCLUDE });
-  if (!program || (program.userId !== user.id && !isCoachEmail(user.email))) {
+  if (!program || (program.userId !== user.id && !isCoach(user))) {
     return NextResponse.json({ error: "찾을 수 없습니다" }, { status: 404 });
   }
 

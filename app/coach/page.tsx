@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentUser, isCoachEmail } from "@/lib/auth";
+import { getCurrentUser, isAdmin, isBootstrapAdminEmail, isCoach } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { PROGRAM_REVIEW_VERDICT_LABELS, type ProgramReviewVerdict } from "@/lib/constants";
+import RoleSelect from "@/components/RoleSelect";
+
+const ROLE_LABELS: Record<string, string> = { user: "사용자", coach: "코치", admin: "관리자" };
 
 export default async function CoachPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  if (!isCoachEmail(user.email)) redirect("/dashboard");
+  if (!isCoach(user)) redirect("/dashboard");
+  const admin = isAdmin(user);
 
   const users = await prisma.appUser.findMany({
     orderBy: { createdAt: "asc" },
@@ -36,15 +40,16 @@ export default async function CoachPage() {
       <div className="container wide">
         <h1>코치 대시보드</h1>
         <p className="lede">
-          <code>COACH_EMAILS</code> 환경변수에 등록된 이메일만 이 페이지를 볼 수 있다. 별도 가입
-          승인·역할 관리 없이 운영자가 직접 관리하는 allowlist라, 실제 코치 온보딩이 필요해지면
-          진짜 권한 체계로 바꿔야 한다.
+          역할이 코치/관리자인 계정만 이 페이지를 볼 수 있다. 관리자는 아래 표에서 다른 사용자의 역할을
+          바로 바꿀 수 있고, <code>COACH_EMAILS</code> 환경변수는 첫 관리자를 만드는 부트스트랩
+          용도로만 남아 있다(거기 적힌 이메일은 항상 관리자로 취급).
         </p>
         <div className="card">
           <table className="mini">
             <thead>
               <tr>
                 <th>이메일</th>
+                <th>역할</th>
                 <th>레벨</th>
                 <th>프로그램 수</th>
                 <th>최신 프로그램</th>
@@ -61,6 +66,16 @@ export default async function CoachPage() {
                 return (
                   <tr key={u.id}>
                     <td>{u.email}</td>
+                    <td>
+                      {admin ? (
+                        <RoleSelect userId={u.id} initialRole={u.role} />
+                      ) : (
+                        ROLE_LABELS[u.role] ?? u.role
+                      )}
+                      {isBootstrapAdminEmail(u.email) && (
+                        <span className="hint" style={{ marginLeft: "0.4rem" }}>(env)</span>
+                      )}
+                    </td>
                     <td>{level ?? "-"}</td>
                     <td>{u.programs.length}</td>
                     <td>

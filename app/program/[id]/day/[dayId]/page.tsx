@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { getCurrentUser, isCoachEmail } from "@/lib/auth";
+import { getCurrentUser, isCoach } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import type { Prescription } from "@/lib/engine/prescribe";
 import { DAY_TYPE_LABELS, formatPrescription, SLOT_LABELS } from "@/lib/engine/format";
@@ -38,7 +38,7 @@ export default async function ProgramDayPage({
   });
 
   const isOwner = day?.programWeek.program.userId === user.id;
-  const isCoachViewing = !isOwner && isCoachEmail(user.email);
+  const isCoachViewing = !isOwner && isCoach(user);
   if (!day || (!isOwner && !isCoachViewing) || day.programWeek.programId !== id) notFound();
 
   return (

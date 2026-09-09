@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getCurrentUser, isCoachEmail } from "@/lib/auth";
+import { getCurrentUser, isCoach } from "@/lib/auth";
 import { programReviewSchema } from "@/lib/validation";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
-  if (!isCoachEmail(user.email)) {
+  if (!isCoach(user)) {
     return NextResponse.json({ error: "코치만 검수를 남길 수 있습니다" }, { status: 403 });
   }
 

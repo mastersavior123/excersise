@@ -24,6 +24,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: GENERIC_ERROR }, { status: 401 });
   }
 
-  await createSessionCookie(user.id);
+  await createSessionCookie(user.id, user.sessionVersion);
   return NextResponse.json({ ok: true });
 }

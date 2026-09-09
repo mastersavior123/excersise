@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentUser, isCoachEmail } from "@/lib/auth";
+import { getCurrentUser, isCoach } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isOnboardingComplete } from "@/lib/onboardingStatus";
 import LogoutButton from "@/components/LogoutButton";
+import LogoutAllButton from "@/components/LogoutAllButton";
 import ProgramGenerateButton from "@/components/ProgramGenerateButton";
 import {
   GOAL_LABELS,
@@ -63,7 +64,7 @@ export default async function DashboardPage() {
           <Link href="/feed">
             <button className="secondary">피드</button>
           </Link>
-          {isCoachEmail(user.email) && (
+          {isCoach(user) && (
             <Link href="/coach">
               <button className="secondary">코치 대시보드</button>
             </Link>
@@ -173,7 +174,7 @@ export default async function DashboardPage() {
           <ProgramGenerateButton />
         </div>
 
-        <div className="card">
+        <div className="card" style={{ marginBottom: "1.5rem" }}>
           <h2>기술 체크리스트</h2>
           <table className="mini">
             <tbody>
@@ -188,6 +189,15 @@ export default async function DashboardPage() {
               })}
             </tbody>
           </table>
+        </div>
+
+        <div className="card">
+          <h2>보안</h2>
+          <p className="lede" style={{ marginBottom: "0.8rem" }}>
+            기기를 잃어버렸거나 공용 PC에서 로그아웃을 잊었다면, 이 계정으로 열려 있는 모든 세션을 한 번에
+            끊을 수 있습니다.
+          </p>
+          <LogoutAllButton />
         </div>
       </div>
     </>

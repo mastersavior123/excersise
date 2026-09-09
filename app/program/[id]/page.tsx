@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { getCurrentUser, isCoachEmail } from "@/lib/auth";
+import { getCurrentUser, isCoach } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { DAY_TYPE_LABELS, LEDGER_LABELS } from "@/lib/engine/format";
 import { PROGRAM_REVIEW_VERDICT_LABELS, type ProgramReviewVerdict } from "@/lib/constants";
@@ -42,7 +42,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
     },
   });
 
-  const isCoachViewing = program?.userId !== user.id && isCoachEmail(user.email);
+  const isCoachViewing = program?.userId !== user.id && isCoach(user);
   if (!program || (program.userId !== user.id && !isCoachViewing)) notFound();
 
   return (
