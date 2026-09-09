@@ -25,6 +25,11 @@ export default async function HomePage() {
           <button className="secondary">로그인</button>
         </Link>
       </div>
+      <div className="card">
+        <Link href="/team-score">
+          <button className="secondary">워크샵 팀 점수 대시보드</button>
+        </Link>
+      </div>
     </div>
   );
 }

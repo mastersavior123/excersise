@@ -1,0 +1,204 @@
+.loading {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f6f3ec;
+  background: #14131a;
+  font-size: 1.25rem;
+}
+
+.board {
+  min-height: 100dvh;
+  width: 100%;
+  background: #14131a;
+  color: #f6f3ec;
+  padding: 1.5rem 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.teamCountControl {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #1f1e28;
+  border: 1px solid #34333f;
+  border-radius: 999px;
+  padding: 0.4rem 0.6rem;
+}
+
+.teamCountLabel {
+  font-size: 0.85rem;
+  color: #a9a6b8;
+  padding-left: 0.4rem;
+}
+
+.teamCount {
+  min-width: 1.6rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.stepButton {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: none;
+  background: #34333f;
+  color: #f6f3ec;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stepButton:hover:not(:disabled) {
+  background: #45424f;
+}
+
+.stepButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.resetButton {
+  border: 1px solid #45424f;
+  background: transparent;
+  color: #cfcbdb;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  border-color: #d9491d;
+  color: #f6f3ec;
+}
+
+.grid {
+  flex: 1;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid[data-count="3"],
+.grid[data-count="5"],
+.grid[data-count="6"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid[data-count="4"],
+.grid[data-count="7"],
+.grid[data-count="8"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+.card {
+  background: #1f1e28;
+  border: 1px solid #34333f;
+  border-radius: 16px;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card[data-leader="true"] {
+  border-color: #d9491d;
+  box-shadow: 0 0 0 2px rgba(217, 73, 29, 0.35);
+}
+
+.nameInput {
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: #f6f3ec;
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  font-weight: 700;
+  padding: 0.25rem 0.25rem 0.4rem;
+}
+
+.nameInput:focus {
+  outline: none;
+  border-bottom-color: #d9491d;
+}
+
+.score {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.scoreButtons {
+  display: flex;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.plusButton {
+  flex: 1;
+  border: none;
+  border-radius: 10px;
+  background: #d9491d;
+  color: #fff7ee;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.7rem 0.5rem;
+  cursor: pointer;
+}
+
+.plusButton:hover {
+  background: #c13f18;
+}
+
+.minusButton {
+  border: 1px solid #45424f;
+  border-radius: 10px;
+  background: transparent;
+  color: #cfcbdb;
+  font-size: 0.9rem;
+  padding: 0.7rem 0.75rem;
+  cursor: pointer;
+}
+
+.minusButton:hover {
+  border-color: #b3261e;
+  color: #f6f3ec;
+}
