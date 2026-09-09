@@ -283,6 +283,7 @@ model AppUser {
   following        Follow[] @relation("Follower")
   followers        Follow[] @relation("Followee")
   parameterReviews ParameterReview[]
+  notifications    Notification[]
 
   @@map("app_user")
 }
@@ -537,12 +538,39 @@ model BenchmarkResult {
   year        Int
   workout     String
   openWorkout OpenWorkout @relation(fields: [year, workout], references: [year, workout])
-  resultText  String      @map("result_text") // '12:34', '185 reps', '95kg' 등
+  resultText  String      @map("result_text") // '12:34', '185 reps', '95kg' 등 — 원문은 항상 보존
   recordedAt  DateTime    @default(now()) @map("recorded_at")
   notes       String?
+  // Phase 7: 원문을 lib/benchmarkParse.ts로 해석한 구조화 값(리더보드 정렬용). 파싱 실패면 kind=null.
+  resultKind    String?  @map("result_kind") // time | reps | rounds_reps | load
+  resultSeconds Int?     @map("result_seconds")
+  resultReps    Int?     @map("result_reps") // reps 또는 rounds_reps의 추가 반복
+  resultRounds  Int?     @map("result_rounds")
+  resultLoadKg  Decimal? @map("result_load_kg")
+  scaled        Boolean  @default(false) // Rx가 아니면 true
+  // 공개 여부. 리더보드(/benchmarks/[year]/[workout])와 팔로워 피드에는 공개 기록만 나온다 —
+  // Phase 6에서 "팔로우하면 벤치마크 전체 공개"였던 것을 기록별 선택으로 바꿨다.
+  isPublic      Boolean  @default(false) @map("is_public")
 
   @@unique([userId, year, workout])
+  @@index([year, workout, isPublic])
   @@map("benchmark_result")
+}
+
+// Phase 7: 앱 내 알림. 코치 검수가 남거나 누군가 팔로우하면 대상 사용자에게 쌓인다.
+// 이메일/푸시는 없다 — 대시보드 상단 배지 + /notifications 목록이 전부.
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    String    @map("user_id")
+  user      AppUser   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // program_review | new_follower
+  message   String
+  link      String?
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId, readAt])
+  @@map("notification")
 }
 
 // 코치가 생성된 프로그램에 남기는 검수 기록. user_level_assessment와 같은 패턴으로

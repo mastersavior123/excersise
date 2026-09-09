@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireUserId } from "@/lib/auth";
 import { followSchema } from "@/lib/validation";
+import { notify } from "@/lib/notifications";
 
 export async function POST(req: NextRequest) {
   const userId = await requireUserId();
@@ -20,11 +21,15 @@ export async function POST(req: NextRequest) {
   const followee = await prisma.appUser.findUnique({ where: { id: followeeId }, select: { id: true } });
   if (!followee) return NextResponse.json({ error: "존재하지 않는 사용자입니다" }, { status: 404 });
 
-  await prisma.follow.upsert({
+  const existing = await prisma.follow.findUnique({
     where: { followerId_followeeId: { followerId: userId, followeeId } },
-    create: { followerId: userId, followeeId },
-    update: {},
   });
+  if (!existing) {
+    const follower = await prisma.appUser.findUnique({ where: { id: userId }, select: { email: true } });
+    await prisma.follow.create({ data: { followerId: userId, followeeId } });
+    // Phase 7: 새 팔로워 알림. 재팔로우(언팔로우 후 다시)도 새 행이므로 다시 알린다 — 스팸 방지 없음(README).
+    await notify(followeeId, "new_follower", `${follower?.email ?? "누군가"} 님이 회원님을 팔로우했습니다`, "/feed");
+  }
 
   return NextResponse.json({ ok: true, following: true });
 }

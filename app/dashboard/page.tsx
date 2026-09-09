@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser, isCoach } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isOnboardingComplete } from "@/lib/onboardingStatus";
+import { unreadNotificationCount } from "@/lib/notifications";
 import LogoutButton from "@/components/LogoutButton";
 import LogoutAllButton from "@/components/LogoutAllButton";
 import ProgramGenerateButton from "@/components/ProgramGenerateButton";
@@ -36,11 +37,14 @@ export default async function DashboardPage() {
     prisma.userLevelAssessment.findFirst({ where: { userId: user.id }, orderBy: { assessedAt: "desc" } }),
   ]);
 
-  const programs = await prisma.program.findMany({
-    where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-    take: 5,
-  });
+  const [programs, unread] = await Promise.all([
+    prisma.program.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    }),
+    unreadNotificationCount(user.id),
+  ]);
 
   const latestOneRmByLift = new Map<string, (typeof oneRms)[number]>();
   for (const rm of oneRms) {
@@ -63,6 +67,9 @@ export default async function DashboardPage() {
           </Link>
           <Link href="/feed">
             <button className="secondary">피드</button>
+          </Link>
+          <Link href="/notifications">
+            <button className="secondary">알림{unread > 0 ? ` (${unread})` : ""}</button>
           </Link>
           {isCoach(user) && (
             <Link href="/coach">
