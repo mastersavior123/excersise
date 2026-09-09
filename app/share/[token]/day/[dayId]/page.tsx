@@ -53,6 +53,7 @@ export default async function SharedProgramDayPage({
         <p className="lede">
           Week {day.programWeek.weekIndex}
           {day.programWeek.isDeload && " · 디로드 주"}
+          {day.conditioningText && ` · 컨디셔닝 ${day.conditioningText}${day.conditioningLowIntensity ? " (저강도)" : ""}`}
         </p>
 
         <div className="card">

@@ -414,6 +414,10 @@ model ProgramDay {
   dayType       String           @map("day_type") // big | small | mixed (session_template.day_type에서 파생)
   templateId    String?          @map("template_id")
   template      SessionTemplate? @relation(fields: [templateId], references: [templateId])
+  // Phase 7: 그 날의 컨디셔닝 목표(세션 템플릿 원문, 예: '7~10분')와 장부 조정 4단계의 "저강도 전환"
+  // 결과. 이전에는 생성 시 장부 계산에만 쓰고 저장하지 않아 세션 화면에 컨디셔닝이 아예 안 보였다.
+  conditioningText          String?  @map("conditioning_text")
+  conditioningLowIntensity  Boolean  @default(false) @map("conditioning_low_intensity")
 
   blocks ProgramBlock[]
   log    TrainingLog?
@@ -431,7 +435,22 @@ model ProgramBlock {
   exercise     Exercise   @relation(fields: [exerciseId], references: [exerciseId])
   prescription Json // {doseRaw, setsMin?, setsMax?, repsMin?, repsMax?, loadKg?, percent1RM?}
 
+  result BlockResult?
+
   @@map("program_block")
+}
+
+// Phase 7: 블록 단위 결과. MD 9장 19·20행(근력 실패 시 중량 유지/감량, 기술 실패 시 회귀)은
+// "세션을 했다/안 했다"만으로는 판정할 수 없어서 주근력·기술 블록에 성공/부분/실패를 남기게 했다.
+// 세트 하나하나를 기록하게 하면 사용자가 안 쓴다 — 블록당 한 번의 3택이 실사용 한계선이라고 봤다.
+model BlockResult {
+  id             Int          @id @default(autoincrement())
+  programBlockId Int          @unique @map("program_block_id")
+  programBlock   ProgramBlock @relation(fields: [programBlockId], references: [id], onDelete: Cascade)
+  outcome        String // success | partial | failed
+  loggedAt       DateTime     @default(now()) @map("logged_at") @updatedAt
+
+  @@map("block_result")
 }
 
 // V01~V06 중 세션 템플릿·처방 데이터로 실제 계산 가능한 장부만 기록한다(엔진 코드 주석 참고).
@@ -478,7 +497,11 @@ model ProgramAdjustmentEvent {
   programId     String   @map("program_id")
   program       Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
   programWeekId Int?     @map("program_week_id")
-  triggerRule   String   @map("trigger_rule") // 'wellness_2of3' | 'rpe_load_spike' | 'chronic_fatigue'
+  // Phase 4: wellness_2of3 | rpe_load_spike | chronic_fatigue
+  // Phase 7 생성 시점: ledger_v01_accessory | ledger_v01_sets | ledger_v06_regress | ledger_v03_low_intensity
+  //                  | consecutive_conflict | consecutive_day_cap
+  // Phase 7 로그 시점: strength_hold | strength_cut | skill_regress | skill_regress_recommended
+  triggerRule   String   @map("trigger_rule")
   actionTaken   String   @map("action_taken") // 사람이 읽을 수 있는 설명
   createdAt     DateTime @default(now()) @map("created_at")
 

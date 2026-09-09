@@ -389,3 +389,18 @@ table.mini td {
   border-color: var(--danger);
   color: var(--danger);
 }
+
+.pill.outcome-success {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.pill.outcome-partial {
+  border-color: #d98c1d;
+  color: #7a5210;
+}
+
+.pill.outcome-failed {
+  border-color: var(--danger);
+  color: var(--danger);
+}

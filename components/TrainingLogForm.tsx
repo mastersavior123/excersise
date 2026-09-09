@@ -8,8 +8,17 @@ interface AppliedAdjustment {
   actionTaken: string;
 }
 
+export interface ResultBlock {
+  id: number;
+  slotLabel: string;
+  nameKo: string;
+  outcome: "success" | "partial" | "failed" | null;
+}
+
 interface TrainingLogFormProps {
   dayId: number;
+  /** 결과를 남길 수 있는 블록(주근력·기술). Phase 7 근력/기술 실패 규칙의 입력. */
+  resultBlocks: ResultBlock[];
   initial: {
     completed: boolean;
     rpe: number | null;
@@ -21,8 +30,18 @@ interface TrainingLogFormProps {
   } | null;
 }
 
-export default function TrainingLogForm({ dayId, initial }: TrainingLogFormProps) {
+const OUTCOME_OPTIONS: { value: ResultBlock["outcome"]; label: string }[] = [
+  { value: null, label: "미기록" },
+  { value: "success", label: "성공" },
+  { value: "partial", label: "부분" },
+  { value: "failed", label: "실패" },
+];
+
+export default function TrainingLogForm({ dayId, resultBlocks, initial }: TrainingLogFormProps) {
   const router = useRouter();
+  const [outcomes, setOutcomes] = useState<Record<number, ResultBlock["outcome"]>>(
+    Object.fromEntries(resultBlocks.map((b) => [b.id, b.outcome]))
+  );
   const [completed, setCompleted] = useState(initial?.completed ?? false);
   const [rpe, setRpe] = useState(initial?.rpe?.toString() ?? "");
   const [pain, setPain] = useState(initial?.pain?.toString() ?? "");
@@ -55,6 +74,7 @@ export default function TrainingLogForm({ dayId, initial }: TrainingLogFormProps
           sleepHours: sleepHours === "" ? null : Number(sleepHours),
           actualDurationMinutes: actualDurationMinutes === "" ? null : Number(actualDurationMinutes),
           notes: notes || undefined,
+          blockResults: resultBlocks.map((b) => ({ blockId: b.id, outcome: outcomes[b.id] ?? null })),
         }),
       });
       const data = await res.json();
@@ -89,6 +109,39 @@ export default function TrainingLogForm({ dayId, initial }: TrainingLogFormProps
         자동으로 낮아질 수 있습니다. 세션 RPE·실제 소요 시간은 완료 후에 입력하면 다음 큰 날의 부하
         조정에 반영됩니다.
       </p>
+      {resultBlocks.length > 0 && (
+        <div className="field">
+          <label>블록 결과 (주근력·기술)</label>
+          <p className="hint" style={{ margin: 0 }}>
+            처방된 세트·회를 다 채웠으면 성공, 일부만 했으면 부분, 중량/동작을 못 했으면 실패. 근력은 1회 실패
+            시 다음 세션 중량을 유지하고 2회 연속이면 7.5% 감량, 기술은 2회 연속 실패 시 회귀 동작으로 바뀝니다.
+          </p>
+          {resultBlocks.map((b) => (
+            <div key={b.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", padding: "0.3rem 0" }}>
+              <span className="pill" style={{ fontSize: "0.68rem" }}>
+                {b.slotLabel}
+              </span>
+              <span style={{ flex: "1 1 160px", fontSize: "0.9rem" }}>{b.nameKo}</span>
+              <span style={{ display: "inline-flex", gap: "0.25rem" }}>
+                {OUTCOME_OPTIONS.map((o) => {
+                  const active = (outcomes[b.id] ?? null) === o.value;
+                  return (
+                    <button
+                      type="button"
+                      key={String(o.value)}
+                      className={active ? undefined : "secondary"}
+                      onClick={() => setOutcomes((prev) => ({ ...prev, [b.id]: o.value }))}
+                      style={{ padding: "0.25rem 0.6rem", fontSize: "0.8rem" }}
+                    >
+                      {o.label}
+                    </button>
+                  );
+                })}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="checkbox-row">
         <input
           type="checkbox"

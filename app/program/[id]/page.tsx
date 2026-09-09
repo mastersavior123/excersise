@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser, isCoach } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { DAY_TYPE_LABELS, LEDGER_LABELS } from "@/lib/engine/format";
+import { DAY_TYPE_LABELS, LEDGER_LABELS, TRIGGER_RULE_LABELS } from "@/lib/engine/format";
 import { PROGRAM_REVIEW_VERDICT_LABELS, type ProgramReviewVerdict } from "@/lib/constants";
 import ProgramReviewForm from "@/components/ProgramReviewForm";
 import ProgramShareControl from "@/components/ProgramShareControl";
@@ -176,8 +176,8 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
           <div className="card">
             <h2>자동 보정 이력</h2>
             <p className="lede" style={{ marginBottom: "0.8rem" }}>
-              완료 로그를 저장할 때마다 MD 7장 규칙에 따라 자동으로 평가된다 (Phase 4). 세션 전/도중
-              체크인의 수면·통증·의욕, 완료 후 입력한 RPE·실제 시간이 근거다.
+              생성 시점의 볼륨 장부 조정·연속일 충돌 회피(Phase 7)와, 완료 로그를 저장할 때마다 평가되는
+              MD 7장 규칙(Phase 4)·블록 결과 규칙(근력/기술 실패, Phase 7)이 모두 여기에 남는다.
             </p>
             <table className="mini">
               <thead>
@@ -191,7 +191,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
                 {program.adjustmentEvents.map((event) => (
                   <tr key={event.id}>
                     <td>{event.createdAt.toISOString().slice(0, 16).replace("T", " ")}</td>
-                    <td>{event.triggerRule}</td>
+                    <td>{TRIGGER_RULE_LABELS[event.triggerRule] ?? event.triggerRule}</td>
                     <td>{event.actionTaken}</td>
                   </tr>
                 ))}
