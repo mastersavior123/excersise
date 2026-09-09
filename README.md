@@ -18,6 +18,9 @@
 - **Phase 6 (완료, 범위 축소된 v1)**: PWA(설치 가능한 앱 셸 + 오프라인 폴백), 프로그램 공개
   공유 링크(로그인 없이 읽기 전용 열람), 팔로우 + 피드(팔로우한 사용자의 벤치마크 기록·공개
   프로그램만 노출).
+- **Phase 7 (완료) — 기술 부채 상환**: 역할 기반 코치 권한 + 모든 기기 로그아웃 / 생성 엔진의
+  메트콘 조합·장부 4단계·연속일 충돌·블록 결과 규칙(근력·기술 실패)·28일 기준선 / 잠정 파라미터
+  검수 페이지 + 레벨 판정 일치율 / 벤치마크 파싱·리더보드·공개 플래그 + 앱 내 알림 + 이메일 검색.
 
 ## 구조
 
@@ -28,39 +31,50 @@ app/                       # Next.js App Router — 페이지 + API 라우트
   program/[id]/day/[dayId]/  # 세션 상세 + 완료 로그
   share/[token]/              # Phase 6: 로그인 없이 보는 공개 읽기 전용 캘린더
   share/[token]/day/[dayId]/  # Phase 6: 공개 읽기 전용 세션 상세(개인 로그 제외)
-  feed/                        # Phase 6: 팔로우 중인 사용자의 벤치마크·공개 프로그램 피드
+  feed/                        # Phase 6: 팔로우 중인 사용자의 벤치마크·공개 프로그램 피드 (+ Phase 7 이메일 검색)
+  notifications/               # Phase 7: 앱 내 알림 목록
   manifest.ts                  # Phase 6: PWA 웹 매니페스트
   offline/                     # Phase 6: 서비스워커 오프라인 폴백 페이지
-  api/auth/{signup,login,logout}
+  api/auth/{signup,login,logout,logout-all}   # logout-all: Phase 7 모든 기기 세션 무효화
+  api/admin/role               # Phase 7: 관리자가 사용자 역할(user/coach/admin) 변경
   api/onboarding/{profile,one-rm,capability,resources-goals,complete}
   api/program/generate
   api/program/[id]/export    # 코치 검수용 CSV/JSON 다운로드
-  api/program/[id]/review     # 코치 검수 판정(승인/수정필요/반려)+코멘트 제출
+  api/program/[id]/review     # 코치 검수 판정(승인/수정필요/반려)+코멘트 제출 (+ Phase 7 알림)
   api/program/[id]/share       # Phase 6: 공개 공유 링크 활성화/재발급/비활성화
-  api/program/day/[dayId]/log
-  api/benchmarks              # 오픈 워크아웃 벤치마크 기록 upsert
-  api/follow                   # Phase 6: 팔로우/언팔로우
+  api/program/day/[dayId]/log  # 완료 로그 (+ Phase 7 블록별 성공/부분/실패)
+  api/benchmarks              # 오픈 워크아웃 벤치마크 기록 upsert (+ Phase 7 파싱·공개·Scaled)
+  api/coach/parameter-review   # Phase 7: 잠정 파라미터 승인/수정요청
+  api/notifications/read       # Phase 7: 알림 모두 읽음
+  api/follow                   # Phase 6: 팔로우/언팔로우 (+ Phase 7 알림)
   benchmarks/                  # 오픈 워크아웃 벤치마크 기록 화면
-  coach/                        # 코치 대시보드(이메일 allowlist)
+  benchmarks/[year]/[workout]/ # Phase 7: 워크아웃별 리더보드(공개 기록만, Rx/Scaled 분리)
+  coach/                        # 코치 대시보드 (+ Phase 7 역할 관리, 레벨 판정 일치율)
+  coach/assumptions/            # Phase 7: 잠정 파라미터 검수 페이지
 components/                # OnboardingWizard, AuthForm, LogoutButton, ProgramGenerateButton, TrainingLogForm,
                             # BenchmarkForm, ProgramReviewForm, ProgramShareControl, FollowButton,
-                            # ServiceWorkerRegister
+                            # ServiceWorkerRegister, RoleSelect, LogoutAllButton, ParameterReviewForm,
+                            # MarkNotificationsReadButton
 public/
   sw.js                       # Phase 6: 서비스워커(앱 셸 캐시 + 오프라인 폴백)
   icon-192.png, icon-512.png, icon-maskable-512.png   # Phase 6: PWA 아이콘(sharp로 생성)
 lib/                       # Next 런타임에서 쓰는 서버 로직
-  db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts
-  levelAssessment.ts        # 레벨 스코어링 순수 함수
+  db.ts, session.ts, password.ts, auth.ts, onboardingStatus.ts   # auth.ts: Phase 7 isCoach/isAdmin, 세션 버전 검증
+  levelAssessment.ts        # 레벨 스코어링 순수 함수 (가중치·구간·컷오프는 export 상수)
   validation.ts, constants.ts
+  assumptions.ts            # Phase 7: 코드 상수에서 읽어 렌더하는 잠정 파라미터 목록
+  benchmarkParse.ts         # Phase 7: 벤치마크 결과 텍스트 파서 + 비교(순수 함수)
+  notifications.ts          # Phase 7: 앱 내 알림 생성/미읽음 수
   engine/                   # 생성 엔진 (모두 순수 함수 + generateProgram.ts/rebalance.ts만 DB I/O)
     constants.ts             # 슬롯/장비 어휘 정규화 매핑, %1RM 테이블, 기술 게이트 규칙
     exercisePool.ts          # 슬롯 정규화, 장비 충족 여부, 기술 게이트
     prescribe.ts             # 1RM 기반 %부하 계산 + 기본 처방
-    ledger.ts                # 주간 볼륨 장부 계산 + V01 초과 시 조정
-    generateProgram.ts       # Phase 2: 파이프라인 오케스트레이터 (안전 게이트 → ... → DB 저장)
-    format.ts                 # 조회 페이지용 표시 포맷터
+    compose.ts               # Phase 7: 메트콘 보완 조합, 연속일 충돌 판정, 연속 훈련일 계산
+    ledger.ts                # 주간 볼륨 장부 계산 + 초과 시 4단계 조정(Phase 7)
+    generateProgram.ts       # Phase 2/7: 파이프라인 오케스트레이터 (안전 게이트 → ... → DB 저장)
+    format.ts                 # 조회 페이지용 표시 포맷터 + 규칙/태그 한글 라벨
     feedback.ts               # Phase 4: MD 7장 세 규칙의 순수 판정 함수
-    rebalance.ts               # Phase 4: 로그 저장 후 규칙을 적용해 미래 블록을 갱신하는 오케스트레이터
+    rebalance.ts               # Phase 4/7: 로그 저장 후 규칙 A~E를 적용해 미래 블록을 갱신하는 오케스트레이터
     csv.ts                      # Phase 5: 최소 CSV 인코더(BOM 포함)
     exportProgram.ts             # Phase 5: 프로그램 → CSV행/JSON 구조 변환
 data/
@@ -74,9 +88,13 @@ prisma/
                            # + 완료 로그 1개(Phase 3) + 조정 이력 1개(Phase 4)
                            # + 벤치마크 기록 1개 + 프로그램 검수 1개(Phase 5, benchmark_result,
                            # program_review) + 팔로우 1개(Phase 6, follow; program에 is_public/
-                           # share_token/shared_at 컬럼 추가) 테이블
+                           # share_token/shared_at 컬럼 추가)
+                           # + Phase 7: block_result, parameter_review, notification 테이블;
+                           #   app_user.role/session_version, program_day.conditioning_*,
+                           #   benchmark_result 구조화 컬럼·scaled·is_public
 scripts/
   export/exportExerciseDb.ts # Phase 5: Exercise_DB 전체를 코치 검수용 CSV/JSON으로 내보내는 CLI
+  backfill/backfillBenchmarks.ts # Phase 7: 예전 벤치마크 원문을 다시 파싱해 구조화 컬럼만 채움(공개 여부는 안 건드림)
   convert_xlsx_to_json.py # xlsx -> knowledge_base.json 변환 (xlsx 원본이 바뀌면 재실행)
   lib/                    # knowledge_base.json 로더, 파싱 유틸, prisma 클라이언트 (CLI 스크립트 전용)
   seed/                   # 시트별 적재 스크립트 + orchestrator(index.ts)
@@ -304,7 +322,7 @@ upsert하므로 같은 워크아웃을 다시 기록하면 덮어쓴다. Phase 0
 나왔는지 보고 바로 `/benchmarks`로 이동해 기록할 수 있게 연결했다.
 
 **코치 대시보드** (`/coach`): `COACH_EMAILS` 환경변수(콤마 구분 이메일 목록,
-`lib/auth.ts`의 `isCoachEmail`)에 있는 계정만 접근할 수 있다. 전체 사용자를 레벨·프로그램
+`lib/auth.ts`의 `isCoachEmail` — Phase 7에서 `isCoach`/역할 컬럼으로 대체)에 있는 계정만 접근할 수 있었다. 전체 사용자를 레벨·프로그램
 수·최신 프로그램·자동조정 누적 건수와 함께 표로 보여주고, 최신 프로그램 링크를 누르면 해당
 사용자의 캘린더로 들어간다. 코치가 남의 프로그램에 들어가면 원래 소유자 전용이던
 `program/[id]`·`program/[id]/day/[dayId]` 페이지가 "코치 보기 모드" 배너를 띄우고 읽기
@@ -353,7 +371,7 @@ upsert하므로 같은 워크아웃을 다시 기록하면 덮어쓴다. Phase 0
 검수하지 않은 프로그램("미검수")을 목록에서 바로 찾을 수 있게 했다.
 
 판정은 승인/수정 필요/반려 3종 고정값(`lib/constants.ts`의 `PROGRAM_REVIEW_VERDICTS`)이고
-코멘트는 자유 텍스트다. 검수 API는 코치 여부만 검증하고(`isCoachEmail`) 소유권은 따지지
+코멘트는 자유 텍스트다. 검수 API는 코치 여부만 검증하고(`isCoach`) 소유권은 따지지
 않는다 — 애초에 "다른 사람의 프로그램을 평가하는" 것이 기능의 목적이라 owner-only 검증을
 걸 이유가 없다. 대신 로그인 안 함(401)·코치 아님(403)·존재하지 않는 프로그램(404)·잘못된
 verdict 값(400)을 각각 실제로 재현해 정확한 상태 코드가 나오는지 확인했다.
@@ -478,42 +496,118 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 단어 때문에 `skill_power`로 오분류되기 쉬움). 시트가 갱신되어 새 세그먼트가 추가되면
 `db:validate`가 `UNMAPPED_SEGMENT`로 표시한다.
 
+## Phase 7 — 기술 부채 상환
+
+Phase 0~6 동안 "의도적으로 축소한 범위"로 남겨둔 항목을 코치 관점(프로그램으로서 말이 되는가)과
+사용자 관점(실제로 쓸 수 있는가) 두 기준으로 골라 네 묶음으로 갚았다. 각 묶음은 별도 커밋이다.
+
+### 7-1. 보안/인프라 — 역할 기반 코치 권한, 모든 기기에서 로그아웃
+
+`app_user.role`(user | coach | admin)을 추가하고 `isCoach`/`isAdmin`으로 바꿨다. `COACH_EMAILS`는
+"첫 관리자를 만드는 부트스트랩"으로만 남는다 — 거기 적힌 이메일은 항상 admin이고, 이후 코치
+추가/제거는 관리자가 `/coach` 표의 드롭다운으로 한다(`POST /api/admin/role`, 자기 자신 강등 금지).
+코치 관점: 코치가 늘 때마다 운영자가 서버 env를 고치던 일이 없어졌다.
+
+세션 무효화는 세션 테이블 없이 `app_user.session_version`으로 해결했다. 쿠키 페이로드에 발급
+당시 버전을 넣고 `getCurrentUser`/`requireUserId`가 DB 값과 비교하므로, "모든 기기에서 로그아웃"
+(`POST /api/auth/logout-all`)은 숫자를 1 올리면 끝난다. Phase 7 이전 쿠키는 버전 0으로 간주해
+기존 로그인이 끊기지 않는 것을 확인했다. 기기별 개별 로그아웃까지는 아직 요구가 없어 세션
+테이블은 도입하지 않았다.
+
+### 7-2. 생성 엔진 정확도
+
+코치가 "이건 프로그램이 아니다"라고 할 지점부터 메웠다.
+
+- **메트콘 2~3동작 조합**(`lib/engine/compose.ts`): L1~2 커플릿, L3~4 트리플릿. 양식(체조/역도/
+  모노)·계열·주 패턴이 겹치지 않는 후보를 우선하고 조건을 단계적으로 풀되 **같은 계열은 끝까지
+  피한다**. 처음 구현에서는 모노스트럭처럴 후보가 3개뿐이라 싱글언더가 매일 들어갔다 — 순환
+  커서 대신 "가장 오래 안 쓴 후보"를 고르게 바꿔 더블언더/싱글언더가 번갈아 나오게 됐다.
+  Exercise_DB에서 로우/바이크에르그가 `컨디셔닝` 슬롯에만 태그돼 있어 메트콘에 못 들어가는 건
+  데이터 문제라 손대지 않았다(코치 검수 항목).
+- **볼륨 장부 4단계**(`ledger.ts`): MD 9장 10단계의 순서를 각 장부가 실제로 낮출 수 있는 단계에
+  연결했다 — V01 초과 → 보조 제거 → 주근력 세트 감소(최소 2세트), V06 초과 → 고충격 동작을
+  해석된 회귀(더블언더→싱글언더처럼 해석된 건 1건뿐)나 저충격 대체로 교체, V03 초과 → 컨디셔닝
+  저강도 전환. 저강도 전환은 처음엔 "마지막 날부터"였는데 큰 날의 6~12분 메트콘을 Zone 2로
+  바꾸는 결과가 나와서, **에르그 컨디셔닝 슬롯이 있고 메트콘이 없는 작은 날을 먼저** 전환하도록
+  고쳤다. 무엇을 왜 줄였는지 전부 `program_adjustment_event`에 생성 시점 이벤트로 남는다.
+- **연속 훈련일 충돌**(9단계): 전날 주근력·기술과 같은 계열/주 패턴/후면사슬 집합이면 다른
+  후보로 바꾼다. 현재 템플릿에선 주근력이 이틀 연속 오지 않지만 기술 슬롯은 월·화·수 연속이라
+  (스내치 → 다음날 또 스내치) 기술 슬롯까지 본다. 같은 날 앞 블록과 같은 계열도 회피한다
+  (백 스쿼트 + 오버헤드 스쿼트가 같은 날 주근력으로 잡히던 것). Level_Profiles의 연속일 상한은
+  템플릿 요일이 고정이라 강제하지 않고 **경고 이벤트만** 남긴다(5일 템플릿은 월~목 4일 연속이라
+  L1~3 상한을 넘는다 — 코치 검토 항목).
+- **컨디셔닝 목표가 세션 화면에 처음 보인다**: `program_day.conditioning_text`를 저장하지
+  않아서 Phase 3부터 세션 상세에 컨디셔닝이 아예 없었다.
+- **블록 결과 + 근력/기술 실패 규칙**(`block_result`, `rebalance.ts` Rule D·E): 세트 하나하나를
+  기록하게 하면 사용자가 안 쓴다고 봐서 주근력·기술 블록당 성공/부분/실패 3택으로 제한했다.
+  근력은 1회 실패 → 다음 같은 리프트 중량 유지(증량 보류), 2회 연속 → 남은 블록 7.5% 감량(MD
+  "5~10%"의 중간). 기술은 같은 동작 2회 연속 실패 → 해석된 회귀 운동으로 교체, 해석된 회귀가
+  없으면(87%가 그렇다, Phase 0 참고) "회귀 권장" 태그를 달고 원문 회귀 문구를 세션 화면에
+  강조한다. MD의 "세션 중 2회 연속 실패 시 종료"는 실시간 판단이라 세션 간 규칙으로 해석했다.
+- **부하 급증 기준선을 사용자의 28일 이력으로**: 프로그램마다 초기화되던 것을 `program.userId`
+  기준 최근 28일 완료 세션으로 바꿨다. 이전 프로그램 3세션 + 새 프로그램 1세션으로 실제 발동
+  확인.
+- 부수 발견: 온보딩 장비가 자유 문자열이라 어휘가 다르면 후보가 맨몸 운동만 남는 조용한
+  오동작이 있었다(테스트 계정에서 실제 발생 — 주근력이 4주 내내 푸시업). `EQUIPMENT_OPTIONS`
+  enum으로 제한했다.
+
+### 7-3. 데이터 신뢰도 — 잠정 파라미터 검수 페이지, 레벨 판정 일치율
+
+코드로 "검수"를 대신할 수는 없지만 검수 대상과 상태를 앱 안에 둘 수는 있다. `lib/assumptions.ts`가
+%1RM 테이블, 레벨 가중치/구간/컷오프, 웰니스 임계값, 감량 계수, 부하 급증 판정, 메트콘 동작 수,
+장부 4단계 매핑, 연속 충돌 정의 — 11개 잠정값을 **코드 상수에서 직접 읽어** `/coach/assumptions`에
+렌더한다(README에 숫자를 따로 적으면 코드가 바뀔 때 반드시 어긋난다). 코치는 항목별로
+승인/수정 요청 + 메모를 남기고 "누가 언제"가 `parameter_review`에 남는다. 값을 UI에서 고치게
+하는 건 첫 검수가 끝난 뒤의 일이라 의도적으로 뺐다. `/coach`에는 레벨 판정 일치율(온보딩에서
+시스템 제안 레벨을 사용자가 그대로 받아들인 비율, 올림/내림 수)을 넣었다 — 한쪽으로 치우치면
+가중치·컷오프가 틀렸다는 실사용 신호다.
+
+### 7-4. Phase 6 잔여 — 벤치마크 파싱·리더보드·공개 플래그, 알림, 이메일 검색
+
+`lib/benchmarkParse.ts`(순수 함수)가 시간(`12:34`/`1:02:03`/`12분34초`), 반복(`185회`), 라운드+반복
+(`5+10`/`5 rounds + 10 reps`), 중량(`95kg`/`225lb` 환산)과 Rx/Scaled 꼬리표를 해석한다. 해석 실패는
+`kind=null`로 두고 리더보드에 "미분류"로 따로 보여준다 — 숫자를 지어내지 않는다. 원문은 항상
+보존. `/benchmarks/[year]/[workout]` 리더보드는 Rx/Scaled를 나누고 time > rounds+reps > reps >
+load 순(For time에서 캡 안에 끝낸 기록이 못 끝낸 기록보다 위)으로 정렬한다. 로그인 필요 —
+이메일이 식별자라 익명에게는 열지 않았다.
+
+**공개 플래그**: Phase 6의 "팔로우하면 벤치마크 전체 공개"를 기록별 `is_public`(기본 비공개)로
+바꿨다. 피드·리더보드는 공개 기록만 보여주고, 예전 기록은 `db:backfill-benchmarks`가 해석
+컬럼만 채우고 공개 여부는 건드리지 않는다(사용자 동의 없이 리더보드에 올리지 않는다).
+
+**알림**: 코치 검수 제출 → 프로그램 소유자, 새 팔로우 → 대상에게 `notification`이 쌓이고 대시보드
+상단 배지 + `/notifications`에서 본다. 이메일/푸시는 없다. **이메일 검색**: `/feed`에서 정확히
+일치하는 이메일만 찾는다 — 부분 검색을 열면 곧 사용자 디렉터리(=이메일 공개)가 되므로.
+
+### Phase 7 — 의도적으로 축소한 범위
+
+- 기기별 개별 로그아웃(세션 테이블)은 없다 — "전부 끊기"만 된다.
+- 연속 훈련일 상한은 경고만 남기고 템플릿 요일을 옮기지 않는다.
+- 세트 단위 성공/실패는 기록하지 않는다(블록당 3택). 세션 중 실시간 기술 실패 종료는 없다.
+- 잠정 파라미터 값을 UI에서 고칠 수 없다(검수 상태만 기록). 레벨 일치율은 실사용자가 없어
+  지금은 테스트 계정 100%다.
+- 벤치마크 파서는 위 네 형식만 안다. 개인 기록 추이 그래프는 없다.
+- 알림 스팸 방지(언팔로우→재팔로우 반복)가 없고, 이메일/푸시 알림은 없다.
+
 ## 아직 남은 미확정 사항
 
-- **주차별 %1RM 테이블**(`lib/engine/constants.ts`의 `LOAD_TABLE_BY_FAMILY`): 스쿼트/힌지/
-  수직밀기 3계열에 코드로 구현은 했지만 여전히 ACSM/StrongLifts 원칙을 참고한 제품 잠정값이고
-  코치 검수를 받은 적은 없다.
-- **레벨 스코어링 가중치·임계값**: Phase 1에서 `lib/levelAssessment.ts`로 구현은 했지만
-  (기술 40%·상대1RM 30%·빈도 20%·목표 10%, 상대1RM 구간·레벨 컷오프 전부 임시값) 실사용자
-  데이터로 검증된 적은 없다. 온보딩 마지막 화면에서 사용자가 직접 조정할 수 있게 해둔 것도
-  이 불확실성 때문이다.
-- **부하 급증 기준선(중앙값)이 프로그램당 처음부터 다시 쌓인다**: Phase 4 섹션에 적었듯
-  "개인 28일 중앙값"이 아니라 "이 프로그램에서 완료한 세션"이 모수라, 매번 새 프로그램을
-  생성하면 이력이 초기화된다. 여러 프로그램에 걸친 이력을 쓰려면 `training_log`를
-  `program_id`(또는 `user_id`) 기준으로도 조회할 수 있게 바꿔야 한다.
-- **메트콘 다중 동작 조합·볼륨 장부 조정 4단계·연속 부하 충돌 검사**: "Phase 2 — 의도적으로
-  축소한 범위"에 정리한 3가지가 다음으로 붙일 만한 반복 작업이다.
-- **기술 실패 종료·근력 증량/실패 규칙**: "Phase 4 — 의도적으로 축소한 범위" 참고. 세트별
-  성공 여부를 기록하는 구조가 없으면 구현할 수 없다.
-- **서버 측 세션 무효화**: 현재 세션은 쿠키 서명만으로 검증되어 로그아웃은 클라이언트 쿠키
-  삭제로 처리된다. "다른 기기에서 로그아웃" 같은 기능이 필요해지면 세션 테이블이 필요하다.
+- **잠정 파라미터는 여전히 코치 검수 전이다**: Phase 7-3으로 검수 "상태"를 남길 수 있게 됐을 뿐,
+  `/coach/assumptions`의 11개 항목 중 실제 코치가 승인한 것은 없다. 특히 %1RM 테이블, 레벨
+  가중치·컷오프, 메트콘 동작 수는 실사용자 데이터 없이는 맞는지 알 수 없다.
 - **Export는 아직 아무도 검수하지 않았다**: Phase 5에서 코치가 볼 수 있는 자료를 만들었을 뿐,
   실제 코치 검수(MD 11장 과제 1·2·3)는 이 저장소 밖의 다음 단계다. `data/exports/`의 스냅샷은
   마지막 `db:export-exercises` 실행 시점 것이라, xlsx 원본이나 시딩 로직이 바뀌면 다시 실행해야
   최신 상태가 된다.
-- **코치 접근은 환경변수 allowlist일 뿐 진짜 권한 체계가 아니다**: "Phase 5 (계속) — 의도적으로
-  축소한 범위" 참고. 역할 컬럼·초대 흐름·관리 UI가 없어 `COACH_EMAILS`를 직접 편집해야 한다.
-- **벤치마크 결과는 자유 텍스트라 순위표를 만들 수 없다**: 워크아웃 포맷별 파싱 로직이 없으면
-  리더보드·개인 기록 추이 그래프 같은 기능은 구현할 수 없다.
-- **코치 검수는 사람이 읽는 기록일 뿐, 시스템 동작에 연결되지 않는다**: "Phase 5 (계속 2) —
-  의도적으로 축소한 범위" 참고. 판정이 남아도 프로그램이 자동으로 바뀌지 않고, 사용자에게
-  알림도 가지 않는다.
+- **Exercise_DB 태깅이 엔진 품질의 상한이다**: 로우/바이크에르그가 메트콘 슬롯에 없고, 회귀
+  텍스트 87%가 카탈로그에 해석되지 않으며(기술 실패 시 자동 교체가 안 되는 이유), 모노스트럭처럴
+  메트콘 후보가 3개뿐이다. 코드보다 시트를 고쳐야 나아지는 항목.
+- **5일 템플릿의 연속 훈련일(월~목 4일)이 Level 1~3 상한을 넘는다**: 엔진은 경고만 남긴다.
+  템플릿 요일을 바꿀지, 상한을 바꿀지는 코치가 정해야 한다.
+- **코치 검수는 사람이 읽는 기록일 뿐, 시스템 동작에 연결되지 않는다**: 알림은 가지만(Phase 7)
+  판정에 따라 프로그램이 자동으로 바뀌지는 않는다.
 - **모바일은 PWA뿐, 네이티브 앱은 없다**: "Phase 6 — 의도적으로 축소한 범위" 참고. 실제
   모바일 기기/시뮬레이터에서의 설치·동작은 검증하지 못했고, 오프라인 지원은 앱 셸(정적
   자산)뿐이라 실제 데이터는 오프라인에서 보이지 않는다.
-- **팔로우는 사용자 검색 없이 공개 공유 링크를 통해서만 가능하다**: 발견성이 매우 낮다.
-  벤치마크 기록은 팔로워에게 전체 공개되고 개별로 비공개 처리할 수 없다 — "Phase 6 —
-  의도적으로 축소한 범위" 참고.
 
 ## 스크립트
 
@@ -525,6 +619,7 @@ openWorkout 39 · openWorkoutMovement 44 · officialMedia 19
 | `npm run db:seed` | knowledge_base.json → DB 적재 (지식베이스 테이블만 초기화 후 재적재) |
 | `npm run db:validate` | 적재 후 DB를 재쿼리해 관계 정합성 검증, 이상 있으면 종료 코드 1 |
 | `npm run db:export-exercises` | Exercise_DB 115개를 `data/exports/`에 코치 검수용 CSV/JSON으로 내보냄 |
+| `npm run db:backfill-benchmarks` | Phase 7 이전 벤치마크 기록의 원문을 파싱해 구조화 컬럼을 채움(멱등, 공개 여부 불변) |
 | `npm run typecheck` | TypeScript 타입 검사 |
 | `python3 scripts/convert_xlsx_to_json.py` | xlsx 원본이 바뀌었을 때 JSON 재생성 |
 
